@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شروط الاستخدام - الكون بين يديك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --primary-light: #8a6cb3;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* ترويسة الصفحة */
+        .terms-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .terms-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 1s ease;
+        }
+
+        .terms-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .stars-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="white" opacity="0.7"/><circle cx="50" cy="30" r="1" fill="white" opacity="0.7"/><circle cx="80" cy="20" r="1" fill="white" opacity="0.7"/><circle cx="30" cy="60" r="1" fill="white" opacity="0.7"/><circle cx="70" cy="70" r="1" fill="white" opacity="0.7"/><circle cx="10" cy="80" r="1" fill="white" opacity="0.7"/><circle cx="90" cy="90" r="1" fill="white" opacity="0.7"/></svg>');
+            background-size: 200px 200px;
+            opacity: 0.3;
+            animation: starsMove 100s linear infinite;
+        }
+
+        /* محتوى الصفحة */
+        .terms-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        h3 {
+            color: var(--primary-light);
+            font-size: 1.4rem;
+            margin: 30px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        li:before {
+            content: '•';
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .note-box {
+            background-color: var(--light-bg);
+            border-right: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .note-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .last-updated {
+            text-align: left;
+            font-style: italic;
+            color: #666;
+            margin-top: 40px;
+            border-top: 1px solid var(--dark-gray);
+            padding-top: 20px;
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes starsMove {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .terms-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .terms-header p {
+                font-size: 1rem;
+            }
+            
+            .terms-content {
+                padding: 30px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .terms-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .terms-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- يمكنك إضافة شريط التنقل والفوتر من الموقع الرئيسي هنا -->
+
+    <main class="main-content">
+        <!-- ترويسة الصفحة -->
+        <section class="terms-header">
+            <div class="stars-bg"></div>
+            <div class="container">
+                <h1><i class="fas fa-file-contract"></i> شروط الاستخدام</h1>
+                <p>يرجى قراءة شروط الاستخدام هذه بعناية قبل استخدام موقع "الكون بين يديك"</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="terms-content">
+                <h2>مقدمة</h2>
+                <p>مرحبًا بكم في موقع "الكون بين يديك". تشكل هذه الشروط والأحكام ("الشروط") اتفاقية قانونية بينك ("المستخدم") وبيننا ("الموقع") فيما يتعلق باستخدامك لهذا الموقع وخدماته.</p>
+                <p>باستخدامك لهذا الموقع، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على هذه الشروط، فيرجى عدم استخدام الموقع.</p>
+
+                <div class="note-box">
+                    <p><strong>ملاحظة هامة:</strong> المحتوى المقدم على هذا الموقع هو لأغراض الترفيه والمعرفة العامة فقط ولا يعتبر نصيحة مهنية أو طبية أو قانونية أو مالية.</p>
+                </div>
+
+                <h2>1. القبول والشروط</h2>
+                <p>باستخدامك لموقع "الكون بين يديك"، فإنك توافق على ما يلي:</p>
+                <ul>
+                    <li>أنك قد قرأت هذه الشروط وفهمتها ووافقت على الالتزام بها</li>
+                    <li>أنك تبلغ من العمر ما لا يقل عن 13 عامًا أو أنك تستخدم الموقع تحت إشراف والديك أو ولي أمرك</li>
+                    <li>أنك ستستخدم الموقع لأغراض شخصية وغير تجارية فقط</li>
+                </ul>
+
+                <h2>2. الاستخدام المسموح به</h2>
+                <p>يسمح لك باستخدام هذا الموقع للأغراض التالية:</p>
+                <ul>
+                    <li>الوصول إلى محتوى الموقع وقراءته</li>
+                    <li>استخدام الأدوات التفاعلية المتاحة على الموقع</li>
+                    <li>طباعة أو تنزيل أجزاء من المحتوى للاستخدام الشخصي غير التجاري</li>
+                </ul>
+
+                <h2>3. الاستخدام غير المسموح به</h2>
+                <p>يُحظر عليك القيام بأي من الأمور التالية:</p>
+                <ul>
+                    <li>استخدام الموقع لأي غرض غير قانوني أو غير مصرح به</li>
+                    <li>إعادة نشر أو بيع أو استغلال أي جزء من الموقع لأغراض تجارية دون إذن كتابي منا</li>
+                    <li>محاولة اختراق أو تعطيل أي أنظمة تقنية مرتبطة بالموقع</li>
+                    <li>استخدام أي برامج أو أدوات لأتمتة الوصول إلى الموقع أو جمع بيانات منه</li>
+                    <li>انتحال شخصية أخرى أو تقديم معلومات غير صحيحة عن هويتك</li>
+                </ul>
+
+                <h2>4. الملكية الفكرية</h2>
+                <p>جميع المحتويات الموجودة على الموقع، بما في ذلك النصوص والصور والتصاميم والشعارات والأكواد البرمجية ("المحتوى") هي ملك لنا أو للموردين الذين منحونا ترخيصًا لاستخدامها، وهي محمية بقوانين الملكية الفكرية.</p>
+
+                <h3>4.1 حقوق النشر</h3>
+                <p>جميع المحتويات الأصلية على الموقع محمية بحقوق النشر. لا يُسمح بنسخ أو توزيع أو تعديل أي جزء من المحتوى دون إذن كتابي مسبق منا.</p>
+
+                <h3>4.2 العلامات التجارية</h3>
+                <p>شعار "الكون بين يديك" واسم الموقع هما علامتان تجاريتان مسجلتان لنا. لا يُسمح باستخدام أي من علاماتنا التجارية دون إذن كتابي مسبق.</p>
+
+                <h2>5. المحتوى المقدم من المستخدمين</h2>
+                <p>إذا سمح الموقع بإرسال محتوى من المستخدمين (مثل التعليقات أو المشاركات)، فإنك توافق على ما يلي:</p>
+                <ul>
+                    <li>أنك تمتلك جميع الحقوق في المحتوى الذي ترسله</li>
+                    <li>أن المحتوى لا ينتهك أي حقوق ملكية فكرية أو حقوق خصوصية للغير</li>
+                    <li>أن المحتوى غير مسيء أو غير قانوني أو يحتوي على برمجيات ضارة</li>
+                    <li>أنك تمنحنا ترخيصًا غير حصري وقابل للنقل لمستخدم المحتوى الذي ترسله</li>
+                </ul>
+
+                <h2>6. إخلاء المسؤولية</h2>
+                <p>يتم تقديم الموقع ومحتوياته "كما هو" دون أي ضمانات من أي نوع، سواء صريحة أو ضمنية. نحن لا نضمن:</p>
+                <ul>
+                    <li>دقة أو اكتمال أو موثوقية أي محتوى على الموقع</li>
+                    <li>أن الموقع سيعمل دون انقطاع أو أخطاء</li>
+                    <li>أن أي عيوب في الموقع سيتم تصحيحها</li>
+                </ul>
+
+                <div class="note-box">
+                    <p><strong>تنويه:</strong> التوقعات والتنبؤات الفلكية المقدمة على الموقع هي لأغراض الترفيه فقط ولا يجب الاعتماد عليها في اتخاذ قرارات حياتية مهمة.</p>
+                </div>
+
+                <h2>7. التعديلات على الشروط</h2>
+                <p>نحتفظ بالحق في تعديل هذه الشروط في أي وقت. سيتم نشر أي تغييرات على هذه الصفحة مع تحديث تاريخ التعديل. استمرارك في استخدام الموقع بعد نشر التعديلات يعني موافقتك على الشروط المعدلة.</p>
+
+                <h2>8. إنهاء الخدمة</h2>
+                <p>نحتفظ بالحق في إنهاء أو تعليق وصولك إلى الموقع أو أي جزء منه، دون إشعار مسبق ولأي سبب، بما في ذلك على سبيل المثال لا الحصر، انتهاكك لهذه الشروط.</p>
+
+                <h2>9. القانون الحاكم</h2>
+                <p>تخضع هذه الشروط وتفسر وفقًا لقوانين المملكة العربية السعودية. أي نزاعات تنشأ عن هذه الشروط ستخضع للاختصاص الحصري للمحاكم في المملكة العربية السعودية.</p>
+
+                <h2>10. الاتصال بنا</h2>
+                <p>إذا كانت لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا عبر صفحة "اتصل بنا" المتاحة على الموقع.</p>
+
+                <p class="last-updated">آخر تحديث: 26 أبريل 2024</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- يمكنك إضافة فوتر الموقع هنا -->
+
+    <script>
+        // تأثيرات عند التمرير
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentElements = document.querySelectorAll('.terms-content h2, .terms-content h3, .terms-content p, .terms-content ul, .terms-content .note-box');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            contentElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.6s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
