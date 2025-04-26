@@ -157,13 +157,24 @@
         }
 
         .developer-avatar {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             border: 5px solid var(--primary-color);
             object-fit: cover;
             margin-bottom: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: #f0e6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .avatar-initials {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
         .developer-name {
@@ -253,6 +264,15 @@
             .about-section {
                 padding: 25px;
             }
+            
+            .developer-avatar {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .avatar-initials {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
@@ -265,7 +285,7 @@
             <div class="stars-bg"></div>
             <div class="container">
                 <h1><i class="fas fa-star-and-crescent"></i> من نحن</h1>
-                <p>رحلة اكتشاف الذاء من خلال النجوم والأبراج، حيث يلتقي العلم بالأسرار الفلكية</p>
+                <p>رحلة اكتشاف الذات من خلال النجوم والأبراج، حيث يلتقي العلم بالأسرار الفلكية</p>
             </div>
         </section>
 
@@ -307,16 +327,21 @@
 
                 <!-- قسم المطور -->
                 <section class="about-section developer-section">
-                    <img src="https://via.placeholder.com/150" alt="عبد الله ندا" class="developer-avatar">
+                    <div class="developer-avatar">
+                        <div class="avatar-initials">ع</div>
+                        <!-- يمكنك استبدال هذا بقسم img عند رفع صورة حقيقية -->
+                        <!-- <img src="path-to-your-image.jpg" alt="عبد الله ندا"> -->
+                    </div>
                     <h3 class="developer-name">عبد الله ندا</h3>
                     <p class="developer-title">مطور ومؤسس موقع "الكون بين يديك"</p>
-                    <p>مطور ويب وخبير في تجربة المستخدم، شغوف بعلم الفلك والعلوم الروحانية. بدأت رحلتي مع الأبراج منذ الصغر وقررت دمج شغفي بالتكنولوجيا مع حبي للفلك لإنشاء هذه المنصة.</p>
-                    <p>هدفي هو تقديم تجربة مميزة للمستخدم العربي تليق بعلم الفلك العريق، مع الحفاظ على المصداقية والدقة العلمية.</p>
+                    <p>مطور ويب محترف بخبرة تزيد عن 7 سنوات في مجال برمجة وتصميم المواقع الإلكترونية. تخصصت في تطوير واجهات المستخدم وتجربة المستخدم (UI/UX) مع شغف كبير بعلم الفلك والعلوم الروحانية.</p>
+                    <p>بدأت رحلتي مع الأبراج منذ الطفولة عندما أهداني والدي كتاباً عن الأبراج الفلكية. مع مرور السنوات، تحول هذا الاهتمام إلى شغف ثم إلى مشروع حياة. قررت دمج خبرتي التقنية مع حبي لعلم الفلك لإنشاء هذه المنصة التي تقدم محتوى عربي مميز في هذا المجال.</p>
+                    <p>أؤمن بأن النجوم قد ترشدنا ولكن لا تحدد مصيرنا، وهذه الفلسفة تنعكس على كل محتوى نقدمه في الموقع.</p>
                     <div class="developer-social">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fas fa-envelope"></i></a>
+                        <a href="#" title="تويتر"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="جيت هاب"><i class="fab fa-github"></i></a>
+                        <a href="#" title="لينكد إن"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>
                     </div>
                 </section>
 
@@ -330,6 +355,8 @@
                         <li>دورات تعليمية في علم الفلك والأبراج</li>
                         <li>مجتمع تفاعلي للمهتمين</li>
                         <li>محتوى حصري ومقالات أسبوعية</li>
+                        <li>إضافة المزيد من الأبراج الفلكية من حضارات مختلفة</li>
+                        <li>تطوير نظام تنبؤات أكثر دقة وتفصيلاً</li>
                     </ul>
                     <p>نرحب بأي أفكار أو مقترحات لديكم لتطوير الموقع، يمكنكم التواصل معنا عبر صفحة "اتصل بنا".</p>
                 </section>
