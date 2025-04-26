@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكون بين يديك - المقالات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --primary-light: #8a6cb3;
+            --secondary-color: #8a5a44;
+            --chinese-color: #c52a2a;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --dark-bg: #2c2836;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* تحسينات الأزرار */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 76, 147, 0.3);
+        }
+
+        /* تحسين الهيدر */
+        .main-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .main-nav a.active,
+        .main-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .main-nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 3px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* قسم المقالات الرئيسي */
+        .articles-main-section {
+            padding: 150px 0 80px;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+
+        .section-title i {
+            margin-left: 15px;
+        }
+
+        /* نظام التبويب */
+        .articles-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .articles-tab {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .articles-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .articles-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(106, 76, 147, 0.3);
+        }
+
+        /* شبكة المقالات */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .article-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid var(--dark-gray);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .article-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .article-image:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+
+        .article-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .article-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .article-content h3 i {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .article-meta i {
+            margin-left: 5px;
+        }
+
+        .article-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--dark-gray);
+        }
+
+        .read-more:hover {
+            color: var(--primary-light);
+        }
+
+        .read-more:after {
+            content: '←';
+            margin-right: 8px;
+            transition: margin 0.3s;
+        }
+
+        .read-more:hover:after {
+            margin-right: 12px;
+        }
+
+        /* تفاصيل المقال */
+        .article-details {
+            display: none;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--dark-gray);
+        }
+
+        .article-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-details-header {
+            margin-bottom: 25px;
+        }
+
+        .article-details-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .article-details-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .article-details-image {
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .article-details-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-details-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-details-content h2 {
+            color: var(--primary-color);
+            margin: 30px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .article-details-content ul,
+        .article-details-content ol {
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+
+        .article-details-content li {
+            margin-bottom: 10px;
+        }
+
+        .close-details {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-weight: 500;
+        }
+
+        .close-details:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        /* زر التحميل المزيد */
+        .load-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* تأثيرات إضافية */
+        .floating-element {
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.03;
+            color: var(--primary-color);
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 70px 0 30px;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .footer-about p {
+            line-height: 1.8;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links h3 i,
+        .footer-contact h3 i {
+            font-size: 1.2rem;
+        }
+
+        .footer-links h3:after,
+        .footer-contact h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-right: 10px;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            width: 20px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 992px) {
+            .articles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .article-details-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+                position: fixed;
+                top: 80px;
+                right: 0;
+                width: 280px;
+                background-color: var(--white);
+                padding: 20px;
+                box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+                border-radius: 0 0 0 15px;
+            }
+            
+            .main-nav.active {
+                display: block;
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .mobile-menu-btn.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .mobile-menu-btn.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-btn.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .header-cta {
+                display: none;
+            }
+            
+            .articles-main-section {
+                padding: 120px 0 60px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .article-details-title {
+                font-size: 1.5rem;
+            }
+            
+            .article-details-content {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .articles-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                scrollbar-width: none;
+            }
+            
+            .articles-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .articles-tab {
+                flex-shrink: 0;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .article-image {
+                height: 180px;
+            }
+            
+            .article-details-image {
+                height: 200px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-star-and-crescent logo-icon"></i>
+                <span>الكون بين يديك</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="discover.html"><i class="fas fa-search"></i> اكتشف برجك</a></li>
+                    <li><a href="compatibility.html"><i class="fas fa-heart"></i> توافق الأبراج</a></li>
+                    <li><a href="predictions.html"><i class="fas fa-crystal-ball"></i> التوقعات</a></li>
+                    <li><a href="articles.html" class="active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="discover.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> اكتشف برجك
+                </a>
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="articles-main-section">
+        <i class="fas fa-book floating-element" style="top: 20%; left: 10%;"></i>
+        <i class="fas fa-pen floating-element" style="bottom: 30%; right: 15%; animation-delay: 2s;"></i>
+        
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-newspaper"></i>
+                مقالات عن الأبراج
+            </h2>
+            
+            <!-- تبويبات التصنيف -->
+            <div class="articles-tabs">
+                <button class="articles-tab active" data-category="all">
+                    <i class="fas fa-globe"></i> الكل
+                </button>
+                <button class="articles-tab" data-category="western">
+                    <i class="fas fa-star"></i> الأبراج الغربية
+                </button>
+                <button class="articles-tab" data-category="chinese">
+                    <i class="fas fa-dragon"></i> الأبراج الصينية
+                </button>
+                <button class="articles-tab" data-category="arabic">
+                    <i class="fas fa-moon"></i> الأبراج العربية
+                </button>
+                <button class="articles-tab" data-category="compatibility">
+                    <i class="fas fa-heart"></i> التوافق
+                </button>
+                <button class="articles-tab" data-category="predictions">
+                    <i class="fas fa-crystal-ball"></i> التوقعات
+                </button>
+            </div>
+            
+            <!-- شبكة المقالات -->
+            <div class="articles-grid" id="articles-grid">
+                <!-- المقال 1 -->
+                <article class="article-card" data-category="western">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="article-category">الأبراج الغربية</span>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <i class="fas fa-user-astronaut"></i>
+                            كيف تؤثر الأبراج على شخصيتك
+                        </h3>
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar"></i> 15 يونيو 2023</span>
+                            <span><i class="fas fa-eye"></i> 1.2K مشاهدة</span>
+                        </div>
+                        <p class="article-excerpt">
+                            اكتشف العلاقة بين برجك وصفاتك الشخصية وكيفية استغلال هذه المعرفة في تحسين حياتك اليومية وعلاقاتك مع الآخرين. تعرف على نقاط القوة والضعف لكل برج.
+                        </p>
+                        <a href="#" class="read-more" data-article="1">اقرأ المزيد</a>
+                    </div>
+                    
+                    <!-- تفاصيل المقال -->
+                    <div class="article-details" id="article-details-1">
+                        <div class="article-details-header">
+                            <h2 class="article-details-title">كيف تؤثر الأبراج على شخصيتك</h2>
+                            <div class="article-details-meta">
+                                <span><i class="fas fa-calendar"></i> 15 يونيو 2023</span>
+                                <span><i class="fas fa-eye"></i> 1.2K مشاهدة</span>
+                                <span><i class="fas fa-tag"></i> الأبراج الغربية</span>
+                            </div>
+                        </div>
+                        <div class="article-details-image" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
+                        <div class="article-details-content">
+                            <p>لطالما اعتقد البشر منذ القدم أن للأبراج تأثيرًا على شخصياتنا وسلوكياتنا. في هذا المقال، سنستكشف كيف يمكن لبرجك الفلكي أن يؤثر على شخصيتك، وكيف يمكنك استخدام هذه المعرفة لتحسين حياتك.</p>
+                            
+                            <h2>الأبراج وعلم النفس</h2>
+                            <p>تشير الدراسات إلى أن هناك علاقة بين تاريخ ميلاد الشخص وصفاته الشخصية. بينما يرفض بعض العلماء هذه الفكرة، إلا أن الكثيرين يجدون تطابقًا بين صفاتهم وصفات برجهم.</p>
+                            
+                            <h2>نقاط القوة والضعف لكل برج</h2>
+                            <p>كل برج فلكي له مجموعة من الصفات المميزة:</p>
+                            <ul>
+                                <li><strong>الحمل (21 مارس - 19 أبريل):</strong> قيادي، شجاع، متسرع</li>
+                                <li><strong>الثور (20 أبريل - 20 مايو):</strong> عملي، صبور، عنيد</li>
+                                <li><strong>الجوزاء (21 مايو - 20 يونيو):</strong> اجتماعي، فضولي، متقلب</li>
+                                <li><strong>السرطان (21 يونيو - 22 يوليو):</strong> عاطفي، حنون، حساس</li>
+                                <li><strong>الأسد (23 يوليو - 22 أغسطس):</strong> كريم، واثق، متعجرف</li>
+                                <li><strong>العذراء (23 أغسطس - 22 سبتمبر):</strong> منظم، دقيق، قلق</li>
+                                <li><strong>الميزان (23 سبتمبر - 22 أكتوبر):</strong> عادل، اجتماعي، متردد</li>
+                                <li><strong>العقرب (23 أكتوبر - 21 نوفمبر):</strong> غامض، عاطفي، متشكك</li>
+                                <li><strong>القوس (22 نوفمبر - 21 ديسمبر):</strong> مغامر، متفائل، غير صبور</li>
+                                <li><strong>الجدي (22 ديسمبر - 19 يناير):</strong> طموح، مسؤول، متشائم</li>
+                                <li><strong>الدلو (20 يناير - 18 فبراير):</strong> مستقل، إنساني، غير عاطفي</li>
+                                <li><strong>الحوت (19 فبراير - 20 مارس):</strong> حدسي، عاطفي، هارب من الواقع</li>
+                            </ul>
+                            
+                            <h2>كيف تستفيد من معرفة برجك</h2>
+                            <p>يمكنك استخدام معرفتك ببرجك لتطوير نفسك:</p>
+                            <ol>
+                                <li>تعرف على نقاط قوتك واستغلها</li>
+                                <li>اعمل على تحسين نقاط ضعفك</li>
+                                <li>افهم كيفية تفاعلك مع الآخرين</li>
+                                <li>اختر المهن والهوايات المناسبة لصفاتك</li>
+                            </ol>
+                            
+                            <p>في النهاية، تذكر أن الأبراج هي مجرد دليل وليس حتمية. لديك دائمًا حرية الاختيار والقدرة على تغيير نفسك للأفضل.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق المقال
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- المقال 2 -->
+                <article class="article-card" data-category="chinese">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1548188489-06d58a6e598f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="article-category">الأبراج الصينية</span>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <i class="fas fa-dragon"></i>
+                            أسرار الأبراج الصينية
+                        </h3>
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar"></i> 3 يوليو 2023</span>
+                            <span><i class="fas fa-eye"></i> 890 مشاهدة</span>
+                        </div>
+                        <p class="article-excerpt">
+                            تعرف على الأبراج الصينية الـ12 وخصائص كل منها، وكيفية حساب برجك الصيني حسب سنة الميلاد. اكتشف أسرار هذه الأبراج القديمة وتأثيرها على شخصيتك.
+                        </p>
+                        <a href="#" class="read-more" data-article="2">اقرأ المزيد</a>
+                    </div>
+                    
+                    <!-- تفاصيل المقال -->
+                    <div class="article-details" id="article-details-2">
+                        <div class="article-details-header">
+                            <h2 class="article-details-title">أسرار الأبراج الصينية</h2>
+                            <div class="article-details-meta">
+                                <span><i class="fas fa-calendar"></i> 3 يوليو 2023</span>
+                                <span><i class="fas fa-eye"></i> 890 مشاهدة</span>
+                                <span><i class="fas fa-tag"></i> الأبراج الصينية</span>
+                            </div>
+                        </div>
+                        <div class="article-details-image" style="background-image: url('https://images.unsplash.com/photo-1548188489-06d58a6e598f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
+                        <div class="article-details-content">
+                            <p>تمثل الأبراج الصينية جزءًا مهمًا من الثقافة الصينية القديمة، حيث يعود تاريخها إلى أكثر من 2000 عام. في هذا المقال، سنستكشف أسرار هذه الأبراج وكيفية تأثيرها على شخصياتنا.</p>
+                            
+                            <h2>أصل الأبراج الصينية</h2>
+                            <p>تقول الأسطورة الصينية أن الإمبراطور السماوي دعا جميع الحيوانات إلى حفل، لكن 12 حيوانًا فقط حضرت. كتقدير لهم، قرر الإمبراطور تسمية كل سنة باسم أحد هذه الحيوانات حسب ترتيب وصولهم.</p>
+                            
+                            <h2>كيف تحسب برجك الصيني</h2>
+                            <p>يعتمد البرج الصيني على السنة القمرية التي ولدت فيها. يمكنك تحديد برجك باستخدام الجدول التالي:</p>
+                            
+                            <ul>
+                                <li><strong>الفأر:</strong> 2020, 2008, 1996, 1984, 1972, 1960</li>
+                                <li><strong>الثور:</strong> 2021, 2009, 1997, 1985, 1973, 1961</li>
+                                <li><strong>النمر:</strong> 2022, 2010, 1998, 1986, 1974, 1962</li>
+                                <li><strong>الأرنب:</strong> 2023, 2011, 1999, 1987, 1975, 1963</li>
+                                <li><strong>التنين:</strong> 2024, 2012, 2000, 1988, 1976, 1964</li>
+                                <li><strong>الأفعى:</strong> 2025, 2013, 2001, 1989, 1977, 1965</li>
+                                <li><strong>الحصان:</strong> 2026, 2014, 2002, 1990, 1978, 1966</li>
+                                <li><strong>العنزة:</strong> 2027, 2015, 2003, 1991, 1979, 1967</li>
+                                <li><strong>القرد:</strong> 2028, 2016, 2004, 1992, 1980, 1968</li>
+                                <li><strong>الديك:</strong> 2029, 2017, 2005, 1993, 1981, 1969</li>
+                                <li><strong>الكلب:</strong> 2030, 2018, 2006, 1994, 1982, 1970</li>
+                                <li><strong>الخنزير:</strong> 2031, 2019, 2007, 1995, 1983, 1971</li>
+                            </ul>
+                            
+                            <h2>صفات الأبراج الصينية</h2>
+                            <p>كل برج صيني له صفات مميزة:</p>
+                            <ul>
+                                <li><strong>الفأر:</strong> ذكي، سريع البديهة، اجتماعي</li>
+                                <li><strong>الثور:</strong> صبور، موثوق، عملي</li>
+                                <li><strong>النمر:</strong> شجاع، قوي، مفعم بالطاقة</li>
+                                <li><strong>الأرنب:</strong> لطيف، حساس، دبلوماسي</li>
+                                <li><strong>التنين:</strong> قوي، طموح، كاريزمي</li>
+                                <li><strong>الأفعى:</strong> حكيم، حدسي، غامض</li>
+                                <li><strong>الحصان:</strong> نشيط، مستقيم، مغامر</li>
+                                <li><strong>العنزة:</strong> مبدع، لطيف، متعاون</li>
+                                <li><strong>القرد:</strong> ذكي، مرن، مبتكر</li>
+                                <li><strong>الديك:</strong> صادق، منظم، واثق</li>
+                                <li><strong>الكلب:</strong> وفي، صادق، مسئول</li>
+                                <li><strong>الخنزير:</strong> كريم، صبور، متفائل</li>
+                            </ul>
+                            
+                            <h2>توافق الأبراج الصينية</h2>
+                            <p>يعتمد توافق الأبراج الصينية على نظرية العناصر الخمسة (الخشب، النار، الأرض، المعدن، الماء) وعلى علاقات الحيوانات مع بعضها. بعض الأبراج تتوافق بشكل طبيعي، بينما قد تواجه أخرى صعوبات في التفاهم.</p>
+                            
+                            <p>في النهاية، تذكر أن الأبراج الصينية هي جزء من ثقافة غنية وتقاليد عريقة، ويمكن أن تقدم نظرة ثاقبة لشخصيتك وعلاقاتك، لكنها ليست حتمية.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق المقال
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- المقال 3 -->
+                <article class="article-card" data-category="compatibility">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="article-category">التوافق</span>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <i class="fas fa-heart"></i>
+                            دليل توافق الأبراج الغربية
+                        </h3>
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar"></i> 22 يوليو 2023</span>
+                            <span><i class="fas fa-eye"></i> 1.5K مشاهدة</span>
+                        </div>
+                        <p class="article-excerpt">
+                            اكتشف مدى توافق برجك مع الأبراج الأخرى في العلاقات العاطفية والصداقات والعمل. تعرف على أفضل وأسوأ التوافقات بين الأبراج حسب العناصر الفلكية.
+                        </p>
+                        <a href="#" class="read-more" data-article="3">اقرأ المزيد</a>
+                    </div>
+                    
+                    <!-- تفاصيل المقال -->
+                    <div class="article-details" id="article-details-3">
+                        <div class="article-details-header">
+                            <h2 class="article-details-title">دليل توافق الأبراج الغربية</h2>
+                            <div class="article-details-meta">
+                                <span><i class="fas fa-calendar"></i> 22 يوليو 2023</span>
+                                <span><i class="fas fa-eye"></i> 1.5K مشاهدة</span>
+                                <span><i class="fas fa-tag"></i> التوافق</span>
+                            </div>
+                        </div>
+                        <div class="article-details-image" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
+                        <div class="article-details-content">
+                            <p>يعد توافق الأبراج من أكثر المواضيع الفلكية إثارة للاهتمام. في هذا المقال، سنستكشف كيف تتفاعل الأبراج مع بعضها في العلاقات العاطفية والصداقات والعمل.</p>
+                            
+                            <h2>توافق الأبراج حسب العناصر</h2>
+                            <p>تنقسم الأبراج الغربية إلى أربعة عناصر: ناري، ترابي، هوائي، ومائي. عادةً ما تتوافق الأبراج من نفس العنصر بشكل جيد:</p>
+                            
+                            <ul>
+                                <li><strong>الأبراج النارية (الحمل، الأسد، القوس):</strong> متحمسة، عفوية، قد تكون متسرعة</li>
+                                <li><strong>الأبراج الترابية (الثور، العذراء، الجدي):</strong> عملية، واقعية، قد تكون متحفظة</li>
+                                <li><strong>الأبراج الهوائية (الجوزاء، الميزان، الدلو):</strong> فكرية، اجتماعية، قد تكون غير عاطفية</li>
+                                <li><strong>الأبراج المائية (السرطان، العقرب، الحوت):</strong> عاطفية، حدسية، قد تكون حساسة</li>
+                            </ul>
+                            
+                            <h2>أفضل التوافقات العاطفية</h2>
+                            <p>بعض الأبراج تتوافق بشكل طبيعي:</p>
+                            <ul>
+                                <li><strong>الحمل مع القوس:</strong> علاقة مليئة بالحماس والمغامرة</li>
+                                <li><strong>الثور مع السرطان:</strong> علاقة مستقرة وعاطفية</li>
+                                <li><strong>الجوزاء مع الميزان:</strong> علاقة فكرية واجتماعية</li>
+                                <li><strong>الأسد مع الدلو:</strong> علاقة إبداعية ومثيرة</li>
+                                <li><strong>العذراء مع الجدي:</strong> علاقة عملية ومنظمة</li>
+                                <li><strong>العقرب مع الحوت:</strong> علاقة عاطفية وغامضة</li>
+                            </ul>
+                            
+                            <h2>التوافقات الصعبة</h2>
+                            <p>بعض الأبراج قد تواجه تحديات في التفاهم:</p>
+                            <ul>
+                                <li><strong>الحمل مع الجدي:</strong> قد يختلفان في النظرة للحياة</li>
+                                <li><strong>الثور مع الدلو:</strong> قد يصعب التفاهم بينهما</li>
+                                <li><strong>السرطان مع الميزان:</strong> قد تختلف احتياجاتهما العاطفية</li>
+                                <li><strong>الأسد مع العقرب:</strong> صراع على السيطرة</li>
+                                <li><strong>القوس مع العذراء:</strong> قد يختلفان في الأسلوب</li>
+                                <li><strong>الحوت مع الجوزاء:</strong> قد يصعب التواصل بينهما</li>
+                            </ul>
+                            
+                            <h2>نصائح لتحسين التوافق</h2>
+                            <ol>
+                                <li>افهم نقاط القوة والضعف في برجك وبرج شريكك</li>
+                                <li>تعلم كيفية التواصل بشكل فعال مع أنماط الشخصيات المختلفة</li>
+                                <li>احترم الاختلافات بينكما واستغلها لتعزيز العلاقة</li>
+                                <li>تعلم من تجارب العلاقات السابقة</li>
+                                <li>تذكر أن التوافق الفلكي هو مجرد دليل وليس حتمية</li>
+                            </ol>
+                            
+                            <p>في النهاية، تذكر أن العلاقات الناجحة تعتمد على التفاهم والاحترام المتبادل، بغض النظر عن الأبراج. يمكن للأبراج أن تقدم نظرة ثاقبة، لكنها لا تحدد مصير العلاقة.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق المقال
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- المقال 4 -->
+                <article class="article-card" data-category="arabic">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1483721310020-03333e577078?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="article-category">الأبراج العربية</span>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <i class="fas fa-moon"></i>
+                            الأبراج العربية: دليل شامل
+                        </h3>
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar"></i> 5 أغسطس 2023</span>
+                            <span><i class="fas fa-eye"></i> 750 مشاهدة</span>
+                        </div>
+                        <p class="article-excerpt">
+                            تعرف على الأبراج العربية القديمة التي تعتمد على 28 منزلاً قمرياً. اكتشف برجك العربي وخصائصه، وكيف تختلف عن الأبراج الغربية والصينية.
+                        </p>
+                        <a href="#" class="read-more" data-article="4">اقرأ المزيد</a>
+                    </div>
+                    
+                    <!-- تفاصيل المقال -->
+                    <div class="article-details" id="article-details-4">
+                        <div class="article-details-header">
+                            <h2 class="article-details-title">الأبراج العربية: دليل شامل</h2>
+                            <div class="article-details-meta">
+                                <span><i class="fas fa-calendar"></i> 5 أغسطس 2023</span>
+                                <span><i class="fas fa-eye"></i> 750 مشاهدة</span>
+                                <span><i class="fas fa-tag"></i> الأبراج العربية</span>
+                            </div>
+                        </div>
+                        <div class="article-details-image" style="background-image: url('https://images.unsplash.com/photo-1483721310020-03333e577078?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
+                        <div class="article-details-content">
+                            <p>تمتلك الثقافة العربية نظامًا فلكيًا غنيًا يعتمد على تقسيم السماء إلى 28 منزلاً قمرياً، كل منها له خصائص وتأثيرات مختلفة. في هذا المقال، سنستكشف هذا النظام الفريد وكيفية تحديد برجك العربي.</p>
+                            
+                            <h2>نظام المنازل القمرية</h2>
+                            <p>يعتمد الفلك العربي التقليدي على تقسيم دائرة البروج إلى 28 منزلاً قمرياً، كل منها يمثل موقعًا معينًا للقمر في السماء. هذه المنازل هي:</p>
+                            
+                            <ul>
+                                <li>الشرطان</li>
+                                <li>البطين</li>
+                                <li>الثريا</li>
+                                <li>الدبران</li>
+                                <li>الهقعة</li>
+                                <li>الهنعة</li>
+                                <li>الذراع</li>
+                                <li>النثرة</li>
+                                <li>الطرف</li>
+                                <li>الجبهة</li>
+                                <li>الزبرة</li>
+                                <li>الصرفة</li>
+                                <li>العواء</li>
+                                <li>السماك</li>
+                                <li>الغفر</li>
+                                <li>الزبانا</li>
+                                <li>الإكليل</li>
+                                <li>القلب</li>
+                                <li>الشولة</li>
+                                <li>النعائم</li>
+                                <li>البلدة</li>
+                                <li>سعد الذابح</li>
+                                <li>سعد بلع</li>
+                                <li>سعد السعود</li>
+                                <li>سعد الأخبية</li>
+                                <li>الفرغ المقدم</li>
+                                <li>الفرغ المؤخر</li>
+                                <li>الرشا</li>
+                            </ul>
+                            
+                            <h2>كيف تحدد برجك العربي</h2>
+                            <p>لحساب برجك العربي، تحتاج إلى معرفة موقع القمر وقت ميلادك. يمكن استخدام التقويم القمري العربي أو أحد التطبيقات الفلكية لتحديد المنزل القمري الذي كان فيه القمر عند ولادتك.</p>
+                            
+                            <h2>خصائص الأبراج العربية</h2>
+                            <p>كل منزل قمري له خصائص مميزة تؤثر على الشخص المولود تحته:</p>
+                            <ul>
+                                <li><strong>الشرطان:</strong> شخصية قوية وقيادية</li>
+                                <li><strong>الثريا:</strong> ذكاء وحكمة</li>
+                                <li><strong>الدبران:</strong> طموح وعزيمة</li>
+                                <li><strong>الهقعة:</strong> إبداع وحساسية</li>
+                                <li><strong>القلب:</strong> شجاعة وتضحية</li>
+                                <li><strong>سعد السعود:</strong> حظ وتفاؤل</li>
+                                <li><strong>الرشا:</strong> حدس وتفكير عميق</li>
+                            </ul>
+                            
+                            <h2>الفرق بين الأبراج العربية والغربية</h2>
+                            <p>تختلف الأبراج العربية عن الغربية في عدة نقاط:</p>
+                            <ol>
+                                <li>تعتمد على القمر وليس الشمس</li>
+                                <li>عددها 28 برجًا بدلاً من 12</li>
+                                <li>تركز أكثر على الجوانب الروحانية</li>
+                                <li>تستخدم في التوقعات اليومية أكثر من تحليل الشخصية</li>
+                            </ol>
+                            
+                            <h2>استخدامات الأبراج العربية</h2>
+                            <p>استخدم العرب القدماء المنازل القمرية في:</p>
+                            <ul>
+                                <li>تحديد الأوقات المناسبة للسفر والزواج</li>
+                                <li>التنبؤ بالأحوال الجوية</li>
+                                <li>اختيار الأسماء الميمونة</li>
+                                <li>تحديد أنسب أوقات الزراعة والحصاد</li>
+                            </ul>
+                            
+                            <p>في النهاية، تمثل الأبراج العربية جزءًا مهمًا من التراث الفلكي العربي، وتقدم نظرة فريدة لتأثير الأجرام السماوية على حياتنا.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق المقال
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- المقال 5 -->
+                <article class="article-card" data-category="predictions">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="article-category">التوقعات</span>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <i class="fas fa-crystal-ball"></i>
+                            توقعات 2024 الفلكية لجميع الأبراج
+                        </h3>
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar"></i> 12 سبتمبر 2023</span>
+                            <span><i class="fas fa-eye"></i> 2.3K مشاهدة</span>
+                        </div>
+                        <p class="article-excerpt">
+                            تعرف على ما يخبئه العام 2024 لبرجك من فرص وتحديات في العمل، الحب، الصحة، والمال. اكتشف أهم التحولات الفلكية التي ستؤثر على حياتك في العام القادم.
+                        </p>
+                        <a href="#" class="read-more" data-article="5">اقرأ المزيد</a>
+                    </div>
+                    
+                    <!-- تفاصيل المقال -->
+                    <div class="article-details" id="article-details-5">
+                        <div class="article-details-header">
+                            <h2 class="article-details-title">توقعات 2024 الفلكية لجميع الأبراج</h2>
+                            <div class="article-details-meta">
+                                <span><i class="fas fa-calendar"></i> 12 سبتمبر 2023</span>
+                                <span><i class="fas fa-eye"></i> 2.3K مشاهدة</span>
+                                <span><i class="fas fa-tag"></i> التوقعات</span>
+                            </div>
+                        </div>
+                        <div class="article-details-image" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
+                        <div class="article-details-content">
+                            <p>يعد عام 2024 عامًا مميزًا من الناحية الفلكية، حيث سنشهد عدة تحولات كوكبية مهمة ستؤثر على جميع الأبراج. في هذا المقال، سنستعرض توقعات العام لجميع الأبراج الغربية.</p>
+                            
+                            <h2>أهم الأحداث الفلكية في 2024</h2>
+                            <ul>
+                                <li>زحل في الحوت (مارس 2024 - فبراير 2026)</li>
+                                <li>المشتري في الجوزاء (مايو 2024 - مايو 2025)</li>
+                                <li>خسوفان قمريان وكسوفان شمسيان</li>
+                                <li>عطارد الرجعي: يناير، مايو، سبتمبر</li>
+                            </ul>
+                            
+                            <h2>توقعات الأبراج النارية (الحمل، الأسد، القوس)</h2>
+                            <p><strong>الحمل:</strong> عام مميز على المستوى المهني مع دخول زحل إلى برجك العاشر. قد تواجه بعض التحديات ولكنها ستقويك.</p>
+                            <p><strong>الأسد:</strong> عام من التوسع والتعلم مع وجود المشتري في برجك التاسع. فرص للسفر والدراسة.</p>
+                            <p><strong>القوس:</strong> عام مالي جيد مع وجود المشتري في برجك الثاني. ركز على الادخار والاستثمار.</p>
+                            
+                            <h2>توقعات الأبراج الترابية (الثور، العذراء، الجدي)</h2>
+                            <p><strong>الثور:</strong> عام عاطفي مميز مع وجود المشتري في برجك السابع. علاقات جديدة أو تطوير العلاقات الحالية.</p>
+                            <p><strong>العذراء:</strong> عام صحي جيد مع وجود المشتري في برجك السادس. وقت مثالي لبدء روتين صحي جديد.</p>
+                            <p><strong>الجدي:</strong> عام من التغييرات مع وجود زحل في برجك الرابع. قد تشهد تغييرات في المنزل أو الأسرة.</p>
+                            
+                            <h2>توقعات الأبراج الهوائية (الجوزاء، الميزان، الدلو)</h2>
+                            <p><strong>الجوزاء:</strong> عام مميز مع وجود المشتري في برجك. وقت مناسب لبدء مشاريع جديدة وتحقيق أهدافك.</p>
+                            <p><strong>الميزان:</strong> عام روحي عميق مع وجود زحل في برجك الثامن. وقت للتأمل والبحث عن معنى أعمق للحياة.</p>
+                            <p><strong>الدلو:</strong> عام اجتماعي مع وجود المشتري في برجك الحادي عشر. توسع في دائرة معارفك وأصدقائك.</p>
+                            
+                            <h2>توقعات الأبراج المائية (السرطان، العقرب، الحوت)</h2>
+                            <p><strong>السرطان:</strong> عام مهني مميز مع وجود المشتري في برجك العاشر. ترقيات أو اعتراف بعملك الجاد.</p>
+                            <p><strong>العقرب:</strong> عام من النمو الشخصي مع وجود زحل في برجك السادس. تعلم مهارات جديدة وتنظيم وقتك.</p>
+                            <p><strong>الحوت:</strong> عام تحويلي مع وجود زحل في برجك. وقت للتخلص من العادات السيئة وبناء أسس جديدة.</p>
+                            
+                            <h2>نصائح عامة لجميع الأبراج في 2024</h2>
+                            <ol>
+                                <li>استغل فترة المشتري في الجوزاء لتعلم مهارات جديدة وتوسيع معارفك</li>
+                                <li>كن صبورًا أثناء فترات عطارد الرجعي وتجنب اتخاذ قرارات مهمة</li>
+                                <li>استخدم طاقة زحل في الحوت لتعميق اتصالك الروحي</li>
+                                <li>احتفل بإنجازاتك الصغيرة والكبيرة على حد سواء</li>
+                                <li>تذكر أن التوقعات الفلكية هي مجرد دليل وليس حتمية</li>
+                            </ol>
+                            
+                            <p>في النهاية، يعد عام 2024 عامًا من الفرص والتحديات لجميع الأبراج. المفتاح هو الاستعداد الجيد والمرونة في التعامل مع التغييرات.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق المقال
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- المقال 6 -->
+                <article class="article-card" data-category="western">
+                    <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="article-category">الأبراج الغربية</span>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <i class="fas fa-gem"></i>
+                            الأحجار الكريمة لكل برج
+                        </h3>
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar"></i> 18 أكتوبر 2023</span>
+                            <span><i class="fas fa-eye"></i> 1.1K مشاهدة</span>
+                        </div>
+                        <p class="article-excerpt">
+                            اكتشف الحجر الكريم الذي يجلب الحظ لبرجك وكيفية استخدامه لتعزيز طاقتك الإيجابية وتحقيق التوازن في حياتك. تعرف على خصائص كل حجر وتأثيره على الأبراج.
+                        </p>
+                        <a href="#" class="read-more" data-article="6">اقرأ المزيد</a>
+                    </div>
+                    
+                    <!-- تفاصيل المقال -->
+                    <div class="article-details" id="article-details-6">
+                        <div class="article-details-header">
+                            <h2 class="article-details-title">الأحجار الكريمة لكل برج</h2>
+                            <div class="article-details-meta">
+                                <span><i class="fas fa-calendar"></i> 18 أكتوبر 2023</span>
+                                <span><i class="fas fa-eye"></i> 1.1K مشاهدة</span>
+                                <span><i class="fas fa-tag"></i> الأبراج الغربية</span>
+                            </div>
+                        </div>
+                        <div class="article-details-image" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
+                        <div class="article-details-content">
+                            <p>لكل برج فلكي أحجار كريمة معينة تتناسب مع طاقته وتساعده على تحقيق التوازن. في هذا المقال، سنستكشف الأحجار المناسبة لكل برج وكيفية الاستفادة منها.</p>
+                            
+                            <h2>الأحجار الكريمة للأبراج النارية (الحمل، الأسد، القوس)</h2>
+                            <p><strong>الحمل (المريخ):</strong> العقيق الأحمر - يعزز الشجاعة والطاقة</p>
+                            <p><strong>الأسد (الشمس):</strong> حجر الشمس - يعزز الثقة والكاريزما</p>
+                            <p><strong>القوس (المشتري):</strong> الفيروز - يجلب الحظ ويساعد في الرحلات</p>
+                            
+                            <h2>الأحجار الكريمة للأبراج الترابية (الثور، العذراء، الجدي)</h2>
+                            <p><strong>الثور (الزهرة):</strong> الزمرد - يعزز الحب والانسجام</p>
+                            <p><strong>العذراء (عطارد):</strong> الجزع الأصفر - يساعد في التركيز والتنظيم</p>
+                            <p><strong>الجدي (زحل):</strong> العقيق الأسود - يعزز الانضباط والتحمل</p>
+                            
+                            <h2>الأحجار الكريمة للأبراج الهوائية (الجوزاء، الميزان، الدلو)</h2>
+                            <p><strong>الجوزاء (عطارد):</strong> حجر القمر - يعزز الحدس والتواصل</p>
+                            <p><strong>الميزان (الزهرة):</strong> الأوبال - يعزز الجمال والتوازن</p>
+                            <p><strong>الدلو (زحل/أورانوس):</strong> اللازورد - يعزز الإبداع والابتكار</p>
+                            
+                            <h2>الأحجار الكريمة للأبراج المائية (السرطان، العقرب، الحوت)</h2>
+                            <p><strong>السرطان (القمر):</strong> اللؤلؤ - يعزز المشاعر والحماية</p>
+                            <p><strong>العقرب (بلوتو):</strong> الجمشت - يساعد في التحول الروحي</p>
+                            <p><strong>الحوت (نبتون):</strong> حجر الدم - يعزز الحدس والتواصل الروحي</p>
+                            
+                            <h2>كيف تستخدم الأحجار الكريمة</h2>
+                            <ol>
+                                <li>اختر الحجر المناسب لبرجك أو لهدف معين</li>
+                                <li>نظف الحجر تحت الماء الجاري أو بضوء القمر</li>
+                                <li>احمله معك أو ارتديه كمجوهرات</li>
+                                <li>استخدمه أثناء التأمل للتركيز على أهدافك</li>
+                                <li>ضعه في مكان مناسب في منزلك أو مكان عملك</li>
+                            </ol>
+                            
+                            <h2>فوائد الأحجار الكريمة</h2>
+                            <ul>
+                                <li>تعزيز الطاقة الإيجابية</li>
+                                <li>جلب الحظ والفرص</li>
+                                <li>تحسين الصحة والعافية</li>
+                                <li>تعزيز العلاقات والحب</li>
+                                <li>تحقيق التوازن العاطفي والروحي</li>
+                            </ul>
+                            
+                            <p>في النهاية، تذكر أن الأحجار الكريمة هي أدوات مساعدة وليست حلولًا سحرية. قوتها الحقيقية تأتي من إيمانك بها واستخدامك الواعي لطاقتها.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق المقال
+                        </button>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- زر التحميل المزيد -->
+            <div class="load-more">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> تحميل المزيد
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>الكون بين يديك</span>
+                    </div>
+                    <p>منصة متكاملة لمعرفة كل ما يتعلق بالأبراج الفلكية والصينية، توقعات يومية، تحليل شخصي، توافق الأبراج والمزيد.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        روابط سريعة
+                    </h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="discover.html"><i class="fas fa-chevron-left"></i> الأبراج الغربية</a></li>
+                        <li><a href="chinese-zodiac.html"><i class="fas fa-chevron-left"></i> الأبراج الصينية</a></li>
+                        <li><a href="compatibility.html"><i class="fas fa-chevron-left"></i> توافق الأبراج</a></li>
+                        <li><a href="articles.html"><i class="fas fa-chevron-left"></i> المقالات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>
+                        <i class="fas fa-envelope"></i>
+                        تواصل معنا
+                    </h3>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        info@alkonbin.com
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        +966 12 345 6789
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 الكون بين يديك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script>
+        // عرض/إخفاء تفاصيل المقال
+        document.addEventListener('DOMContentLoaded', function() {
+            const readMoreLinks = document.querySelectorAll('.read-more');
+            const closeButtons = document.querySelectorAll('.close-details');
+            
+            readMoreLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const articleId = this.getAttribute('data-article');
+                    const articleDetails = document.getElementById(`article-details-${articleId}`);
+                    
+                    // إخفاء جميع تفاصيل المقالات الأخرى
+                    document.querySelectorAll('.article-details').forEach(details => {
+                        details.classList.remove('active');
+                    });
+                    
+                    // عرض تفاصيل المقال المحدد
+                    articleDetails.classList.add('active');
+                    
+                    // التمرير إلى تفاصيل المقال
+                    articleDetails.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.classList.remove('active');
+                });
+            });
+            
+            // تصفية المقالات حسب التصنيف
+            const tabs = document.querySelectorAll('.articles-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // تحديث التبويب النشط
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // تصفية المقالات
+                    const articles = document.querySelectorAll('.article-card');
+                    
+                    articles.forEach(article => {
+                        if (category === 'all' || article.getAttribute('data-category') === category) {
+                            article.style.display = 'block';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // القائمة المتنقلة
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav');
+            
+            if (mobileMenuBtn && mainNav) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

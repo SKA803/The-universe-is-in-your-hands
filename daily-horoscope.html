@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توقعات اليوم - الأبراج العربية | الكون بين يديك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8a5a44;
+            --primary-light: #a87c65;
+            --secondary-color: #6a4c93;
+            --fire: #ff6b6b;
+            --earth: #8a5a44;
+            --air: #48dbfb;
+            --water: #1dd1a1;
+            --positive: #2ecc71;
+            --negative: #e74c3c;
+            --warning: #f39c12;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --dark-bg: #2c2836;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* شريط التنقل */
+        .main-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            right: -300px;
+            width: 280px;
+            height: calc(100vh - 80px);
+            background-color: var(--white);
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-nav {
+            padding: 20px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .sidebar-nav i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        /* قسم توقعات اليوم */
+        .horoscope-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .section-title i {
+            margin-left: 10px;
+        }
+
+        .current-date {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* نموذج اختيار البرج */
+        .zodiac-select-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--dark-gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(138, 90, 68, 0.2);
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(138, 90, 68, 0.3);
+        }
+
+        /* نتائج التوقعات */
+        .horoscope-result {
+            display: none;
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid var(--dark-gray);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .zodiac-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .zodiac-icon-large {
+            width: 100px;
+            height: 100px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 20px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .fire .zodiac-icon-large {
+            color: var(--fire);
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+
+        .earth .zodiac-icon-large {
+            color: var(--earth);
+            background-color: rgba(138, 90, 68, 0.1);
+        }
+
+        .air .zodiac-icon-large {
+            color: var(--air);
+            background-color: rgba(72, 219, 251, 0.1);
+        }
+
+        .water .zodiac-icon-large {
+            color: var(--water);
+            background-color: rgba(29, 209, 161, 0.1);
+        }
+
+        .zodiac-info h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .zodiac-date {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .zodiac-element {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .fire .zodiac-element {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: var(--fire);
+        }
+
+        .earth .zodiac-element {
+            background-color: rgba(138, 90, 68, 0.1);
+            color: var(--earth);
+        }
+
+        .air .zodiac-element {
+            background-color: rgba(72, 219, 251, 0.1);
+            color: var(--air);
+        }
+
+        .water .zodiac-element {
+            background-color: rgba(29, 209, 161, 0.1);
+            color: var(--water);
+        }
+
+        .horoscope-content {
+            margin-bottom: 30px;
+        }
+
+        .horoscope-section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .horoscope-text {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .rating-star {
+            color: #ffc107;
+            font-size: 1.2rem;
+        }
+
+        .advice-section {
+            margin-top: 30px;
+        }
+
+        .advice-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .do-advice {
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .dont-advice {
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .advice-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .do-advice .advice-title {
+            color: var(--positive);
+        }
+
+        .dont-advice .advice-title {
+            color: var(--negative);
+        }
+
+        .advice-list {
+            list-style: none;
+            padding-right: 5px;
+        }
+
+        .advice-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .do-advice li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            color: var(--positive);
+        }
+
+        .dont-advice li:before {
+            content: '\f00d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            color: var(--negative);
+        }
+
+        .lucky-items {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .lucky-item {
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .lucky-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 5px;
+        }
+
+        .lucky-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .lucky-number {
+            background-color: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 0 auto 10px;
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .footer-about p {
+            line-height: 1.8;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links h3 i,
+        .footer-contact h3 i {
+            font-size: 1.1rem;
+        }
+
+        .footer-links h3:after,
+        .footer-contact h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-right: 10px;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            width: 20px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .zodiac-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .zodiac-icon-large {
+                margin: 0 auto 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .zodiac-select-form {
+                padding: 20px;
+            }
+            
+            .lucky-items {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .zodiac-info h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-star-and-crescent logo-icon"></i>
+                <span>الكون بين يديك</span>
+            </a>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
+    <nav class="sidebar">
+        <div class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="discover.html"><i class="fas fa-search"></i> اكتشف برجك</a></li>
+                <li><a href="horoscope.html"><i class="fas fa-dragon"></i> اكتشف برجك الصيني</a></li>
+                <li><a href="compatibility.html"><i class="fas fa-heart"></i> توافق الأبراج</a></li>
+                <li><a href="daily-horoscope.html" class="active"><i class="fas fa-sun"></i> توقعات اليوم</a></li>
+                <li><a href="weekly-horoscope.html"><i class="fas fa-calendar-week"></i> توقعات الأسبوع</a></li>
+                <li><a href="chinese-zodiac.html"><i class="fas fa-dragon"></i> الأبراج الصينية</a></li>
+                <li><a href="arabic-zodiac.html"><i class="fas fa-moon"></i> الأبراج العربية</a></li>
+                <li><a href="articles.html"><i class="fas fa-newspaper"></i> المقالات</a></li>
+                <li><a href="learn.html"><i class="fas fa-book-open"></i> تعلم الأبراج</a></li>
+                <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</a></li>
+                <li><a href="terms.html"><i class="fas fa-file-contract"></i> شروط الاستخدام</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> عن الموقع</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- قسم توقعات اليوم -->
+        <section class="horoscope-section container">
+            <h1 class="section-title">
+                <i class="fas fa-sun"></i>
+                توقعات اليوم للأبراج
+            </h1>
+            
+            <div class="current-date" id="current-date">
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+            
+            <!-- نموذج اختيار البرج -->
+            <div class="zodiac-select-form">
+                <div class="form-group">
+                    <label for="zodiac-sign">اختر برجك:</label>
+                    <select id="zodiac-sign" class="form-control">
+                        <option value="">-- اختر برجك --</option>
+                        <option value="aries">الحمل (21 مارس - 19 أبريل)</option>
+                        <option value="taurus">الثور (20 أبريل - 20 مايو)</option>
+                        <option value="gemini">الجوزاء (21 مايو - 20 يونيو)</option>
+                        <option value="cancer">السرطان (21 يونيو - 22 يوليو)</option>
+                        <option value="leo">الأسد (23 يوليو - 22 أغسطس)</option>
+                        <option value="virgo">العذراء (23 أغسطس - 22 سبتمبر)</option>
+                        <option value="libra">الميزان (23 سبتمبر - 22 أكتوبر)</option>
+                        <option value="scorpio">العقرب (23 أكتوبر - 21 نوفمبر)</option>
+                        <option value="sagittarius">القوس (22 نوفمبر - 21 ديسمبر)</option>
+                        <option value="capricorn">الجدي (22 ديسمبر - 19 يناير)</option>
+                        <option value="aquarius">الدلو (20 يناير - 18 فبراير)</option>
+                        <option value="pisces">الحوت (19 فبراير - 20 مارس)</option>
+                    </select>
+                </div>
+                
+                <button id="show-horoscope" class="btn">
+                    <i class="fas fa-star"></i> عرض التوقعات
+                </button>
+            </div>
+            
+            <!-- نتائج التوقعات -->
+            <div id="horoscope-result" class="horoscope-result">
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>الكون بين يديك</span>
+                    </a>
+                    <p>منصة متكاملة لمعرفة كل ما يتعلق بالأبراج الفلكية والصينية والعربية، توقعات يومية وأسبوعية، تحليل شخصي، توافق الأبراج والمزيد.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        روابط سريعة
+                    </h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="daily-horoscope.html"><i class="fas fa-chevron-left"></i> توقعات اليوم</a></li>
+                        <li><a href="weekly-horoscope.html"><i class="fas fa-chevron-left"></i> توقعات الأسبوع</a></li>
+                        <li><a href="arabic-zodiac.html"><i class="fas fa-chevron-left"></i> الأبراج العربية</a></li>
+                        <li><a href="privacy.html"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
+                        <li><a href="terms.html"><i class="fas fa-chevron-left"></i> شروط الاستخدام</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>
+                        <i class="fas fa-envelope"></i>
+                        تواصل معنا
+                    </h3>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        info@alkonbin.com
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        +966 12 345 6789
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 الكون بين يديك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script>
+        // بيانات التوقعات اليومية للأبراج
+        const dailyHoroscopes = {
+            aries: {
+                name: "الحمل",
+                date: "21 مارس - 19 أبريل",
+                element: "fire",
+                elementName: "ناري",
+                icon: "fas fa-fire",
+                love: {
+                    rating: 4,
+                    text: "اليوم هو يوم مميز للحب والعلاقات العاطفية. قد تلتقي بشخص مميز أو تشعر بتقارب أكبر مع شريكك الحالي. استغل هذه الطاقة الإيجابية لتعزيز علاقاتك."
+                },
+                work: {
+                    rating: 3,
+                    text: "قد تواجه بعض التحديات في العمل اليوم، لكن لا تقلق. لديك الطاقة والقدرة على تخطيها. كن صبوراً وحاول التعلم من هذه التحديات."
+                },
+                health: {
+                    rating: 4,
+                    text: "صحتك اليوم جيدة بشكل عام، لكن احذر من الإرهاق. خذ قسطاً من الراحة ومارس بعض التمارين الخفيفة لتنشيط جسمك."
+                },
+                advice: {
+                    do: [
+                        "تواصل مع أحبائك وعبّر عن مشاعرك",
+                        "استغل طاقتك في بدء مشاريع جديدة"
+                    ],
+                    dont: [
+                        "تجنب التهور في القرارات المهمة",
+                        "لا تهمل صحتك رغم انشغالك"
+                    ]
+                },
+                lucky: {
+                    number: 7,
+                    color: "أحمر",
+                    time: "10 صباحاً - 12 ظهراً"
+                }
+            },
+            taurus: {
+                name: "الثور",
+                date: "20 أبريل - 20 مايو",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-bull",
+                love: {
+                    rating: 3,
+                    text: "اليوم قد تشعر ببعض البرود العاطفي. لا تتسرع في اتخاذ قرارات مهمة في العلاقات. خذ وقتك للتفكير والتأمل."
+                },
+                work: {
+                    rating: 4,
+                    text: "يوم ممتاز للعمل والمشاريع المالية. قد تحصل على فرصة جيدة أو عرض مغرٍ. كن واقعياً في تقييمك ولا تتردد في طلب المشورة."
+                },
+                health: {
+                    rating: 2,
+                    text: "انتبه لنظامك الغذائي اليوم. قد تشعر ببعض الخمول، لذا حاول تناول وجبات صحية ومتوازنة لتعزيز طاقتك."
+                },
+                advice: {
+                    do: [
+                        "ركز على الجانب المالي واستثمر بحكمة",
+                        "مارس التأمل لتهدئة عقلك"
+                    ],
+                    dont: [
+                        "لا تتجاهل علامات التعب الجسدي",
+                        "تجنب الصراعات العاطفية اليوم"
+                    ]
+                },
+                lucky: {
+                    number: 4,
+                    color: "أخضر",
+                    time: "3 عصراً - 5 مساءً"
+                }
+            },
+            gemini: {
+                name: "الجوزاء",
+                date: "21 مايو - 20 يونيو",
+                element: "air",
+                elementName: "هوائي",
+                icon: "fas fa-comments",
+                love: {
+                    rating: 5,
+                    text: "يوم رائع للعلاقات العاطفية! إذا كنت أعزب، قد تلتقي بشخص مميز. إذا كنت في علاقة، ستشعر بتقارب أكبر مع شريكك."
+                },
+                work: {
+                    rating: 2,
+                    text: "قد تواجه بعض الصعوبات في التواصل مع الزملاء اليوم. كن صبوراً وحاول أن تكون واضحاً في تعبيراتك لتجنب سوء الفهم."
+                },
+                health: {
+                    rating: 3,
+                    text: "صحتك اليوم جيدة بشكل عام، لكن انتبه للتوتر. مارس بعض تمارين الاسترخاء أو التأمل للحفاظ على توازنك الداخلي."
+                },
+                advice: {
+                    do: [
+                        "استغل طاقتك الإبداعية في مشاريعك",
+                        "تواصل مع أصدقائك المقربين"
+                    ],
+                    dont: [
+                        "لا تبالغ في ردود أفعالك العاطفية",
+                        "تجنب تأجيل المهام المهمة"
+                    ]
+                },
+                lucky: {
+                    number: 9,
+                    color: "أصفر",
+                    time: "8 صباحاً - 10 صباحاً"
+                }
+            },
+            cancer: {
+                name: "السرطان",
+                date: "21 يونيو - 22 يوليو",
+                element: "water",
+                elementName: "مائي",
+                icon: "fas fa-crab",
+                love: {
+                    rating: 4,
+                    text: "اليوم يوم عاطفي للغاية. ستشعر بحاجة للتواصل مع أحبائك. إذا كنت في علاقة، عبّر عن مشاعرك لشريكك بصدق."
+                },
+                work: {
+                    rating: 3,
+                    text: "قد تشعر بعدم الارتياح في العمل اليوم. حاول التركيز على المهام الروتينية وتجنب اتخاذ قرارات مهمة."
+                },
+                health: {
+                    rating: 3,
+                    text: "انتبه لصحتك النفسية اليوم. مارس الأنشطة التي تهدئ أعصابك وتشعرك بالاسترخاء."
+                },
+                advice: {
+                    do: [
+                        "اقض وقتاً مع عائلتك",
+                        "مارس الكتابة أو الفنون للتعبير عن مشاعرك"
+                    ],
+                    dont: [
+                        "لا تبالغ في الحساسية تجاه تعليقات الآخرين",
+                        "تجنب العزلة الطويلة"
+                    ]
+                },
+                lucky: {
+                    number: 2,
+                    color: "أبيض",
+                    time: "7 مساءً - 9 مساءً"
+                }
+            },
+            leo: {
+                name: "الأسد",
+                date: "23 يوليو - 22 أغسطس",
+                element: "fire",
+                elementName: "ناري",
+                icon: "fas fa-lion",
+                love: {
+                    rating: 5,
+                    text: "يوم رائع للعلاقات العاطفية! أنت في أفضل حالاتك اليوم وسيكون جذاباً للآخرين. استغل هذه الطاقة الإيجابية."
+                },
+                work: {
+                    rating: 4,
+                    text: "يوم ممتاز للقيادة والعمل الجماعي. ستتمكن من إلهام الآخرين وإقناعهم بأفكارك. استغل هذه الفرصة."
+                },
+                health: {
+                    rating: 4,
+                    text: "طاقتك اليوم عالية. مارس الرياضة لتفريغ هذه الطاقة الزائدة، لكن احذر من الإفراط في بذل الجهد."
+                },
+                advice: {
+                    do: [
+                        "استغل كاريزماك في التأثير على الآخرين",
+                        "ابدأ مشروعاً جديداً كنت تؤجله"
+                    ],
+                    dont: [
+                        "لا تكن متعجرفاً أو متسلطاً",
+                        "تجنب الإنفاق المفرط"
+                    ]
+                },
+                lucky: {
+                    number: 1,
+                    color: "ذهبي",
+                    time: "12 ظهراً - 2 ظهراً"
+                }
+            },
+            virgo: {
+                name: "العذراء",
+                date: "23 أغسطس - 22 سبتمبر",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-virgin",
+                love: {
+                    rating: 3,
+                    text: "اليوم قد تكون أكثر تحفظاً في التعبير عن مشاعرك. لا بأس في ذلك، لكن حاول ألا تبعد شريكك عنك."
+                },
+                work: {
+                    rating: 5,
+                    text: "يوم ممتاز للعمل والتركيز على التفاصيل. ستتمكن من إنجاز الكثير من المهام بدقة وكفاءة."
+                },
+                health: {
+                    rating: 3,
+                    text: "انتبه للتوتر اليوم. حاول أن تأخذ فترات راحة منتظمة ولا ترهق نفسك بالتفكير الزائد."
+                },
+                advice: {
+                    do: [
+                        "ركز على تنظيم عملك وحياتك",
+                        "احرص على نظام غذائي صحي"
+                    ],
+                    dont: [
+                        "لا تنتقد الآخرين بشكل مفرط",
+                        "تجنب المثالية الزائدة"
+                    ]
+                },
+                lucky: {
+                    number: 5,
+                    color: "أزرق",
+                    time: "9 صباحاً - 11 صباحاً"
+                }
+            },
+            libra: {
+                name: "الميزان",
+                date: "23 سبتمبر - 22 أكتوبر",
+                element: "air",
+                elementName: "هوائي",
+                icon: "fas fa-balance-scale",
+                love: {
+                    rating: 4,
+                    text: "اليوم يوم متناغم للعلاقات. ستشعر بالتوازن والانسجام مع شريكك. إذا كنت أعزب، قد تلتقي بشخص متوافق معك."
+                },
+                work: {
+                    rating: 3,
+                    text: "قد تواجه صعوبة في اتخاذ القرارات اليوم. لا بأس في طلب المشورة من الآخرين قبل الاختيار."
+                },
+                health: {
+                    rating: 4,
+                    text: "صحتك اليوم جيدة. مارس تمارين التوازن مثل اليوجا لتعزيز تناغمك الداخلي."
+                },
+                advice: {
+                    do: [
+                        "اقض وقتاً في الأماكن الفنية أو الجمالية",
+                        "استمع لآراء الآخرين قبل اتخاذ القرارات"
+                    ],
+                    dont: [
+                        "لا تؤجل القرارات المهمة",
+                        "تجنب المواقف غير المتوازنة"
+                    ]
+                },
+                lucky: {
+                    number: 6,
+                    color: "زهري",
+                    time: "4 عصراً - 6 مساءً"
+                }
+            },
+            scorpio: {
+                name: "العقرب",
+                date: "23 أكتوبر - 21 نوفمبر",
+                element: "water",
+                elementName: "مائي",
+                icon: "fas fa-scorpion",
+                love: {
+                    rating: 4,
+                    text: "اليوم ستشعر بشغف عاطفي قوي. إذا كنت في علاقة، ستشعر بتقارب عميق مع شريكك. إذا كنت أعزب، قد تنجذب لشخص غامض."
+                },
+                work: {
+                    rating: 4,
+                    text: "ستتمكن اليوم من كشف الحقائق المخفية. استغل حدسك القوي في العمل لاتخاذ القرارات الصحيحة."
+                },
+                health: {
+                    rating: 3,
+                    text: "انتبه لمشاعرك الداخلية اليوم. التوتر قد يؤثر على صحتك، لذا خذ وقتاً للاسترخاء."
+                },
+                advice: {
+                    do: [
+                        "ثق بحدسك في اتخاذ القرارات",
+                        "كن صادقاً مع نفسك والآخرين"
+                    ],
+                    dont: [
+                        "لا تكن متحكماً أو غيوراً",
+                        "تجنب الكتمان الزائد للمشاعر"
+                    ]
+                },
+                lucky: {
+                    number: 8,
+                    color: "أحمر غامق",
+                    time: "10 مساءً - 12 مساءً"
+                }
+            },
+            sagittarius: {
+                name: "القوس",
+                date: "22 نوفمبر - 21 ديسمبر",
+                element: "fire",
+                elementName: "ناري",
+                icon: "fas fa-arrow-right",
+                love: {
+                    rating: 4,
+                    text: "اليوم يوم ممتع للعلاقات. ستستمتع بالحوارات المثيرة مع شريكك أو مع أشخاص جدد. حافظ على روحك المرحة."
+                },
+                work: {
+                    rating: 3,
+                    text: "قد تشعر بالملل من الروتين اليوم. حاول إضافة بعض التجديد لعملك أو البدء بمشروع جديد."
+                },
+                health: {
+                    rating: 4,
+                    text: "طاقتك اليوم عالية. مارس الرياضة أو الأنشطة الخارجية لتفريغ هذه الطاقة الإيجابية."
+                },
+                advice: {
+                    do: [
+                        "اقرأ كتاباً جديداً أو تعلم شيئاً مختلفاً",
+                        "خطط لرحلة أو مغامرة جديدة"
+                    ],
+                    dont: [
+                        "لا تكن متهوراً في قراراتك",
+                        "تجنب الوعد بأكثر مما تستطيع تنفيذه"
+                    ]
+                },
+                lucky: {
+                    number: 3,
+                    color: "أرجواني",
+                    time: "1 ظهراً - 3 عصراً"
+                }
+            },
+            capricorn: {
+                name: "الجدي",
+                date: "22 ديسمبر - 19 يناير",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-goat",
+                love: {
+                    rating: 3,
+                    text: "اليوم قد تكون أكثر جدية في علاقاتك. لا بأس في ذلك، لكن حاول أن تظهر بعض الدفء العاطفي لشريكك."
+                },
+                work: {
+                    rating: 5,
+                    text: "يوم ممتاز للعمل والتركيز على الأهداف الطويلة المدى. ستتمكن من إنجاز الكثير من المهام الصعبة."
+                },
+                health: {
+                    rating: 3,
+                    text: "انتبه لظهرك ومفاصلك اليوم. لا ترهق نفسك وحاول الجلوس بوضعية صحيحة."
+                },
+                advice: {
+                    do: [
+                        "ركز على أهدافك العملية",
+                        "خطط للمستقبل بطريقة منظمة"
+                    ],
+                    dont: [
+                        "لا تكن متشائماً",
+                        "تجنب العمل لساعات طويلة دون راحة"
+                    ]
+                },
+                lucky: {
+                    number: 10,
+                    color: "بني",
+                    time: "2 ظهراً - 4 عصراً"
+                }
+            },
+            aquarius: {
+                name: "الدلو",
+                date: "20 يناير - 18 فبراير",
+                element: "air",
+                elementName: "هوائي",
+                icon: "fas fa-water",
+                love: {
+                    rating: 3,
+                    text: "اليوم قد تكون أكثر ميلاً للصداقة في علاقاتك. لا بأس في ذلك، لكن حاول أن تظهر بعض المشاعر لشريكك."
+                },
+                work: {
+                    rating: 4,
+                    text: "يوم ممتاز للأفكار الإبداعية والمشاريع الجماعية. ستتمكن من إقناع الآخرين بأفكارك المبتكرة."
+                },
+                health: {
+                    rating: 3,
+                    text: "انتبه لدورتك الدموية اليوم. حاول المشي أو ممارسة تمارين خفيفة لتنشيط الدورة الدموية."
+                },
+                advice: {
+                    do: [
+                        "تواصل مع أصدقائك وزملائك",
+                        "شارك أفكارك المبتكرة مع الآخرين"
+                    ],
+                    dont: [
+                        "لا تكن منعزلاً أكثر من اللازم",
+                        "تجنب التمرد من أجل التمرد فقط"
+                    ]
+                },
+                lucky: {
+                    number: 11,
+                    color: "أزرق فاتح",
+                    time: "5 مساءً - 7 مساءً"
+                }
+            },
+            pisces: {
+                name: "الحوت",
+                date: "19 فبراير - 20 مارس",
+                element: "water",
+                elementName: "مائي",
+                icon: "fas fa-fish",
+                love: {
+                    rating: 5,
+                    text: "اليوم يوم عاطفي للغاية. ستشعر بتواصل روحي عميق مع شريكك. إذا كنت أعزب، قد تلتقي بشخص يشعرك بالفهم والقبول."
+                },
+                work: {
+                    rating: 3,
+                    text: "قد تواجه صعوبة في التركيز على الواقع اليوم. حاول أن تبقى متجهاً نحو أهداف عملية."
+                },
+                health: {
+                    rating: 3,
+                    text: "انتبه لمشاعرك اليوم، فقد تؤثر على صحتك الجسدية. خذ وقتاً للاسترخاء والتأمل."
+                },
+                advice: {
+                    do: [
+                        "مارس الفنون أو الكتابة الإبداعية",
+                        "اقض وقتاً في التأمل أو الأنشطة الروحية"
+                    ],
+                    dont: [
+                        "لا تهرب من الواقع بالمفرط",
+                        "تجنب الأشخاص السلبيين"
+                    ]
+                },
+                lucky: {
+                    number: 7,
+                    color: "بنفسجي",
+                    time: "6 صباحاً - 8 صباحاً"
+                }
+            }
+        };
+
+        // عرض التاريخ الحالي
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('ar-EG', options);
+            document.getElementById('current-date').textContent = dateString;
+        }
+
+        // عرض توقعات البرج المختار
+        function showHoroscope() {
+            const zodiacSign = document.getElementById('zodiac-sign').value;
+            
+            if (!zodiacSign) {
+                alert('الرجاء اختيار برجك');
+                return;
+            }
+            
+            const horoscope = dailyHoroscopes[zodiacSign];
+            const resultContainer = document.getElementById('horoscope-result');
+            
+            // تعبئة المعلومات الأساسية
+            resultContainer.className = `horoscope-result ${horoscope.element}`;
+            resultContainer.innerHTML = `
+                <div class="zodiac-header">
+                    <div class="zodiac-icon-large">
+                        <i class="${horoscope.icon}"></i>
+                    </div>
+                    <div class="zodiac-info">
+                        <h2>${horoscope.name}</h2>
+                        <p class="zodiac-date">${horoscope.date}</p>
+                        <div class="zodiac-element">
+                            <i class="${getElementIcon(horoscope.element)}"></i>
+                            <span>${horoscope.elementName}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="horoscope-content">
+                    <h3 class="horoscope-section-title">
+                        <i class="fas fa-heart"></i> الحب والعاطفة
+                    </h3>
+                    <div class="rating-stars">
+                        ${getRatingStars(horoscope.love.rating)}
+                    </div>
+                    <p class="horoscope-text">${horoscope.love.text}</p>
+                </div>
+                
+                <div class="horoscope-content">
+                    <h3 class="horoscope-section-title">
+                        <i class="fas fa-briefcase"></i> العمل والمال
+                    </h3>
+                    <div class="rating-stars">
+                        ${getRatingStars(horoscope.work.rating)}
+                    </div>
+                    <p class="horoscope-text">${horoscope.work.text}</p>
+                </div>
+                
+                <div class="horoscope-content">
+                    <h3 class="horoscope-section-title">
+                        <i class="fas fa-heartbeat"></i> الصحة والطاقة
+                    </h3>
+                    <div class="rating-stars">
+                        ${getRatingStars(horoscope.health.rating)}
+                    </div>
+                    <p class="horoscope-text">${horoscope.health.text}</p>
+                </div>
+                
+                <div class="advice-section">
+                    <div class="advice-box do-advice">
+                        <h4 class="advice-title">
+                            <i class="fas fa-thumbs-up"></i> ما يجب عليك فعله اليوم
+                        </h4>
+                        <ul class="advice-list">
+                            ${horoscope.advice.do.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="advice-box dont-advice">
+                        <h4 class="advice-title">
+                            <i class="fas fa-thumbs-down"></i> ما يجب تجنبه اليوم
+                        </h4>
+                        <ul class="advice-list">
+                            ${horoscope.advice.dont.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="lucky-items">
+                    <div class="lucky-item">
+                        <div class="lucky-number">${horoscope.lucky.number}</div>
+                        <span class="lucky-label">رقم الحظ</span>
+                    </div>
+                    <div class="lucky-item">
+                        <div class="lucky-value">${horoscope.lucky.color}</div>
+                        <span class="lucky-label">لون الحظ</span>
+                    </div>
+                    <div class="lucky-item">
+                        <div class="lucky-value">${horoscope.lucky.time}</div>
+                        <span class="lucky-label">وقت الحظ</span>
+                    </div>
+                </div>
+            `;
+            
+            // عرض النتائج
+            resultContainer.style.display = 'block';
+            window.scrollTo({
+                top: resultContainer.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        // الحصول على أيقونة العنصر
+        function getElementIcon(element) {
+            switch(element) {
+                case 'fire': return 'fas fa-fire';
+                case 'earth': return 'fas fa-mountain';
+                case 'air': return 'fas fa-wind';
+                case 'water': return 'fas fa-tint';
+                default: return 'fas fa-question';
+            }
+        }
+
+        // توليد نجوم التقييم
+        function getRatingStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star rating-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star rating-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // التحكم في القائمة الجانبية
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            // تحريك الأشرطة في زر القائمة
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            if (mobileMenuBtn.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(9px) rotate(45deg)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                
+                // إعادة الأشرطة إلى وضعها الطبيعي
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // تهيئة الأحداث عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            updateCurrentDate();
+            document.getElementById('show-horoscope').addEventListener('click', showHoroscope);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكون بين يديك - توقعات الأسبوع</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --primary-light: #8a6cb3;
+            --secondary-color: #8a5a44;
+            --chinese-color: #c52a2a;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --dark-bg: #2c2836;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+            --fire-color: #e74c3c;
+            --earth-color: #8a5a44;
+            --air-color: #3498db;
+            --water-color: #2980b9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* شريط التنقل */
+        .main-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            right: -300px;
+            width: 280px;
+            height: calc(100vh - 80px);
+            background-color: var(--white);
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-nav {
+            padding: 20px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .sidebar-nav i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        /* قسم البانر */
+        .page-header {
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f9f4f8 0%, #e8e1f0 100%);
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* توقعات الأسبوع */
+        .horoscope-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            background-color: var(--white);
+            border: 1px solid var(--dark-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .tab-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .fire-btn.active {
+            background-color: var(--fire-color);
+        }
+
+        .earth-btn.active {
+            background-color: var(--earth-color);
+        }
+
+        .air-btn.active {
+            background-color: var(--air-color);
+        }
+
+        .water-btn.active {
+            background-color: var(--water-color);
+        }
+
+        .horoscope-content {
+            display: none;
+        }
+
+        .horoscope-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .zodiac-signs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .zodiac-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid var(--dark-gray);
+        }
+
+        .zodiac-card.fire {
+            border-top: 5px solid var(--fire-color);
+        }
+
+        .zodiac-card.earth {
+            border-top: 5px solid var(--earth-color);
+        }
+
+        .zodiac-card.air {
+            border-top: 5px solid var(--air-color);
+        }
+
+        .zodiac-card.water {
+            border-top: 5px solid var(--water-color);
+        }
+
+        .zodiac-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .zodiac-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .fire .zodiac-icon {
+            color: var(--fire-color);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .earth .zodiac-icon {
+            color: var(--earth-color);
+            background-color: rgba(138, 90, 68, 0.1);
+        }
+
+        .air .zodiac-icon {
+            color: var(--air-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .water .zodiac-icon {
+            color: var(--water-color);
+            background-color: rgba(41, 128, 185, 0.1);
+        }
+
+        .zodiac-title {
+            font-size: 1.4rem;
+            color: var(--text-color);
+        }
+
+        .zodiac-dates {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .zodiac-content {
+            padding: 15px 0;
+        }
+
+        .zodiac-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .fire .zodiac-content h3 {
+            color: var(--fire-color);
+        }
+
+        .earth .zodiac-content h3 {
+            color: var(--earth-color);
+        }
+
+        .air .zodiac-content h3 {
+            color: var(--air-color);
+        }
+
+        .water .zodiac-content h3 {
+            color: var(--water-color);
+        }
+
+        .zodiac-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .element-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .element-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 100px;
+            height: 3px;
+            border-radius: 3px;
+        }
+
+        .fire-title {
+            color: var(--fire-color);
+        }
+
+        .fire-title:after {
+            background-color: var(--fire-color);
+        }
+
+        .earth-title {
+            color: var(--earth-color);
+        }
+
+        .earth-title:after {
+            background-color: var(--earth-color);
+        }
+
+        .air-title {
+            color: var(--air-color);
+        }
+
+        .air-title:after {
+            background-color: var(--air-color);
+        }
+
+        .water-title {
+            color: var(--water-color);
+        }
+
+        .water-title:after {
+            background-color: var(--water-color);
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .footer-about p {
+            line-height: 1.8;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links h3 i,
+        .footer-contact h3 i {
+            font-size: 1.1rem;
+        }
+
+        .footer-links h3:after,
+        .footer-contact h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-right: 10px;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            width: 20px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .zodiac-signs {
+                grid-template-columns: 1fr;
+            }
+            
+            .horoscope-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .zodiac-card {
+                padding: 20px;
+            }
+            
+            .zodiac-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .zodiac-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-star-and-crescent logo-icon"></i>
+                <span>الكون بين يديك</span>
+            </a>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
+    <nav class="sidebar">
+        <div class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="discover.html"><i class="fas fa-search"></i> اكتشف برجك</a></li>
+                <li><a href="chinese-discover.html"><i class="fas fa-dragon"></i> اكتشف برجك الصيني</a></li>
+                <li><a href="compatibility.html"><i class="fas fa-heart"></i> توافق الأبراج</a></li>
+                <li><a href="daily-horoscope.html"><i class="fas fa-sun"></i> توقعات اليوم</a></li>
+                <li><a href="weekly-horoscope.html" class="active"><i class="fas fa-calendar-week"></i> توقعات الأسبوع</a></li>
+                <li><a href="chinese-zodiac.html"><i class="fas fa-dragon"></i> الأبراج الصينية</a></li>
+                <li><a href="arabic-zodiac.html"><i class="fas fa-moon"></i> الأبراج العربية</a></li>
+                <li><a href="articles.html"><i class="fas fa-newspaper"></i> المقالات</a></li>
+                <li><a href="learn.html"><i class="fas fa-book-open"></i> تعلم الأبراج</a></li>
+                <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</a></li>
+                <li><a href="terms.html"><i class="fas fa-file-contract"></i> شروط الاستخدام</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> عن الموقع</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- عنوان الصفحة -->
+        <section class="page-header">
+            <div class="container">
+                <h1>
+                    <i class="fas fa-calendar-week"></i>
+                    توقعات الأسبوع
+                </h1>
+                <p>
+                    اكتشف ما يخبئه لك الأسبوع القادم بناءً على برجك الفلكي. تعرف على التوقعات الأسبوعية لجميع الأبراج من حيث الحب، العمل، الصحة، والمال.
+                </p>
+            </div>
+        </section>
+
+        <!-- توقعات الأسبوع -->
+        <section class="container">
+            <!-- أزرار التبويب حسب العناصر -->
+            <div class="horoscope-tabs">
+                <button class="tab-btn fire-btn active" data-tab="fire">أبراج النار</button>
+                <button class="tab-btn earth-btn" data-tab="earth">أبراج الأرض</button>
+                <button class="tab-btn air-btn" data-tab="air">أبراج الهواء</button>
+                <button class="tab-btn water-btn" data-tab="water">أبراج الماء</button>
+            </div>
+
+            <!-- محتوى أبراج النار -->
+            <div class="horoscope-content fire active">
+                <h2 class="element-title fire-title">أبراج النار</h2>
+                <div class="zodiac-signs">
+                    <!-- برج الحمل -->
+                    <div class="zodiac-card fire">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الحمل</h3>
+                                <p class="zodiac-dates">21 مارس - 19 أبريل</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>هذا الأسبوع يحمل لك مفاجآت عاطفية سارة، خاصة إذا كنت أعزب. حاول أن تكون أكثر انفتاحاً على شريكك وتعبّر عن مشاعرك بصدق.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>فرص مهنية جيدة تلوح في الأفق. كن مستعداً لاقتناص الفرص التي تأتيك. من الجيد أن توفر بعض المال لاستثمارات مستقبلية.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لضغطك النفسي وحاول أن تأخذ قسطاً كافياً من الراحة. ممارسة الرياضة ستساعدك على التخلص من الطاقة الزائدة.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج الأسد -->
+                    <div class="zodiac-card fire">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الأسد</h3>
+                                <p class="zodiac-dates">23 يوليو - 22 أغسطس</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع رومانسي للغاية. إذا كنت في علاقة، ستشعر بتجدد المشاعر. إذا كنت أعزب، قد تقابل شخصاً مميزاً في مكان غير متوقع.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>ستحصل على اعتراف بجهودك في العمل. لا تتردد في طلب ما تستحقه. تجنب الإنفاق المفرط على الكماليات هذا الأسبوع.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>حان الوقت للاهتمام بصحتك النفسية. جرب تمارين التأمل أو اليوجا لتحقيق التوازن الداخلي.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج القوس -->
+                    <div class="zodiac-card fire">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">القوس</h3>
+                                <p class="zodiac-dates">22 نوفمبر - 21 ديسمبر</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع مليء بالمغامرات العاطفية. قد تلتقي بأشخاص جدد يثيرون اهتمامك. إذا كنت في علاقة، خطط لرحلة رومانسية مع شريكك.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>فرص سفر متعلقة بالعمل قد تظهر. كن منفتحاً على الأفكار الجديدة. تجنب المخاطرة المالية الكبيرة هذا الأسبوع.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة ظهرك ووضعية جلوسك. حاول أن تمارس بعض التمارين الخفيفة يومياً لتحسين الدورة الدموية.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- محتوى أبراج الأرض -->
+            <div class="horoscope-content earth">
+                <h2 class="element-title earth-title">أبراج الأرض</h2>
+                <div class="zodiac-signs">
+                    <!-- برج الثور -->
+                    <div class="zodiac-card earth">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الثور</h3>
+                                <p class="zodiac-dates">20 أبريل - 20 مايو</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع مستقر عاطفياً. إذا كنت في علاقة، ستشعر بمزيد من الأمان والاستقرار. إذا كنت أعزب، قد تلتقي بشخص يشاركك قيمك.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>فرص مالية جيدة تلوح في الأفق. قد تحصل على عرض عمل جديد أو زيادة في الراتب. هذا وقت جيد للاستثمار في العقارات.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لنظامك الغذائي وحاول أن تتجنب الأطعمة الدسمة. المشي اليومي سيكون مفيداً لجسمك وعقلك.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج العذراء -->
+                    <div class="zodiac-card earth">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">العذراء</h3>
+                                <p class="zodiac-dates">23 أغسطس - 22 سبتمبر</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>حاول أن تكون أكثر مرونة في علاقاتك. التواصل الصادق سيساعد في حل أي سوء تفاهم. قد تلتقي بشخص مميز في محيط العمل.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>أسبوع مثمر للغاية في العمل. ستحقق تقدماً في المشاريع التي تعمل عليها. من الجيد أن تبدأ في تخطيط ميزانيتك للشهر القادم.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة جهازك الهضمي. حاول أن تشرب كميات كافية من الماء وتناول الأطعمة الغنية بالألياف.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج الجدي -->
+                    <div class="zodiac-card earth">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الجدي</h3>
+                                <p class="zodiac-dates">22 ديسمبر - 19 يناير</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>قد تحتاج إلى إعادة تقييم لعلاقاتك هذا الأسبوع. حاول أن تفتح قلبك أكثر للآخرين. إذا كنت أعزب، قد تقابل شريكاً محتملاً عبر الأصدقاء.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>أسبوع جيد للتقدم في العمل وتحقيق الأهداف. لا تتردد في طلب المساعدة إذا احتجت إليها. تجنب القروض المالية هذا الأسبوع.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة عظامك ومفاصلك. حاول أن تمارس تمارين التمدد بانتظام وتناول الأطعمة الغنية بالكالسيوم.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- محتوى أبراج الهواء -->
+            <div class="horoscope-content air">
+                <h2 class="element-title air-title">أبراج الهواء</h2>
+                <div class="zodiac-signs">
+                    <!-- برج الجوزاء -->
+                    <div class="zodiac-card air">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الجوزاء</h3>
+                                <p class="zodiac-dates">21 مايو - 20 يونيو</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع اجتماعي للغاية. قد تلتقي بأشخاص جدد يثرون حياتك. إذا كنت في علاقة، حاول أن تخصص وقتاً للحديث عن مشاعرك بصراحة.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>فرص جديدة للتعلم والتطور المهني. قد تحصل على عرض عمل مثير للاهتمام. كن حذراً في التعاملات المالية وتجنب المخاطرة.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة رئتيك وتجنب الأماكن الملوثة. تمارين التنفس ستساعدك على الاسترخاء وتحسين صحتك العامة.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج الميزان -->
+                    <div class="zodiac-card air">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الميزان</h3>
+                                <p class="zodiac-dates">23 سبتمبر - 22 أكتوبر</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع متناغم عاطفياً. إذا كنت في علاقة، ستشعر بتوازن وتفاهم مع شريكك. إذا كنت أعزب، قد تقابل شخصاً يجذبك فكرياً.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>تعاون ناجح مع الزملاء سيساعدك في إنجاز مهامك. قد تحصل على دعم مالي لمشروعك. حاول أن توازن بين دخلك وإنفاقك.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>حاول أن تحافظ على توازنك الداخلي. اليوجا أو التأمل سيكونان مفيدين لك. انتبه لصحة كليتيك وتناول كميات كافية من الماء.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج الدلو -->
+                    <div class="zodiac-card air">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الدلو</h3>
+                                <p class="zodiac-dates">20 يناير - 18 فبراير</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع غير تقليدي في العلاقات. قد تنجذب إلى شخص مختلف عنك. إذا كنت في علاقة، حاول أن تضيف بعض التجديد لعلاقتك.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>أفكار مبتكرة قد تأتيك هذا الأسبوع. لا تخف من تجربة أساليب جديدة في العمل. قد تحصل على دخل إضافي من مصدر غير متوقع.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة دورتك الدموية. حاول أن تمارس الرياضة بانتظام وتناول الأطعمة المفيدة للقلب. تجنب التوتر الزائد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- محتوى أبراج الماء -->
+            <div class="horoscope-content water">
+                <h2 class="element-title water-title">أبراج الماء</h2>
+                <div class="zodiac-signs">
+                    <!-- برج السرطان -->
+                    <div class="zodiac-card water">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">السرطان</h3>
+                                <p class="zodiac-dates">21 يونيو - 22 يوليو</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع عاطفي للغاية. قد تشعر بحاجة للتقرب من أحبائك. إذا كنت في علاقة، ستشعر بمزيد من الألفة مع شريكك.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>حاول أن توازن بين عملك وحياتك الشخصية. قد تحصل على فرصة لزيادة دخلك. كن حذراً في الإنفاق هذا الأسبوع.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحتك النفسية. حاول أن تعبر عن مشاعرك بدلاً من كبتها. تمارين الاسترخاء ستساعدك على تهدئة أعصابك.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج العقرب -->
+                    <div class="zodiac-card water">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">العقرب</h3>
+                                <p class="zodiac-dates">23 أكتوبر - 21 نوفمبر</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع مكثف عاطفياً. قد تكتشف أموراً جديدة عن شريكك أو عن نفسك. حاول أن تكون صادقاً في مشاعرك.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>قد تواجه بعض التحديات في العمل، لكنك قادر على تخطيها. كن حذراً في الاستثمارات المالية هذا الأسبوع.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة جهازك التناسلي. حاول أن تشرب كميات كافية من الماء وتجنب التوتر الزائد.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- برج الحوت -->
+                    <div class="zodiac-card water">
+                        <div class="zodiac-card-header">
+                            <div class="zodiac-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <h3 class="zodiac-title">الحوت</h3>
+                                <p class="zodiac-dates">19 فبراير - 20 مارس</p>
+                            </div>
+                        </div>
+                        <div class="zodiac-content">
+                            <h3>الحب والعاطفة</h3>
+                            <p>أسبوع حالم عاطفياً. قد تشعر برغبة في الهروب من الواقع. حاول أن تكون واقعياً في علاقاتك. قد تقابل شخصاً روحانياً.</p>
+                            
+                            <h3>العمل والمال</h3>
+                            <p>إبداعك سيكون في ذروته هذا الأسبوع. استغل هذه الطاقة في العمل. تجنب القروض أو الديون المالية.</p>
+                            
+                            <h3>الصحة</h3>
+                            <p>انتبه لصحة قدميك. حاول أن تمارس تمارين الاسترخاء وتجنب الإفراط في تناول المنبهات.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>الكون بين يديك</span>
+                    </a>
+                    <p>منصة متكاملة لمعرفة كل ما يتعلق بالأبراج الفلكية والصينية والعربية، توقعات يومية وأسبوعية، تحليل شخصي، توافق الأبراج والمزيد.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        روابط سريعة
+                    </h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="discover.html"><i class="fas fa-chevron-left"></i> اكتشف برجك</a></li>
+                        <li><a href="daily-horoscope.html"><i class="fas fa-chevron-left"></i> توقعات اليوم</a></li>
+                        <li><a href="chinese-zodiac.html"><i class="fas fa-chevron-left"></i> الأبراج الصينية</a></li>
+                        <li><a href="privacy.html"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
+                        <li><a href="terms.html"><i class="fas fa-chevron-left"></i> شروط الاستخدام</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>
+                        <i class="fas fa-envelope"></i>
+                        تواصل معنا
+                    </h3>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        info@alkonbin.com
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        +966 12 345 6789
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 الكون بين يديك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script>
+        // التحكم في القائمة الجانبية
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            // تحريك الأشرطة في زر القائمة
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            if (mobileMenuBtn.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(9px) rotate(45deg)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                
+                // إعادة الأشرطة إلى وضعها الطبيعي
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // التحكم في تبويبات الأبراج حسب العناصر
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const horoscopeContents = document.querySelectorAll('.horoscope-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // إزالة النشاط من جميع الأزرار والمحتويات
+                tabBtns.forEach(b => b.classList.remove('active'));
+                horoscopeContents.forEach(content => content.classList.remove('active'));
+                
+                // إضافة النشاط للزر والمحتوى المحدد
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                document.querySelector(`.horoscope-content.${tabId}`).classList.add('active');
+            });
+        });
+
+        // تأثيرات عند التمرير
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.zodiac-card');
+            cards.forEach((card, index) => {
+                const cardPosition = card.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (cardPosition < screenPosition) {
+                    card.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

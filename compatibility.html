@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكون بين يديك - توافق الأبراج الدقيق</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --primary-light: #8a6cb3;
+            --secondary-color: #8a5a44;
+            --chinese-color: #c52a2a;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --dark-bg: #2c2836;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+            --love-color: #e91e63;
+            --friendship-color: #4caf50;
+            --work-color: #2196f3;
+            --warning-color: #ff9800;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* شريط التنقل */
+        .main-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            right: -300px;
+            width: 280px;
+            height: calc(100vh - 80px);
+            background-color: var(--white);
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-nav {
+            padding: 20px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .sidebar-nav i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        /* قسم البانر */
+        .hero-section {
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f9f4f8 0%, #e8e1f0 100%);
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(106, 76, 147, 0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-chinese {
+            color: rgba(197, 42, 42, 0.2);
+            animation: float 8s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* قسم توافق الأبراج */
+        .comparison-section {
+            margin-top: 50px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title h2 i {
+            font-size: 1.8rem;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), transparent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* نموذج اختيار الأبراج */
+        .zodiac-form {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 50px auto;
+            max-width: 800px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-title h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .form-title p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper:after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            pointer-events: none;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 8px;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 76, 147, 0.2);
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(106, 76, 147, 0.3);
+        }
+
+        /* نتائج التوافق */
+        .compatibility-result {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 50px auto;
+            max-width: 1000px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .zodiac-pair {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .zodiac-item {
+            text-align: center;
+            flex: 1;
+            max-width: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .zodiac-icon {
+            width: 100px;
+            height: 100px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .zodiac-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .zodiac-dates {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .zodiac-element {
+            color: var(--primary-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .vs-circle {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* أقرب برج */
+        .closest-match {
+            background: rgba(138, 108, 179, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px auto;
+            text-align: center;
+            border: 1px dashed var(--primary-light);
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .closest-match i {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .closest-match h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .closest-match h4 span {
+            color: var(--primary-light);
+        }
+
+        #common-traits {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* تنبيه */
+        .disclaimer {
+            background: rgba(255, 152, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-right: 4px solid var(--warning-color);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .disclaimer i {
+            color: var(--warning-color);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .disclaimer p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about {
+            margin-bottom: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .footer-about p {
+            color: #ddd;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+            padding-right: 5px;
+        }
+
+        .footer-links i {
+            font-size: 0.7rem;
+        }
+
+        .footer-contact p {
+            color: #ddd;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
+        /* تحسينات للجوال */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .zodiac-pair {
+                flex-direction: column;
+            }
+            
+            .vs-circle {
+                margin: 20px 0;
+            }
+            
+            .zodiac-item {
+                max-width: 100%;
+            }
+            
+            .zodiac-form,
+            .compatibility-result {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 40px 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-text {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .form-title h3 {
+                font-size: 1.5rem;
+            }
+            
+            .result-header h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-star-and-crescent logo-icon"></i>
+                <span>الكون بين يديك</span>
+            </a>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
+    <nav class="sidebar">
+        <div class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="discover.html"><i class="fas fa-search"></i> اكتشف برجك</a></li>
+                <li><a href="chinese-discover.html"><i class="fas fa-dragon"></i> اكتشف برجك الصيني</a></li>
+                <li><a href="compatibility.html" class="active"><i class="fas fa-heart"></i> توافق الأبراج</a></li>
+                <li><a href="daily-horoscope.html"><i class="fas fa-sun"></i> توقعات اليوم</a></li>
+                <li><a href="weekly-horoscope.html"><i class="fas fa-calendar-week"></i> توقعات الأسبوع</a></li>
+                <li><a href="chinese-zodiac.html"><i class="fas fa-dragon"></i> الأبراج الصينية</a></li>
+                <li><a href="arabic-zodiac.html"><i class="fas fa-moon"></i> الأبراج العربية</a></li>
+                <li><a href="articles.html"><i class="fas fa-newspaper"></i> المقالات</a></li>
+                <li><a href="learn.html"><i class="fas fa-book-open"></i> تعلم الأبراج</a></li>
+                <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</a></li>
+                <li><a href="terms.html"><i class="fas fa-file-contract"></i> شروط الاستخدام</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> عن الموقع</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- قسم البانر -->
+        <section class="hero-section">
+            <i class="fas fa-heart floating-element" style="top: 20%; left: 10%;"></i>
+            <i class="fas fa-heartbeat floating-element floating-chinese" style="bottom: 30%; right: 15%;"></i>
+            <div class="container">
+                <h1>
+                    <i class="fas fa-heart"></i>
+                    توافق الأبراج الدقيق
+                </h1>
+                <p class="hero-text">
+                    اكتشف مدى توافق برجك مع الأبراج الأخرى في الحب والصداقة والعمل بناءً على تحليل فلكي دقيق
+                </p>
+            </div>
+        </section>
+
+        <!-- قسم المقارنة -->
+        <section class="container comparison-section">
+            <!-- نموذج اختيار الأبراج -->
+            <div class="zodiac-form" id="zodiac-form">
+                <div class="form-title">
+                    <h3>مقارنة توافق الأبراج</h3>
+                    <p>اختر برجين لمعرفة مدى توافقهما في مختلف جوانب الحياة</p>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="first-zodiac">البرج الأول</label>
+                            <div class="select-wrapper">
+                                <select id="first-zodiac">
+                                    <option value="">اختر البرج الأول</option>
+                                    <option value="aries">الحمل (Aries) 21 مارس - 19 أبريل</option>
+                                    <option value="taurus">الثور (Taurus) 20 أبريل - 20 مايو</option>
+                                    <option value="gemini">الجوزاء (Gemini) 21 مايو - 20 يونيو</option>
+                                    <option value="cancer">السرطان (Cancer) 21 يونيو - 22 يوليو</option>
+                                    <option value="leo">الأسد (Leo) 23 يوليو - 22 أغسطس</option>
+                                    <option value="virgo">العذراء (Virgo) 23 أغسطس - 22 سبتمبر</option>
+                                    <option value="libra">الميزان (Libra) 23 سبتمبر - 22 أكتوبر</option>
+                                    <option value="scorpio">العقرب (Scorpio) 23 أكتوبر - 21 نوفمبر</option>
+                                    <option value="sagittarius">القوس (Sagittarius) 22 نوفمبر - 21 ديسمبر</option>
+                                    <option value="capricorn">الجدي (Capricorn) 22 ديسمبر - 19 يناير</option>
+                                    <option value="aquarius">الدلو (Aquarius) 20 يناير - 18 فبراير</option>
+                                    <option value="pisces">الحوت (Pisces) 19 فبراير - 20 مارس</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-col">
+                            <label for="second-zodiac">البرج الثاني</label>
+                            <div class="select-wrapper">
+                                <select id="second-zodiac">
+                                    <option value="">اختر البرج الثاني</option>
+                                    <option value="aries">الحمل (Aries) 21 مارس - 19 أبريل</option>
+                                    <option value="taurus">الثور (Taurus) 20 أبريل - 20 مايو</option>
+                                    <option value="gemini">الجوزاء (Gemini) 21 مايو - 20 يونيو</option>
+                                    <option value="cancer">السرطان (Cancer) 21 يونيو - 22 يوليو</option>
+                                    <option value="leo">الأسد (Leo) 23 يوليو - 22 أغسطس</option>
+                                    <option value="virgo">العذراء (Virgo) 23 أغسطس - 22 سبتمبر</option>
+                                    <option value="libra">الميزان (Libra) 23 سبتمبر - 22 أكتوبر</option>
+                                    <option value="scorpio">العقرب (Scorpio) 23 أكتوبر - 21 نوفمبر</option>
+                                    <option value="sagittarius">القوس (Sagittarius) 22 نوفمبر - 21 ديسمبر</option>
+                                    <option value="capricorn">الجدي (Capricorn) 22 ديسمبر - 19 يناير</option>
+                                    <option value="aquarius">الدلو (Aquarius) 20 يناير - 18 فبراير</option>
+                                    <option value="pisces">الحوت (Pisces) 19 فبراير - 20 مارس</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button id="check-compatibility" class="btn">تحقق من التوافق</button>
+                </div>
+            </div>
+            
+            <!-- نتائج التوافق -->
+            <div class="compatibility-result" id="compatibility-result">
+                <div class="result-header">
+                    <h3>نتائج توافق الأبراج</h3>
+                    <p id="compatibility-description">تحليل دقيق لعلاقة البرجين بناءً على خصائصهما الفلكية</p>
+                </div>
+                
+                <div class="zodiac-pair">
+                    <div class="zodiac-item">
+                        <div class="zodiac-icon">
+                            <i class="fas fa-star" id="first-zodiac-icon"></i>
+                        </div>
+                        <div class="zodiac-name" id="first-zodiac-name">الحمل</div>
+                        <div class="zodiac-dates" id="first-zodiac-dates">21 مارس - 19 أبريل</div>
+                        <div class="zodiac-element" id="first-zodiac-element">العنصر: ناري</div>
+                    </div>
+                    
+                    <div class="vs-circle">VS</div>
+                    
+                    <div class="zodiac-item">
+                        <div class="zodiac-icon">
+                            <i class="fas fa-star" id="second-zodiac-icon"></i>
+                        </div>
+                        <div class="zodiac-name" id="second-zodiac-name">الثور</div>
+                        <div class="zodiac-dates" id="second-zodiac-dates">20 أبريل - 20 مايو</div>
+                        <div class="zodiac-element" id="second-zodiac-element">العنصر: ترابي</div>
+                    </div>
+                </div>
+
+                <!-- أقرب برج -->
+                <div class="closest-match">
+                    <i class="fas fa-handshake"></i>
+                    <h4>أقرب برج لك هو: <span id="closest-zodiac-name">القوس</span></h4>
+                    <p id="common-traits">الصفات المشتركة: المغامرة، الحيوية، الصراحة</p>
+                </div>
+                
+                <!-- تنبيه -->
+                <div class="disclaimer">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>ملاحظة: هذه التحليلات تعتمد على الصفات العامة للأبراج الفلكية ولا تنطبق بالضرورة على جميع الأشخاص. لا تأخذ قرارات حياتية مهمة بناءً عليها فقط.</p>
+                </div>
+                
+                <!-- باقي نتائج التوافق... -->
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>الكون بين يديك</span>
+                    </a>
+                    <p>منصة متكاملة لمعرفة كل ما يتعلق بالأبراج الفلكية والصينية والعربية، توقعات يومية وأسبوعية، تحليل شخصي، توافق الأبراج والمزيد.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        روابط سريعة
+                    </h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="discover.html"><i class="fas fa-chevron-left"></i> اكتشف برجك</a></li>
+                        <li><a href="compatibility.html"><i class="fas fa-chevron-left"></i> توافق الأبراج</a></li>
+                        <li><a href="daily-horoscope.html"><i class="fas fa-chevron-left"></i> توقعات اليوم</a></li>
+                        <li><a href="chinese-zodiac.html"><i class="fas fa-chevron-left"></i> الأبراج الصينية</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>
+                        <i class="fas fa-envelope"></i>
+                        تواصل معنا
+                    </h3>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        info@alkonbin.com
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        +966 12 345 6789
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 الكون بين يديك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script>
+        // التحكم في القائمة الجانبية
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            if (mobileMenuBtn.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(9px) rotate(45deg)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // بيانات الأبراج الكاملة
+        const zodiacs = {
+            aries: {
+                name: "الحمل",
+                icon: "fa-fire",
+                dates: "21 مارس - 19 أبريل",
+                element: "العنصر: ناري",
+                traits: ["مغامر", "شجاع", "متهور", "مباشر", "حيوي", "قيادي"],
+                closestMatch: "القوس",
+                commonTraits: ["المغامرة", "الحيوية", "الصراحة"],
+                compatibility: {
+                    love: {
+                        best: ["leo", "sagittarius"],
+                        good: ["gemini", "aquarius"],
+                        bad: ["cancer", "capricorn"]
+                    },
+                    friendship: {
+                        best: ["gemini", "leo"],
+                        good: ["sagittarius", "aquarius"],
+                        bad: ["scorpio", "taurus"]
+                    },
+                    work: {
+                        best: ["libra", "aquarius"],
+                        good: ["gemini", "sagittarius"],
+                        bad: ["cancer", "capricorn"]
+                    }
+                }
+            },
+            taurus: {
+                name: "الثور",
+                icon: "fa-leaf",
+                dates: "20 أبريل - 20 مايو",
+                element: "العنصر: ترابي",
+                traits: ["عملي", "صابر", "عنيد", "محب للرفاهية", "وفي", "حساس"],
+                closestMatch: "العذراء",
+                commonTraits: ["الواقعية", "الصبر", "الإصرار"],
+                compatibility: {
+                    love: {
+                        best: ["virgo", "capricorn"],
+                        good: ["cancer", "pisces"],
+                        bad: ["leo", "aquarius"]
+                    },
+                    friendship: {
+                        best: ["cancer", "virgo"],
+                        good: ["capricorn", "pisces"],
+                        bad: ["aries", "sagittarius"]
+                    },
+                    work: {
+                        best: ["virgo", "capricorn"],
+                        good: ["cancer", "scorpio"],
+                        bad: ["aquarius", "leo"]
+                    }
+                }
+            },
+            gemini: {
+                name: "الجوزاء",
+                icon: "fa-comments",
+                dates: "21 مايو - 20 يونيو",
+                element: "العنصر: هوائي",
+                traits: ["اجتماعي", "فضولي", "متقلب", "ذكي", "مرح", "متعدد المواهب"],
+                closestMatch: "الميزان",
+                commonTraits: ["التواصل", "الذكاء", "المرح"],
+                compatibility: {
+                    love: {
+                        best: ["libra", "aquarius"],
+                        good: ["aries", "leo"],
+                        bad: ["virgo", "pisces"]
+                    },
+                    friendship: {
+                        best: ["libra", "aquarius"],
+                        good: ["aries", "sagittarius"],
+                        bad: ["virgo", "pisces"]
+                    },
+                    work: {
+                        best: ["libra", "aquarius"],
+                        good: ["aries", "leo"],
+                        bad: ["virgo", "pisces"]
+                    }
+                }
+            },
+            cancer: {
+                name: "السرطان",
+                icon: "fa-moon",
+                dates: "21 يونيو - 22 يوليو",
+                element: "العنصر: مائي",
+                traits: ["عاطفي", "حساس", "وقائي", "عائلي", "حدسي", "خلوق"],
+                closestMatch: "العقرب",
+                commonTraits: ["العاطفية", "الوفاء", "الحساسية"],
+                compatibility: {
+                    love: {
+                        best: ["scorpio", "pisces"],
+                        good: ["taurus", "virgo"],
+                        bad: ["aries", "libra"]
+                    },
+                    friendship: {
+                        best: ["scorpio", "pisces"],
+                        good: ["taurus", "capricorn"],
+                        bad: ["aries", "gemini"]
+                    },
+                    work: {
+                        best: ["scorpio", "pisces"],
+                        good: ["taurus", "virgo"],
+                        bad: ["aries", "aquarius"]
+                    }
+                }
+            },
+            leo: {
+                name: "الأسد",
+                icon: "fa-sun",
+                dates: "23 يوليو - 22 أغسطس",
+                element: "العنصر: ناري",
+                traits: ["كريم", "قوي", "فخور", "مسيطر", "مبدع", "مخلص"],
+                closestMatch: "الحمل",
+                commonTraits: ["القيادة", "الكرم", "الثقة"],
+                compatibility: {
+                    love: {
+                        best: ["aries", "sagittarius"],
+                        good: ["gemini", "libra"],
+                        bad: ["taurus", "scorpio"]
+                    },
+                    friendship: {
+                        best: ["aries", "sagittarius"],
+                        good: ["gemini", "libra"],
+                        bad: ["scorpio", "taurus"]
+                    },
+                    work: {
+                        best: ["aries", "sagittarius"],
+                        good: ["gemini", "libra"],
+                        bad: ["scorpio", "taurus"]
+                    }
+                }
+            },
+            virgo: {
+                name: "العذراء",
+                icon: "fa-star",
+                dates: "23 أغسطس - 22 سبتمبر",
+                element: "العنصر: ترابي",
+                traits: ["منظم", "دقيق", "ناقد", "عملي", "ذكي", "وفي"],
+                closestMatch: "الثور",
+                commonTraits: ["الدقة", "الواقعية", "الذكاء"],
+                compatibility: {
+                    love: {
+                        best: ["taurus", "capricorn"],
+                        good: ["cancer", "scorpio"],
+                        bad: ["gemini", "sagittarius"]
+                    },
+                    friendship: {
+                        best: ["taurus", "capricorn"],
+                        good: ["cancer", "scorpio"],
+                        bad: ["gemini", "sagittarius"]
+                    },
+                    work: {
+                        best: ["taurus", "capricorn"],
+                        good: ["cancer", "scorpio"],
+                        bad: ["gemini", "pisces"]
+                    }
+                }
+            },
+            libra: {
+                name: "الميزان",
+                icon: "fa-balance-scale",
+                dates: "23 سبتمبر - 22 أكتوبر",
+                element: "العنصر: هوائي",
+                traits: ["منصف", "اجتماعي", "متردد", "رومانسي", "ديبلوماسي", "محب للجمال"],
+                closestMatch: "الجوزاء",
+                commonTraits: ["التواصل", "الذوق الرفيع", "العدل"],
+                compatibility: {
+                    love: {
+                        best: ["gemini", "aquarius"],
+                        good: ["leo", "sagittarius"],
+                        bad: ["cancer", "capricorn"]
+                    },
+                    friendship: {
+                        best: ["gemini", "aquarius"],
+                        good: ["leo", "sagittarius"],
+                        bad: ["cancer", "capricorn"]
+                    },
+                    work: {
+                        best: ["gemini", "aquarius"],
+                        good: ["leo", "sagittarius"],
+                        bad: ["cancer", "capricorn"]
+                    }
+                }
+            },
+            scorpio: {
+                name: "العقرب",
+                icon: "fa-scorpion",
+                dates: "23 أكتوبر - 21 نوفمبر",
+                element: "العنصر: مائي",
+                traits: ["شغوف", "حدسي", "سري", "عنيد", "قوي", "مخلص"],
+                closestMatch: "السرطان",
+                commonTraits: ["العاطفية", "الوفاء", "الشغف"],
+                compatibility: {
+                    love: {
+                        best: ["cancer", "pisces"],
+                        good: ["virgo", "capricorn"],
+                        bad: ["leo", "aquarius"]
+                    },
+                    friendship: {
+                        best: ["cancer", "pisces"],
+                        good: ["virgo", "capricorn"],
+                        bad: ["leo", "aquarius"]
+                    },
+                    work: {
+                        best: ["cancer", "pisces"],
+                        good: ["virgo", "capricorn"],
+                        bad: ["leo", "aquarius"]
+                    }
+                }
+            },
+            sagittarius: {
+                name: "القوس",
+                icon: "fa-arrow-right",
+                dates: "22 نوفمبر - 21 ديسمبر",
+                element: "العنصر: ناري",
+                traits: ["متفائل", "مغامر", "صريح", "غير صبور", "فلسفي", "مرح"],
+                closestMatch: "الحمل",
+                commonTraits: ["المغامرة", "الصراحة", "المرح"],
+                compatibility: {
+                    love: {
+                        best: ["aries", "leo"],
+                        good: ["aquarius", "libra"],
+                        bad: ["virgo", "pisces"]
+                    },
+                    friendship: {
+                        best: ["aries", "leo"],
+                        good: ["aquarius", "libra"],
+                        bad: ["virgo", "pisces"]
+                    },
+                    work: {
+                        best: ["aries", "leo"],
+                        good: ["aquarius", "libra"],
+                        bad: ["virgo", "pisces"]
+                    }
+                }
+            },
+            capricorn: {
+                name: "الجدي",
+                icon: "fa-mountain",
+                dates: "22 ديسمبر - 19 يناير",
+                element: "العنصر: ترابي",
+                traits: ["طموح", "منضبط", "حذر", "مسؤول", "صبور", "واقعي"],
+                closestMatch: "العذراء",
+                commonTraits: ["الطموح", "المسؤولية", "الصبر"],
+                compatibility: {
+                    love: {
+                        best: ["taurus", "virgo"],
+                        good: ["scorpio", "pisces"],
+                        bad: ["aries", "libra"]
+                    },
+                    friendship: {
+                        best: ["taurus", "virgo"],
+                        good: ["scorpio", "pisces"],
+                        bad: ["aries", "libra"]
+                    },
+                    work: {
+                        best: ["taurus", "virgo"],
+                        good: ["scorpio", "pisces"],
+                        bad: ["aries", "libra"]
+                    }
+                }
+            },
+            aquarius: {
+                name: "الدلو",
+                icon: "fa-water",
+                dates: "20 يناير - 18 فبراير",
+                element: "العنصر: هوائي",
+                traits: ["مبتكر", "مستقل", "غير تقليدي", "فكري", "إنساني", "صادق"],
+                closestMatch: "الميزان",
+                commonTraits: ["الإبداع", "الاستقلالية", "الصدق"],
+                compatibility: {
+                    love: {
+                        best: ["gemini", "libra"],
+                        good: ["aries", "sagittarius"],
+                        bad: ["taurus", "scorpio"]
+                    },
+                    friendship: {
+                        best: ["gemini", "libra"],
+                        good: ["aries", "sagittarius"],
+                        bad: ["taurus", "scorpio"]
+                    },
+                    work: {
+                        best: ["gemini", "libra"],
+                        good: ["aries", "sagittarius"],
+                        bad: ["taurus", "scorpio"]
+                    }
+                }
+            },
+            pisces: {
+                name: "الحوت",
+                icon: "fa-fish",
+                dates: "19 فبراير - 20 مارس",
+                element: "العنصر: مائي",
+                traits: ["حساس", "حدسي", "حالم", "متسامح", "فني", "عطوف"],
+                closestMatch: "السرطان",
+                commonTraits: ["الحساسية", "الإبداع", "التسامح"],
+                compatibility: {
+                    love: {
+                        best: ["cancer", "scorpio"],
+                        good: ["taurus", "capricorn"],
+                        bad: ["gemini", "sagittarius"]
+                    },
+                    friendship: {
+                        best: ["cancer", "scorpio"],
+                        good: ["taurus", "capricorn"],
+                        bad: ["gemini", "sagittarius"]
+                    },
+                    work: {
+                        best: ["cancer", "scorpio"],
+                        good: ["taurus", "capricorn"],
+                        bad: ["gemini", "virgo"]
+                    }
+                }
+            }
+        };
+
+        // التحقق من التوافق
+        document.getElementById('check-compatibility').addEventListener('click', function() {
+            const firstZodiac = document.getElementById('first-zodiac').value;
+            const secondZodiac = document.getElementById('second-zodiac').value;
+            
+            if (!firstZodiac || !secondZodiac) {
+                alert("الرجاء اختيار البرجين للمقارنة");
+                return;
+            }
+            
+            if (firstZodiac === secondZodiac) {
+                alert("الرجاء اختيار برجين مختلفين للمقارنة");
+                return;
+            }
+            
+            // عرض معلومات الأبراج المختارة
+            const firstZodiacData = zodiacs[firstZodiac];
+            const secondZodiacData = zodiacs[secondZodiac];
+            
+            document.getElementById('first-zodiac-name').textContent = firstZodiacData.name;
+            document.getElementById('first-zodiac-icon').className = "fas " + firstZodiacData.icon;
+            document.getElementById('first-zodiac-dates').textContent = firstZodiacData.dates;
+            document.getElementById('first-zodiac-element').textContent = firstZodiacData.element;
+            
+            document.getElementById('second-zodiac-name').textContent = secondZodiacData.name;
+            document.getElementById('second-zodiac-icon').className = "fas " + secondZodiacData.icon;
+            document.getElementById('second-zodiac-dates').textContent = secondZodiacData.dates;
+            document.getElementById('second-zodiac-element').textContent = secondZodiacData.element;
+            
+            // إظهار أقرب برج والصفات المشتركة
+            document.getElementById('closest-zodiac-name').textContent = firstZodiacData.closestMatch;
+            document.getElementById('common-traits').textContent = 
+                `الصفات المشتركة: ${firstZodiacData.commonTraits.join("، ")}`;
+            
+            // تحليل التوافق
+            let compatibilityDescription = `تحليل توافق ${firstZodiacData.name} (${firstZodiacData.element}) و${secondZodiacData.name} (${secondZodiacData.element})`;
+            
+            // تحليل الحب
+            const loveCompatibility = analyzeCompatibility(firstZodiac, secondZodiac, 'love');
+            compatibilityDescription += `<br><br><strong>في الحب:</strong> ${loveCompatibility.text}`;
+            
+            // تحليل الصداقة
+            const friendshipCompatibility = analyzeCompatibility(firstZodiac, secondZodiac, 'friendship');
+            compatibilityDescription += `<br><strong>في الصداقة:</strong> ${friendshipCompatibility.text}`;
+            
+            // تحليل العمل
+            const workCompatibility = analyzeCompatibility(firstZodiac, secondZodiac, 'work');
+            compatibilityDescription += `<br><strong>في العمل:</strong> ${workCompatibility.text}`;
+            
+            document.getElementById('compatibility-description').innerHTML = compatibilityDescription;
+            
+            // عرض قسم النتائج
+            document.getElementById('compatibility-result').style.display = "block";
+            
+            // تفعيل تأثيرات الظهور
+            const zodiacItems = document.querySelectorAll('.zodiac-item');
+            const closestMatch = document.querySelector('.closest-match');
+            
+            zodiacItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            
+            setTimeout(() => {
+                closestMatch.style.opacity = '1';
+                closestMatch.style.transform = 'translateY(0)';
+            }, 400);
+            
+            // التمرير إلى النتائج
+            document.getElementById('compatibility-result').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // تحليل التوافق
+        function analyzeCompatibility(zodiac1, zodiac2, type) {
+            const zodiacData = zodiacs[zodiac1].compatibility[type];
+            
+            if (zodiacData.best.includes(zodiac2)) {
+                return {
+                    level: 'best',
+                    text: 'توافق ممتاز! هذه العلاقة تتميز بالانسجام والتكامل. لديكما الكثير من القواسم المشتركة التي تساعد على نجاح العلاقة.'
+                };
+            } else if (zodiacData.good.includes(zodiac2)) {
+                return {
+                    level: 'good',
+                    text: 'توافق جيد. هذه العلاقة لديها إمكانيات جيدة للنجاح مع بعض الجهد من الطرفين للتفاهم والتكيف.'
+                };
+            } else if (zodiacData.bad.includes(zodiac2)) {
+                return {
+                    level: 'bad',
+                    text: 'توافق صعب. هذه العلاقة تحتاج إلى الكثير من الجهد والصبر من الطرفين للتفاهم والتغلب على الاختلافات.'
+                };
+            } else {
+                return {
+                    level: 'neutral',
+                    text: 'توافق متوسط. هذه العلاقة يمكن أن تنجح مع التفاهم المتبادل والرغبة في التكيف من كلا الطرفين.'
+                };
+            }
+        }
+
+        // تأثيرات عند التمرير
+        window.addEventListener('scroll', () => {
+            const resultSection = document.getElementById('compatibility-result');
+            if (resultSection.style.display === "block") {
+                const cards = document.querySelectorAll('.zodiac-item, .closest-match');
+                cards.forEach((card, index) => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (cardPosition < screenPosition) {
+                        card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

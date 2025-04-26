@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكون بين يديك - تعلم الأبراج</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --primary-light: #8a6cb3;
+            --secondary-color: #8a5a44;
+            --chinese-color: #c52a2a;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --dark-bg: #2c2836;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* تحسينات الأزرار */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 76, 147, 0.3);
+        }
+
+        /* تحسين الهيدر */
+        .main-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .main-nav a.active,
+        .main-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .main-nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 3px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* قسم تعلم الأبراج الرئيسي */
+        .learn-zodiac-section {
+            padding: 150px 0 80px;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+
+        .section-title i {
+            margin-left: 15px;
+        }
+
+        /* نظام التبويب */
+        .learn-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .learn-tab {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .learn-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .learn-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(106, 76, 147, 0.3);
+        }
+
+        /* بطاقات الدروس */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .lesson-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid var(--dark-gray);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .lesson-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .lesson-image:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+
+        .lesson-level {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .lesson-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .lesson-meta i {
+            margin-left: 5px;
+        }
+
+        .lesson-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
+        .start-lesson {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--dark-gray);
+            cursor: pointer;
+        }
+
+        .start-lesson:hover {
+            color: var(--primary-light);
+        }
+
+        .start-lesson:after {
+            content: '←';
+            margin-right: 8px;
+            transition: margin 0.3s;
+        }
+
+        .start-lesson:hover:after {
+            margin-right: 12px;
+        }
+
+        /* تفاصيل الدرس */
+        .lesson-details {
+            display: none;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--dark-gray);
+        }
+
+        .lesson-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lesson-details-header {
+            margin-bottom: 25px;
+        }
+
+        .lesson-details-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .lesson-details-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .lesson-video {
+            width: 100%;
+            height: 400px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-video iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .play-icon {
+            position: absolute;
+            font-size: 4rem;
+            color: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        .lesson-details-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .lesson-details-content p {
+            margin-bottom: 20px;
+        }
+
+        .lesson-details-content h2 {
+            color: var(--primary-color);
+            margin: 30px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .lesson-details-content ul,
+        .lesson-details-content ol {
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+
+        .lesson-details-content li {
+            margin-bottom: 10px;
+        }
+
+        .close-details {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-weight: 500;
+        }
+
+        .close-details:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        /* قسم الأسئلة الشائعة */
+        .faq-section {
+            background-color: var(--white);
+            padding: 60px 0;
+            margin-top: 40px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            background-color: var(--light-bg);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        /* زر التحميل المزيد */
+        .load-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* تأثيرات إضافية */
+        .floating-element {
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.03;
+            color: var(--primary-color);
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 70px 0 30px;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .footer-about p {
+            line-height: 1.8;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links h3 i,
+        .footer-contact h3 i {
+            font-size: 1.2rem;
+        }
+
+        .footer-links h3:after,
+        .footer-contact h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-right: 10px;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            width: 20px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 992px) {
+            .lessons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .lesson-video {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+                position: fixed;
+                top: 80px;
+                right: 0;
+                width: 280px;
+                background-color: var(--white);
+                padding: 20px;
+                box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+                border-radius: 0 0 0 15px;
+            }
+            
+            .main-nav.active {
+                display: block;
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .mobile-menu-btn.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .mobile-menu-btn.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-btn.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .header-cta {
+                display: none;
+            }
+            
+            .learn-zodiac-section {
+                padding: 120px 0 60px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .lesson-details-title {
+                font-size: 1.5rem;
+            }
+            
+            .lesson-details-content {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .learn-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                scrollbar-width: none;
+            }
+            
+            .learn-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .learn-tab {
+                flex-shrink: 0;
+            }
+            
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lesson-image {
+                height: 180px;
+            }
+            
+            .lesson-video {
+                height: 200px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-star-and-crescent logo-icon"></i>
+                <span>الكون بين يديك</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="discover.html"><i class="fas fa-search"></i> اكتشف برجك</a></li>
+                    <li><a href="compatibility.html"><i class="fas fa-heart"></i> توافق الأبراج</a></li>
+                    <li><a href="predictions.html"><i class="fas fa-crystal-ball"></i> التوقعات</a></li>
+                    <li><a href="learn.html" class="active"><i class="fas fa-graduation-cap"></i> تعلم الأبراج</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="discover.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> اكتشف برجك
+                </a>
+            </div>
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="learn-zodiac-section">
+        <i class="fas fa-star floating-element" style="top: 20%; left: 10%;"></i>
+        <i class="fas fa-moon floating-element" style="bottom: 30%; right: 15%; animation-delay: 2s;"></i>
+        
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-graduation-cap"></i>
+                تعلم الأبراج
+            </h1>
+            <p style="text-align: center; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                اكتشف عالم الأبراج الغامض والمثير. تعلم أساسيات علم الفلك والتنجيم وكيفية تفسير الأبراج وتأثيرها على الشخصية.
+            </p>
+            
+            <!-- تبويبات التصنيف -->
+            <div class="learn-tabs">
+                <button class="learn-tab active" data-category="all">
+                    <i class="fas fa-globe"></i> الكل
+                </button>
+                <button class="learn-tab" data-category="basics">
+                    <i class="fas fa-book-open"></i> أساسيات الأبراج
+                </button>
+                <button class="learn-tab" data-category="western">
+                    <i class="fas fa-star"></i> الأبراج الغربية
+                </button>
+                <button class="learn-tab" data-category="chinese">
+                    <i class="fas fa-dragon"></i> الأبراج الصينية
+                </button>
+                <button class="learn-tab" data-category="arabic">
+                    <i class="fas fa-moon"></i> الأبراج العربية
+                </button>
+                <button class="learn-tab" data-category="advanced">
+                    <i class="fas fa-chart-line"></i> متقدم
+                </button>
+            </div>
+            
+            <!-- شبكة الدروس -->
+            <div class="lessons-grid" id="lessons-grid">
+                <!-- الدرس 1 -->
+                <article class="lesson-card" data-category="basics">
+                    <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="lesson-level">مبتدئ</span>
+                    </div>
+                    <div class="lesson-content">
+                        <h2>
+                            <i class="fas fa-book-open"></i>
+                            مقدمة في علم الأبراج
+                        </h2>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 15 دقيقة</span>
+                            <span><i class="fas fa-user-graduate"></i> 1.2K طالب</span>
+                        </div>
+                        <p class="lesson-excerpt">
+                            تعرف على تاريخ الأبراج وتطورها عبر الحضارات المختلفة. اكتشف الفرق بين علم الفلك والتنجيم وكيفية تأثير الأبراج على حياتنا.
+                        </p>
+                        <button class="start-lesson" data-lesson="1">ابدأ التعلم</button>
+                    </div>
+                    
+                    <!-- تفاصيل الدرس -->
+                    <div class="lesson-details" id="lesson-details-1">
+                        <div class="lesson-details-header">
+                            <h2 class="lesson-details-title">مقدمة في علم الأبراج</h2>
+                            <div class="lesson-details-meta">
+                                <span><i class="fas fa-clock"></i> 15 دقيقة</span>
+                                <span><i class="fas fa-user-graduate"></i> 1.2K طالب</span>
+                                <span><i class="fas fa-tag"></i> أساسيات الأبراج</span>
+                            </div>
+                        </div>
+                        <div class="lesson-video">
+                            <i class="fas fa-play play-icon"></i>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-details-content">
+                            <p>علم الأبراج هو أحد أقدم العلوم التي عرفتها البشرية، حيث يعود تاريخه إلى آلاف السنين. في هذا الدرس، سنستكشف أساسيات هذا العلم الرائع.</p>
+                            
+                            <h3>ما هي الأبراج؟</h3>
+                            <p>الأبراج هي تقسيمات لدائرة البروج التي تمر فيها الشمس والقمر والكواكب. تقسم هذه الدائرة إلى 12 قسمًا، كل قسم يمثل برجًا فلكيًا.</p>
+                            
+                            <h3>تاريخ الأبراج</h3>
+                            <p>ظهر علم الأبراج أولاً في بلاد ما بين النهرين حوالي 3000 سنة قبل الميلاد، ثم انتقل إلى الحضارات الأخرى مثل:</p>
+                            <ul>
+                                <li>الحضارة البابلية</li>
+                                <li>الحضارة المصرية القديمة</li>
+                                <li>الحضارة اليونانية</li>
+                                <li>الحضارة العربية الإسلامية</li>
+                            </ul>
+                            
+                            <h3>الفرق بين علم الفلك والتنجيم</h3>
+                            <p>يخلط الكثيرون بين علم الفلك والتنجيم، لكن هناك فرق جوهري:</p>
+                            <ol>
+                                <li><strong>علم الفلك:</strong> علم يدرس الأجرام السماوية وحركاتها وخصائصها الفيزيائية</li>
+                                <li><strong>التنجيم:</strong> دراسة تأثير الأجرام السماوية على حياة الإنسان والأرض</li>
+                            </ol>
+                            
+                            <h3>كيف تؤثر الأبراج على شخصيتنا؟</h3>
+                            <p>يعتقد المنجمون أن موقع الشمس والقمر والكواكب وقت الولادة يؤثر على:</p>
+                            <ul>
+                                <li>سمات الشخصية</li>
+                                <li>نقاط القوة والضعف</li>
+                                <li>التوافق مع الآخرين</li>
+                                <li>مسار الحياة</li>
+                            </ul>
+                            
+                            <p>في الدرس القادم، سنتعمق أكثر في الأبراج الغربية وخصائص كل برج.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق الدرس
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- الدرس 2 -->
+                <article class="lesson-card" data-category="western">
+                    <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1548188489-06d58a6e598f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="lesson-level">مبتدئ</span>
+                    </div>
+                    <div class="lesson-content">
+                        <h2>
+                            <i class="fas fa-star"></i>
+                            الأبراج الغربية والعناصر
+                        </h2>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 20 دقيقة</span>
+                            <span><i class="fas fa-user-graduate"></i> 980 طالب</span>
+                        </div>
+                        <p class="lesson-excerpt">
+                            تعرف على الأبراج الغربية الـ12 وعلاقتها بالعناصر الأربعة (ناري، ترابي، هوائي، مائي). اكتشف كيف تؤثر هذه العناصر على صفات كل برج.
+                        </p>
+                        <button class="start-lesson" data-lesson="2">ابدأ التعلم</button>
+                    </div>
+                    
+                    <!-- تفاصيل الدرس -->
+                    <div class="lesson-details" id="lesson-details-2">
+                        <div class="lesson-details-header">
+                            <h2 class="lesson-details-title">الأبراج الغربية والعناصر</h2>
+                            <div class="lesson-details-meta">
+                                <span><i class="fas fa-clock"></i> 20 دقيقة</span>
+                                <span><i class="fas fa-user-graduate"></i> 980 طالب</span>
+                                <span><i class="fas fa-tag"></i> الأبراج الغربية</span>
+                            </div>
+                        </div>
+                        <div class="lesson-video">
+                            <i class="fas fa-play play-icon"></i>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-details-content">
+                            <p>تنقسم الأبراج الغربية إلى 12 برجًا، كل منها يرتبط بعنصر من العناصر الأربعة: النار، الأرض، الهواء، والماء. في هذا الدرس، سنستكشف هذه العلاقة.</p>
+                            
+                            <h3>الأبراج النارية (الحمل، الأسد، القوس)</h3>
+                            <p>صفات الأبراج النارية:</p>
+                            <ul>
+                                <li>متحمسة وحيوية</li>
+                                <li>عفوية وجريئة</li>
+                                <li>قيادية وواثقة</li>
+                                <li>قد تكون متسرعة أو عدوانية</li>
+                            </ul>
+                            
+                            <h3>الأبراج الترابية (الثور، العذراء، الجدي)</h3>
+                            <p>صفات الأبراج الترابية:</p>
+                            <ul>
+                                <li>عملية وواقعية</li>
+                                <li>صابرة ومنظمة</li>
+                                <li>موثوقة ومخلصة</li>
+                                <li>قد تكون متحفظة أو عنيدة</li>
+                            </ul>
+                            
+                            <h3>الأبراج الهوائية (الجوزاء، الميزان، الدلو)</h3>
+                            <p>صفات الأبراج الهوائية:</p>
+                            <ul>
+                                <li>فكرية واجتماعية</li>
+                                <li>فضولية ومبدعة</li>
+                                <li>تواصلية ومرنة</li>
+                                <li>قد تكون غير عاطفية أو غير مستقرة</li>
+                            </ul>
+                            
+                            <h3>الأبراج المائية (السرطان، العقرب، الحوت)</h3>
+                            <p>صفات الأبراج المائية:</p>
+                            <ul>
+                                <li>عاطفية وحساسة</li>
+                                <li>حدسية وعميقة</li>
+                                <li>تعاطفية ورعائية</li>
+                                <li>قد تكون مزاجية أو هاربة من الواقع</li>
+                            </ul>
+                            
+                            <h3>كيف تستخدم هذه المعرفة؟</h3>
+                            <ol>
+                                <li>فهم نفسك والآخرين بشكل أفضل</li>
+                                <li>تحسين علاقاتك الشخصية والمهنية</li>
+                                <li>اختيار المهن والهوايات المناسبة</li>
+                                <li>تطوير نقاط القوة وتحسين نقاط الضعف</li>
+                            </ol>
+                            
+                            <p>في الدرس القادم، سنتعرف على الأبراج الصينية وخصائصها المميزة.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق الدرس
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- الدرس 3 -->
+                <article class="lesson-card" data-category="chinese">
+                    <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="lesson-level">متوسط</span>
+                    </div>
+                    <div class="lesson-content">
+                        <h2>
+                            <i class="fas fa-dragon"></i>
+                            الأبراج الصينية والعناصر
+                        </h2>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 25 دقيقة</span>
+                            <span><i class="fas fa-user-graduate"></i> 850 طالب</span>
+                        </div>
+                        <p class="lesson-excerpt">
+                            اكتشف أسرار الأبراج الصينية الـ12 وعلاقتها بالعناصر الخمسة (الخشب، النار، الأرض، المعدن، الماء). تعلم كيفية حساب برجك الصيني.
+                        </p>
+                        <button class="start-lesson" data-lesson="3">ابدأ التعلم</button>
+                    </div>
+                    
+                    <!-- تفاصيل الدرس -->
+                    <div class="lesson-details" id="lesson-details-3">
+                        <div class="lesson-details-header">
+                            <h2 class="lesson-details-title">الأبراج الصينية والعناصر</h2>
+                            <div class="lesson-details-meta">
+                                <span><i class="fas fa-clock"></i> 25 دقيقة</span>
+                                <span><i class="fas fa-user-graduate"></i> 850 طالب</span>
+                                <span><i class="fas fa-tag"></i> الأبراج الصينية</span>
+                            </div>
+                        </div>
+                        <div class="lesson-video">
+                            <i class="fas fa-play play-icon"></i>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-details-content">
+                            <p>يعتمد نظام الأبراج الصينية على دورة الـ12 سنة، حيث يمثل كل سنة حيوان معين. بالإضافة إلى ذلك، هناك 5 عناصر تتفاعل مع هذه الأبراج.</p>
+                            
+                            <h3>الأبراج الصينية الـ12</h3>
+                            <p>حسب الأسطورة الصينية، هذه هي الحيوانات الـ12 التي حضرت حفل الإمبراطور السماوي حسب ترتيب وصولها:</p>
+                            <ol>
+                                <li>الفأر</li>
+                                <li>الثور</li>
+                                <li>النمر</li>
+                                <li>الأرنب</li>
+                                <li>التنين</li>
+                                <li>الأفعى</li>
+                                <li>الحصان</li>
+                                <li>العنزة</li>
+                                <li>القرد</li>
+                                <li>الديك</li>
+                                <li>الكلب</li>
+                                <li>الخنزير</li>
+                            </ol>
+                            
+                            <h3>العناصر الخمسة</h3>
+                            <p>كل برج صيني يرتبط أيضًا بعنصر من العناصر الخمسة:</p>
+                            <ul>
+                                <li><strong>الخشب:</strong> النمو والإبداع</li>
+                                <li><strong>النار:</strong> الحماس والطاقة</li>
+                                <li><strong>الأرض:</strong> الاستقرار والتوازن</li>
+                                <li><strong>المعدن:</strong> التركيز والانضباط</li>
+                                <li><strong>الماء:</strong> الحكمة والتكيف</li>
+                            </ul>
+                            
+                            <h3>كيف تحسب برجك الصيني؟</h3>
+                            <p>لحساب برجك الصيني:</p>
+                            <ol>
+                                <li>حدد سنة ميلادك حسب التقويم الصيني (تبدأ السنة الصينية بين 21 يناير و20 فبراير)</li>
+                                <li>ابحث عن الحيوان المقابل لتلك السنة في الجدول</li>
+                                <li>حدد العنصر حسب السنة (كل عنصر يستمر لمدة سنتين)</li>
+                            </ol>
+                            
+                            <h3>توافق الأبراج الصينية</h3>
+                            <p>يعتمد التوافق في الأبراج الصينية على:</p>
+                            <ul>
+                                <li>علاقات الحيوانات مع بعضها</li>
+                                <li>تفاعل العناصر الخمسة</li>
+                                <li>دورة الـ12 سنة</li>
+                            </ul>
+                            
+                            <p>في الدرس القادم، سنتعرف على نظام الأبراج العربية الفريد.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق الدرس
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- الدرس 4 -->
+                <article class="lesson-card" data-category="arabic">
+                    <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1483721310020-03333e577078?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="lesson-level">متوسط</span>
+                    </div>
+                    <div class="lesson-content">
+                        <h2>
+                            <i class="fas fa-moon"></i>
+                            الأبراج العربية والمنازل القمرية
+                        </h2>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 30 دقيقة</span>
+                            <span><i class="fas fa-user-graduate"></i> 720 طالب</span>
+                        </div>
+                        <p class="lesson-excerpt">
+                            استكشف نظام الأبراج العربية الفريد الذي يعتمد على 28 منزلاً قمرياً. تعرف على برجك العربي وكيف يختلف عن الأبراج الأخرى.
+                        </p>
+                        <button class="start-lesson" data-lesson="4">ابدأ التعلم</button>
+                    </div>
+                    
+                    <!-- تفاصيل الدرس -->
+                    <div class="lesson-details" id="lesson-details-4">
+                        <div class="lesson-details-header">
+                            <h2 class="lesson-details-title">الأبراج العربية والمنازل القمرية</h2>
+                            <div class="lesson-details-meta">
+                                <span><i class="fas fa-clock"></i> 30 دقيقة</span>
+                                <span><i class="fas fa-user-graduate"></i> 720 طالب</span>
+                                <span><i class="fas fa-tag"></i> الأبراج العربية</span>
+                            </div>
+                        </div>
+                        <div class="lesson-video">
+                            <i class="fas fa-play play-icon"></i>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-details-content">
+                            <p>يتميز النظام الفلكي العربي بتقسيم دائرة البروج إلى 28 منزلاً قمرياً، كل منها له خصائص وتأثيرات مختلفة. في هذا الدرس، سنستكشف هذا النظام الفريد.</p>
+                            
+                            <h3>المنازل القمرية الـ28</h3>
+                            <p>تنقسم السماء في الفلك العربي إلى 28 منزلاً قمرياً، أشهرها:</p>
+                            <ul>
+                                <li>الشرطان</li>
+                                <li>الثريا</li>
+                                <li>الدبران</li>
+                                <li>القلب</li>
+                                <li>سعد الذابح</li>
+                                <li>سعد السعود</li>
+                                <li>الرشا</li>
+                            </ul>
+                            
+                            <h3>كيف تحدد برجك العربي؟</h3>
+                            <p>لحساب برجك العربي:</p>
+                            <ol>
+                                <li>حدد تاريخ ميلادك حسب التقويم القمري</li>
+                                <li>ابحث عن موقع القمر في المنازل القمرية وقت ميلادك</li>
+                                <li>استخدم جداول خاصة أو برامج فلكية لتحديد المنزل القمري</li>
+                            </ol>
+                            
+                            <h3>خصائص الأبراج العربية</h3>
+                            <p>كل منزل قمري له تأثيرات مميزة:</p>
+                            <ul>
+                                <li><strong>الشرطان:</strong> القوة والقيادة</li>
+                                <li><strong>الثريا:</strong> الذكاء والحكمة</li>
+                                <li><strong>الدبران:</strong> الطموح والعزيمة</li>
+                                <li><strong>القلب:</strong> الشجاعة والتضحية</li>
+                                <li><strong>سعد السعود:</strong> الحظ والتفاؤل</li>
+                            </ul>
+                            
+                            <h3>استخدامات الأبراج العربية</h3>
+                            <p>استخدم العرب القدماء المنازل القمرية في:</p>
+                            <ol>
+                                <li>تحديد الأوقات المناسبة للأنشطة المختلفة</li>
+                                <li>التنبؤ بالأحوال الجوية</li>
+                                <li>اختيار الأسماء الميمونة</li>
+                                <li>تحديد أنسب أوقات الزراعة والحصاد</li>
+                            </ol>
+                            
+                            <p>في الدرس القادم، سنتعلم كيفية قراءة الخريطة الفلكية الشخصية.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق الدرس
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- الدرس 5 -->
+                <article class="lesson-card" data-category="advanced">
+                    <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="lesson-level">متقدم</span>
+                    </div>
+                    <div class="lesson-content">
+                        <h2>
+                            <i class="fas fa-chart-line"></i>
+                            قراءة الخريطة الفلكية
+                        </h2>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 40 دقيقة</span>
+                            <span><i class="fas fa-user-graduate"></i> 650 طالب</span>
+                        </div>
+                        <p class="lesson-excerpt">
+                            تعلم كيفية قراءة الخريطة الفلكية الشخصية (البرج المركزي) وفهم تأثير الكواكب والبيوت الفلكية على شخصيتك ومصيرك.
+                        </p>
+                        <button class="start-lesson" data-lesson="5">ابدأ التعلم</button>
+                    </div>
+                    
+                    <!-- تفاصيل الدرس -->
+                    <div class="lesson-details" id="lesson-details-5">
+                        <div class="lesson-details-header">
+                            <h2 class="lesson-details-title">قراءة الخريطة الفلكية</h2>
+                            <div class="lesson-details-meta">
+                                <span><i class="fas fa-clock"></i> 40 دقيقة</span>
+                                <span><i class="fas fa-user-graduate"></i> 650 طالب</span>
+                                <span><i class="fas fa-tag"></i> متقدم</span>
+                            </div>
+                        </div>
+                        <div class="lesson-video">
+                            <i class="fas fa-play play-icon"></i>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-details-content">
+                            <p>الخريطة الفلكية (أو البرج المركزي) هي صورة للسماء لحظة ولادتك. في هذا الدرس المتقدم، سنتعلم كيفية قراءة هذه الخريطة وفهم مكوناتها.</p>
+                            
+                            <h3>مكونات الخريطة الفلكية</h3>
+                            <p>تتكون الخريطة الفلكية من عدة عناصر:</p>
+                            <ul>
+                                <li><strong>الكواكب:</strong> تمثل جوانب مختلفة من شخصيتك</li>
+                                <li><strong>البروج:</strong> مواقع الكواكب في الأبراج</li>
+                                <li><strong>البيوت:</strong> 12 قسمًا تمثل مجالات الحياة</li>
+                                <li><strong>الجوانب:</strong> الزوايا بين الكواكب</li>
+                            </ul>
+                            
+                            <h3>كواكب الخريطة الفلكية</h3>
+                            <p>كل كوكب يمثل جانبًا من شخصيتك:</p>
+                            <ul>
+                                <li><strong>الشمس:</strong> الذات الأساسية والجوهر</li>
+                                <li><strong>القمر:</strong> المشاعر والعواطف</li>
+                                <li><strong>عطارد:</strong> التفكير والتواصل</li>
+                                <li><strong>الزهرة:</strong> الحب والقيم</li>
+                                <li><strong>المريخ:</strong> الطاقة والرغبات</li>
+                                <li><strong>المشتري:</strong> التوسع والحظ</li>
+                                <li><strong>زحل:</strong> الانضباط والمسؤولية</li>
+                                <li><strong>أورانوس:</strong> التغيير والابتكار</li>
+                                <li><strong>نبتون:</strong> الحدس والخيال</li>
+                                <li><strong>بلوتو:</strong> التحول والسلطة</li>
+                            </ul>
+                            
+                            <h3>البيوت الفلكية الـ12</h3>
+                            <p>كل بيت يمثل مجالًا من مجالات الحياة:</p>
+                            <ol>
+                                <li>الشخصية والمظهر</li>
+                                <li>المال والقيم</li>
+                                <li>التواصل والأخوة</li>
+                                <li>المنزل والأسرة</li>
+                                <li>الحب والإبداع</li>
+                                <li>الصحة والعمل</li>
+                                <li>الشركاء والزواج</li>
+                                <li>التحول والمشتركات</li>
+                                <li>الفلسفة والسفر</li>
+                                <li>المهنة والسمعة</li>
+                                <li>الأصدقاء والأهداف</li>
+                                <li>اللاوعي والروحانيات</li>
+                            </ol>
+                            
+                            <h3>كيف تقرأ خريطتك الفلكية؟</h3>
+                            <ol>
+                                <li>احصل على خريطتك الفلكية باستخدام برامج أو مواقع متخصصة</li>
+                                <li>ابدأ بتحليل موقع الشمس والقمر والكواكب</li>
+                                <li>ادرس العلاقات بين الكواكب (الجوانب)</li>
+                                <li>افهم تأثير البيوت على الكواكب الموجودة فيها</li>
+                                <li>ابحث عن أنماط وتكتلات في الخريطة</li>
+                            </ol>
+                            
+                            <p>في الدرس القادم، سنتعمق أكثر في تفسير الجوانب والعلاقات بين الكواكب.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق الدرس
+                        </button>
+                    </div>
+                </article>
+                
+                <!-- الدرس 6 -->
+                <article class="lesson-card" data-category="advanced">
+                    <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                        <span class="lesson-level">متقدم</span>
+                    </div>
+                    <div class="lesson-content">
+                        <h2>
+                            <i class="fas fa-star"></i>
+                            التوقعات الفلكية الشخصية
+                        </h2>
+                        <div class="lesson-meta">
+                            <span><i class="fas fa-clock"></i> 35 دقيقة</span>
+                            <span><i class="fas fa-user-graduate"></i> 580 طالب</span>
+                        </div>
+                        <p class="lesson-excerpt">
+                            تعلم كيفية عمل توقعات فلكية شخصية بناءً على حركة الكواكب الحالية وتأثيرها على خريطتك الفلكية. اكتشف تقنيات التنجيم التنبؤي.
+                        </p>
+                        <button class="start-lesson" data-lesson="6">ابدأ التعلم</button>
+                    </div>
+                    
+                    <!-- تفاصيل الدرس -->
+                    <div class="lesson-details" id="lesson-details-6">
+                        <div class="lesson-details-header">
+                            <h2 class="lesson-details-title">التوقعات الفلكية الشخصية</h2>
+                            <div class="lesson-details-meta">
+                                <span><i class="fas fa-clock"></i> 35 دقيقة</span>
+                                <span><i class="fas fa-user-graduate"></i> 580 طالب</span>
+                                <span><i class="fas fa-tag"></i> متقدم</span>
+                            </div>
+                        </div>
+                        <div class="lesson-video">
+                            <i class="fas fa-play play-icon"></i>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-details-content">
+                            <p>التنجيم التنبؤي هو فن استخدام حركة الكواكب الحالية والمستقبلية لتوقع الأحداث والتأثيرات في حياتك. في هذا الدرس، سنتعلم تقنيات التوقعات الفلكية.</p>
+                            
+                            <h3>أنواع التوقعات الفلكية</h3>
+                            <p>هناك عدة طرق لعمل التوقعات:</p>
+                            <ul>
+                                <li><strong>العبور:</strong> تأثير الكواكب الحالية على خريطتك</li>
+                                <li><strong>التقدم:</strong> حركة رمزية للكواكب مع تقدم العمر</li>
+                                <li><strong>المراجعة الشمسية:</strong> خريطة سنوية تبدأ بعيد ميلادك</li>
+                                <li><strong>التوقعات القمرية:</strong> تأثير القمر في منازله</li>
+                            </ul>
+                            
+                            <h3>كيف تعمل توقعات العبور؟</h3>
+                            <p>عبور الكواكب هو أكثر طرق التنجيم التنبؤي استخدامًا:</p>
+                            <ol>
+                                <li>احصل على خريطة الكواكب الحالية</li>
+                                <li>قارن مواقع الكواكب الحالية بمواقعها في خريطتك</li>
+                                <li>ابحث عن الجوانب (الزوايا) بين الكواكب الحالية وكواكب خريطتك</li>
+                                <li>فسر هذه الجوانب حسب طبيعة الكواكب والبيوت المعنية</li>
+                            </ol>
+                            
+                            <h3>الكواكب البطيئة والسريعة</h3>
+                            <p>تختلف تأثيرات الكواكب حسب سرعتها:</p>
+                            <ul>
+                                <li><strong>الكواكب السريعة (القمر، عطارد، الزهرة، المريخ):</strong> تأثيرات قصيرة الأمد (أيام إلى أسابيع)</li>
+                                <li><strong>الكواكب المتوسطة (الشمس، المشتري، زحل):</strong> تأثيرات متوسطة الأمد (أسابيع إلى أشهر)</li>
+                                <li><strong>الكواكب البطيئة (أورانوس، نبتون، بلوتو):</strong> تأثيرات طويلة الأمد (سنوات إلى عقود)</li>
+                            </ul>
+                            
+                            <h3>أهم العبورات المؤثرة</h3>
+                            <p>بعض العبورات لها تأثير قوي:</p>
+                            <ul>
+                                <li><strong>عبور زحل على الشمس:</strong> فترة اختبار وتحمل المسؤولية</li>
+                                <li><strong>عبور المشتري على القمر:</strong> فترة ازدهار عاطفي وفرص</li>
+                                <li><strong>عبور أورانوس على المريخ:</strong> تغييرات مفاجئة في الطاقة والطموح</li>
+                                <li><strong>عبور نبتون على الزهرة:</strong> فترة حلمية عاطفية أو خيالية</li>
+                            </ul>
+                            
+                            <h3>نصائح للتوقعات الدقيقة</h3>
+                            <ol>
+                                <li>ابدأ بتحليل العبورات الكبرى (الكواكب البطيئة)</li>
+                                <li>انظر إلى تفاعل العبورات مع بعضها</li>
+                                <li>ضع في اعتبارك خلفية خريطتك الأصلية</li>
+                                <li>لا تعتمد على عبور واحد فقط</li>
+                                <li>تذكر أن التوقعات تشير إلى احتمالات وليس حتميات</li>
+                            </ol>
+                            
+                            <p>بهذا نكون قد أكملنا سلسلة دروس تعلم الأبراج الأساسية. يمكنك الآن البدء في تطبيق ما تعلمته لتحليل خرائط فلكية بسيطة.</p>
+                        </div>
+                        <button class="close-details">
+                            <i class="fas fa-times"></i> إغلاق الدرس
+                        </button>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- الأسئلة الشائعة -->
+            <div class="faq-section">
+                <div class="container">
+                    <h2 class="section-title">
+                        <i class="fas fa-question-circle"></i>
+                        الأسئلة الشائعة
+                    </h2>
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>ما الفرق بين علم الفلك والتنجيم؟</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>علم الفلك هو دراسة الأجرام السماوية وخصائصها الفيزيائية، وهو علم تجريبي يعتمد على الملاحظة والتجربة. أما التنجيم فهو دراسة تأثير الأجرام السماوية على حياة الإنسان والأرض، ويعتبره البعض فنًا أو نظام معتقدات أكثر من كونه علمًا.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>كيف يمكنني حساب برجي بدقة؟</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>لحساب برجك الغربي، تحتاج إلى معرفة تاريخ ميلادك فقط. لحساب برجك الصيني، تحتاج إلى سنة ميلادك حسب التقويم القمري الصيني. أما لحساب برجك العربي أو خريطتك الفلكية الكاملة، فستحتاج إلى وقت ومكان ميلادك بالضبط لمعرفة مواقع الكواكب والمنازل القمرية.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>هل يمكن أن يتغير برجي مع الوقت؟</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>لا، برجك الشمسي (الغربي) لا يتغير لأنه يعتمد على موقع الشمس عند ولادتك. لكن تأثيرات الكواكب الأخرى في خريطتك الفلكية تختلف مع حركة الكواكب، وهذا ما يفسر التغيرات في شخصيتك وحياتك مع الوقت.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>ما هي أفضل طريقة لتعلم الأبراج؟</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>ابدأ بتعلم الأساسيات مثل الأبراج الـ12 والعناصر والكواكب. ثم انتقل إلى فهم الخريطة الفلكية البسيطة. الممارسة والتطبيق هما أفضل طريقة للتعلم - حاول تحليل خرائط أصدقائك وعائلتك، واقرأ كتبًا وتقارير فلكية متنوعة.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- زر التحميل المزيد -->
+            <div class="load-more">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> تحميل المزيد من الدروس
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>الكون بين يديك</span>
+                    </a>
+                    <p>منصة متكاملة لمعرفة كل ما يتعلق بالأبراج الفلكية والصينية، توقعات يومية، تحليل شخصي، توافق الأبراج والمزيد.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        روابط سريعة
+                    </h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="discover.html"><i class="fas fa-chevron-left"></i> الأبراج الغربية</a></li>
+                        <li><a href="chinese-zodiac.html"><i class="fas fa-chevron-left"></i> الأبراج الصينية</a></li>
+                        <li><a href="learn.html"><i class="fas fa-chevron-left"></i> تعلم الأبراج</a></li>
+                        <li><a href="predictions.html"><i class="fas fa-chevron-left"></i> التوقعات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>
+                        <i class="fas fa-envelope"></i>
+                        تواصل معنا
+                    </h3>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        info@alkonbin.com
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        +966 12 345 6789
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 الكون بين يديك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script>
+        // عرض/إخفاء تفاصيل الدرس
+        document.addEventListener('DOMContentLoaded', function() {
+            const startLessonLinks = document.querySelectorAll('.start-lesson');
+            const closeButtons = document.querySelectorAll('.close-details');
+            
+            startLessonLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lessonId = this.getAttribute('data-lesson');
+                    const lessonDetails = document.getElementById(`lesson-details-${lessonId}`);
+                    
+                    // إخفاء جميع تفاصيل الدروس الأخرى
+                    document.querySelectorAll('.lesson-details').forEach(details => {
+                        details.classList.remove('active');
+                    });
+                    
+                    // عرض تفاصيل الدرس المحدد
+                    lessonDetails.classList.add('active');
+                    
+                    // التمرير إلى تفاصيل الدرس
+                    lessonDetails.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.classList.remove('active');
+                });
+            });
+            
+            // تصفية الدروس حسب التصنيف
+            const tabs = document.querySelectorAll('.learn-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // تحديث التبويب النشط
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // تصفية الدروس
+                    const lessons = document.querySelectorAll('.lesson-card');
+                    
+                    lessons.forEach(lesson => {
+                        if (category === 'all' || lesson.getAttribute('data-category') === category) {
+                            lesson.style.display = 'block';
+                        } else {
+                            lesson.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // الأسئلة الشائعة
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // القائمة المتنقلة
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav');
+            
+            if (mobileMenuBtn && mainNav) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

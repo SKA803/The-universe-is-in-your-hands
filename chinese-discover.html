@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اكتشف برجك الصيني - الكون بين يديك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #c52a2a;
+            --primary-light: #e74c3c;
+            --secondary-color: #8a5a44;
+            --western-color: #6a4c93;
+            --text-color: #333;
+            --light-bg: #f9f4f8;
+            --dark-bg: #2c2836;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+            --wood: #8a5a44;
+            --fire: #ff6b6b;
+            --earth: #d2b48c;
+            --metal: #b8b8b8;
+            --water: #1dd1a1;
+            --positive: #2ecc71;
+            --negative: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* شريط التنقل */
+        .main-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            right: -300px;
+            width: 280px;
+            height: calc(100vh - 80px);
+            background-color: var(--white);
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-nav {
+            padding: 20px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            border-radius: 2px;
+        }
+
+        .sidebar-nav i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        /* قسم اكتشف برجك الصيني */
+        .discover-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .section-title i {
+            margin-left: 10px;
+        }
+
+        .discover-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--dark-gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(197, 42, 42, 0.2);
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(197, 42, 42, 0.3);
+        }
+
+        /* نتائج البرج */
+        .result-container {
+            display: none;
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid var(--dark-gray);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .zodiac-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .zodiac-icon-large {
+            width: 100px;
+            height: 100px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 20px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .wood .zodiac-icon-large {
+            color: var(--wood);
+            background-color: rgba(138, 90, 68, 0.1);
+        }
+
+        .fire .zodiac-icon-large {
+            color: var(--fire);
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+
+        .earth .zodiac-icon-large {
+            color: var(--earth);
+            background-color: rgba(210, 180, 140, 0.1);
+        }
+
+        .metal .zodiac-icon-large {
+            color: var(--metal);
+            background-color: rgba(184, 184, 184, 0.1);
+        }
+
+        .water .zodiac-icon-large {
+            color: var(--water);
+            background-color: rgba(29, 209, 161, 0.1);
+        }
+
+        .zodiac-info h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .zodiac-date {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .zodiac-element {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .wood .zodiac-element {
+            background-color: rgba(138, 90, 68, 0.1);
+            color: var(--wood);
+        }
+
+        .fire .zodiac-element {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: var(--fire);
+        }
+
+        .earth .zodiac-element {
+            background-color: rgba(210, 180, 140, 0.1);
+            color: var(--earth);
+        }
+
+        .metal .zodiac-element {
+            background-color: rgba(184, 184, 184, 0.1);
+            color: var(--metal);
+        }
+
+        .water .zodiac-element {
+            background-color: rgba(29, 209, 161, 0.1);
+            color: var(--water);
+        }
+
+        .zodiac-traits {
+            margin-bottom: 30px;
+        }
+
+        .zodiac-traits h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 10px;
+        }
+
+        .traits-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .trait {
+            padding: 8px 15px;
+            background-color: var(--light-bg);
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+
+        .zodiac-description {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        /* قسم الإيجابيات والسلبيات */
+        .pros-cons-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .pros-box, .cons-box {
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .pros-box {
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .cons-box {
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .pros-box h3, .cons-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pros-box h3 {
+            color: var(--positive);
+        }
+        
+        .cons-box h3 {
+            color: var(--negative);
+        }
+        
+        .pros-box ul, .cons-box ul {
+            list-style: none;
+            padding-right: 5px;
+        }
+        
+        .pros-box li, .cons-box li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 25px;
+        }
+        
+        .pros-box li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            color: var(--positive);
+        }
+        
+        .cons-box li:before {
+            content: '\f00d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            color: var(--negative);
+        }
+        
+        /* قسم الحجر والكوكب */
+        .details-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-card {
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .detail-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .detail-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .detail-card p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .compatibility-section {
+            margin-top: 30px;
+        }
+
+        .compatibility-section h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .compatibility-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .compatibility-card {
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .compatibility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .compatibility-card .zodiac-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5rem;
+        }
+
+        .compatibility-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .compatibility-rate {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+
+        .footer-about p {
+            line-height: 1.8;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links h3 i,
+        .footer-contact h3 i {
+            font-size: 1.1rem;
+        }
+
+        .footer-links h3:after,
+        .footer-contact h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-right: 10px;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            width: 20px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .zodiac-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .zodiac-icon-large {
+                margin: 0 auto 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .discover-form {
+                padding: 20px;
+            }
+            
+            .pros-cons-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .compatibility-cards {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .zodiac-info h2 {
+                font-size: 1.5rem;
+            }
+            
+            .compatibility-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-star-and-crescent logo-icon"></i>
+                <span>الكون بين يديك</span>
+            </a>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
+    <nav class="sidebar">
+        <div class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="discover.html"><i class="fas fa-search"></i> اكتشف برجك</a></li>
+                <li><a href="horoscope.html" class="active"><i class="fas fa-dragon"></i> اكتشف برجك الصيني</a></li>
+                <li><a href="compatibility.html"><i class="fas fa-heart"></i> توافق الأبراج</a></li>
+                <li><a href="daily-horoscope.html"><i class="fas fa-sun"></i> توقعات اليوم</a></li>
+                <li><a href="weekly-horoscope.html"><i class="fas fa-calendar-week"></i> توقعات الأسبوع</a></li>
+                <li><a href="chinese-zodiac.html"><i class="fas fa-dragon"></i> الأبراج الصينية</a></li>
+                <li><a href="arabic-zodiac.html"><i class="fas fa-moon"></i> الأبراج العربية</a></li>
+                <li><a href="articles.html"><i class="fas fa-newspaper"></i> المقالات</a></li>
+                <li><a href="learn.html"><i class="fas fa-book-open"></i> تعلم الأبراج</a></li>
+                <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</a></li>
+                <li><a href="terms.html"><i class="fas fa-file-contract"></i> شروط الاستخدام</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> عن الموقع</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- قسم اكتشف برجك الصيني -->
+        <section class="discover-section container">
+            <h1 class="section-title">
+                <i class="fas fa-dragon"></i>
+                اكتشف برجك الصيني
+            </h1>
+            
+            <div class="discover-form">
+                <div class="form-group">
+                    <label for="birth-year">سنة الميلاد:</label>
+                    <select id="birth-year" class="form-control">
+                        <option value="">اختر السنة</option>
+                        <!-- سيتم ملؤها بالجافاسكريبت -->
+                    </select>
+                </div>
+                
+                <button id="discover-btn" class="btn">
+                    <i class="fas fa-dragon"></i> اكتشف برجي الصيني
+                </button>
+            </div>
+            
+            <!-- نتائج البرج -->
+            <div id="result-container" class="result-container">
+                <div class="zodiac-header">
+                    <div class="zodiac-icon-large">
+                        <i id="zodiac-sign-icon"></i>
+                    </div>
+                    <div class="zodiac-info">
+                        <h2 id="zodiac-sign-name"></h2>
+                        <p id="zodiac-sign-date" class="zodiac-date"></p>
+                        <div id="zodiac-sign-element" class="zodiac-element">
+                            <i id="element-icon"></i>
+                            <span id="element-name"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="zodiac-traits">
+                    <h3>صفات برجك</h3>
+                    <div id="traits-list" class="traits-list">
+                        <!-- سيتم ملؤها بالجافاسكريبت -->
+                    </div>
+                    <p id="zodiac-description" class="zodiac-description"></p>
+                </div>
+                
+                <!-- قسم الإيجابيات والسلبيات -->
+                <div class="pros-cons-section">
+                    <div class="pros-box">
+                        <h3><i class="fas fa-thumbs-up"></i> مميزات برجك</h3>
+                        <ul id="pros-list">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </ul>
+                    </div>
+                    <div class="cons-box">
+                        <h3><i class="fas fa-thumbs-down"></i> عيوب برجك</h3>
+                        <ul id="cons-list">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- قسم تفاصيل البرج -->
+                <div class="details-section">
+                    <div class="detail-card">
+                        <i class="fas fa-gem"></i>
+                        <h3>الحجر الكريم</h3>
+                        <p id="zodiac-stone"></p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-yin-yang"></i>
+                        <h3>عنصر السنة</h3>
+                        <p id="zodiac-year-element"></p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-palette"></i>
+                        <h3>اللون المفضل</h3>
+                        <p id="zodiac-color"></p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-flower"></i>
+                        <h3>الزهرة المفضلة</h3>
+                        <p id="zodiac-flower"></p>
+                    </div>
+                </div>
+                
+                <div class="compatibility-section">
+                    <h3>توافق الأبراج</h3>
+                    <div id="compatibility-cards" class="compatibility-cards">
+                        <!-- سيتم ملؤها بالجافاسكريبت -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>الكون بين يديك</span>
+                    </a>
+                    <p>منصة متكاملة لمعرفة كل ما يتعلق بالأبراج الفلكية والصينية والعربية، توقعات يومية وأسبوعية، تحليل شخصي، توافق الأبراج والمزيد.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        روابط سريعة
+                    </h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="horoscope.html"><i class="fas fa-chevron-left"></i> اكتشف برجك الصيني</a></li>
+                        <li><a href="daily-horoscope.html"><i class="fas fa-chevron-left"></i> توقعات اليوم</a></li>
+                        <li><a href="chinese-zodiac.html"><i class="fas fa-chevron-left"></i> الأبراج الصينية</a></li>
+                        <li><a href="privacy.html"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
+                        <li><a href="terms.html"><i class="fas fa-chevron-left"></i> شروط الاستخدام</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>
+                        <i class="fas fa-envelope"></i>
+                        تواصل معنا
+                    </h3>
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        info@alkonbin.com
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        +966 12 345 6789
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 الكون بين يديك. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- السكريبتات -->
+    <script>
+        // بيانات الأبراج الصينية
+        const chineseZodiacSigns = {
+            rat: {
+                name: "الفأر",
+                years: "2020, 2008, 1996, 1984, 1972, 1960",
+                element: "water",
+                elementName: "مائي",
+                icon: "fas fa-rat",
+                traits: ["ذكي", "ماهر", "اجتماعي", "طموح", "حذر"],
+                description: "برج الفأر هو أول الأبراج الصينية، يتميز أصحابه بالذكاء والدهاء والطموح. هم أشخاص اجتماعيون ومحبون للمال، لديهم قدرة على التكيف مع الظروف المختلفة. يتميزون بالحذر والبراعة في التعامل مع الآخرين.",
+                pros: ["ذكي وسريع البديهة", "اجتماعي ومحب للآخرين", "طموح ونشيط", "ماهر في التعامل مع المال", "قادر على التكيف"],
+                cons: ["قد يكون بخيلاً", "متقلب المزاج", "يحب السيطرة", "قد يكون عدوانيًا أحيانًا", "غير صبور"],
+                stone: "العقيق، الجمشت",
+                yearElement: "المعدن",
+                color: "الأزرق، الذهبي",
+                flower: "الزنبق، زهرة اللوتس",
+                compatibility: {
+                    dragon: 90, monkey: 85, ox: 80, tiger: 40, rabbit: 35,
+                    snake: 30, horse: 25, goat: 20, rooster: 15, dog: 10, pig: 5
+                }
+            },
+            ox: {
+                name: "الثور",
+                years: "2021, 2009, 1997, 1985, 1973, 1961",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-bull",
+                traits: ["صادق", "صبور", "قوي", "عنيد", "موثوق"],
+                description: "الثور هو رمز القوة والتحمل في الأبراج الصينية. يتميز أصحابه بالصدق والصبر والقوة الجسدية. هم أشخاص عمليون وموثوق بهم، لكن قد يكونون عنيدين في آرائهم. لديهم إرادة قوية ومثابرة عالية.",
+                pros: ["صادق وموثوق", "صبور ومثابر", "قوي الإرادة", "عملي ومنظم", "مخلص في العلاقات"],
+                cons: ["عنيد جدًا", "بطيء في التغيير", "غير مرن", "قد يكون قاسيًا أحيانًا", "لا يعبر عن مشاعره بسهولة"],
+                stone: "العقيق الأحمر، الجزع",
+                yearElement: "المعدن",
+                color: "الأخضر، الأصفر",
+                flower: "الزنبق، زهرة الخوخ",
+                compatibility: {
+                    snake: 90, rooster: 85, rat: 80, tiger: 40, rabbit: 35,
+                    dragon: 30, horse: 25, goat: 20, monkey: 15, dog: 10, pig: 5
+                }
+            },
+            tiger: {
+                name: "النمر",
+                years: "2022, 2010, 1998, 1986, 1974, 1962",
+                element: "wood",
+                elementName: "خشبي",
+                icon: "fas fa-paw",
+                traits: ["شجاع", "قوي", "متهور", "عاطفي", "قيادي"],
+                description: "النمر هو رمز القوة والشجاعة في الأبراج الصينية. يتميز أصحابه بالجرأة والحماس والعاطفة الجياشة. هم أشخاص مغامرون يحبون التحديات، وقد يكونون متهورين في بعض الأحيان. لديهم شخصية قيادية وجذابة.",
+                pros: ["شجاع وجريء", "مليء بالطاقة", "عاطفي وحنون", "قيادي بطبيعته", "مبدع ومبتكر"],
+                cons: ["متهور أحيانًا", "عنيد", "عديم الصبر", "قد يكون عدوانيًا", "غير منظم"],
+                stone: "العقيق الأصفر، الياقوت",
+                yearElement: "الماء",
+                color: "الأزرق، الرمادي",
+                flower: "الزنبق، زهرة الياسمين",
+                compatibility: {
+                    horse: 90, dog: 85, pig: 80, ox: 40, dragon: 35,
+                    snake: 30, goat: 25, monkey: 20, rooster: 15, rat: 10
+                }
+            },
+            rabbit: {
+                name: "الأرنب",
+                years: "2023, 2011, 1999, 1987, 1975, 1963",
+                element: "wood",
+                elementName: "خشبي",
+                icon: "fas fa-rabbit",
+                traits: ["لطيف", "حساس", "ديبلوماسي", "حذر", "ذو ذوق رفيع"],
+                description: "الأرنب هو رمز الدبلوماسية والذوق الرفيع في الأبراج الصينية. يتميز أصحابه باللطافة والحساسية والذكاء الاجتماعي. هم أشخاص محبون للسلام والانسجام، ويبتعدون عن الصراعات. لديهم ذوق رفيع في الملابس والطعام.",
+                pros: ["لطيف ومهذب", "حساس وعطوف", "ذو ذوق رفيع", "ديبلوماسي في التعامل", "ذكي اجتماعيًا"],
+                cons: ["حساس جدًا", "غير حاسم", "يتجنب المواجهة", "قد يكون سطحيًا أحيانًا", "غير عملي"],
+                stone: "اللؤلؤ، حجر القمر",
+                yearElement: "الماء",
+                color: "الأزرق الفاتح، الوردي",
+                flower: "الزنبق، زهرة الربيع",
+                compatibility: {
+                    goat: 90, pig: 85, dog: 80, rooster: 40, dragon: 35,
+                    snake: 30, horse: 25, monkey: 20, rat: 15, ox: 10, tiger: 5
+                }
+            },
+            dragon: {
+                name: "التنين",
+                years: "2024, 2012, 2000, 1988, 1976, 1964",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-dragon",
+                traits: ["قوي", "طموح", "كاريزمي", "متهور", "متفائل"],
+                description: "التنين هو رمز القوة والسلطة في الأبراج الصينية. يتميز أصحابه بالطموح والقوة والكاريزما. هم أشخاص مفعمون بالحيوية والثقة بالنفس، وقد يكونون متهورين في بعض الأحيان. لديهم شخصية جذابة ومؤثرة.",
+                pros: ["قوي وطموح", "كاريزمي وجذاب", "متفائل وحيوي", "مبدع ومبتكر", "شجاع وجريء"],
+                cons: ["متهور أحيانًا", "متسلط", "غير صبور", "قد يكون مغرورًا", "غير حساس لمشاعر الآخرين"],
+                stone: "الياقوت، العقيق الأحمر",
+                yearElement: "المعدن",
+                color: "الذهبي، الأحمر",
+                flower: "الزنبق، زهرة اللوتس",
+                compatibility: {
+                    rat: 90, monkey: 85, rooster: 80, dog: 40, pig: 35,
+                    ox: 30, tiger: 25, rabbit: 20, dragon: 15, snake: 10, horse: 5, goat: 5
+                }
+            },
+            snake: {
+                name: "الأفعى",
+                years: "2025, 2013, 2001, 1989, 1977, 1965",
+                element: "fire",
+                elementName: "ناري",
+                icon: "fas fa-snake",
+                traits: ["حكيم", "غامض", "حدسي", "صادق", "أناني"],
+                description: "الأفعى هي رمز الحكمة والغموض في الأبراج الصينية. يتميز أصحابه بالذكاء والحدس القوي والغموض. هم أشخاص عميقون في تفكيرهم، وقد يكونون أنانيين في بعض الأحيان. لديهم قدرة على قراءة الأشخاص جيدًا.",
+                pros: ["حكيم وذكي", "حدسي وحساس", "صادق مع نفسه", "هادئ ومركز", "قادر على قراءة الآخرين"],
+                cons: ["غامض جدًا", "أناني أحيانًا", "يحمل الضغائن", "غير متسامح", "غير اجتماعي"],
+                stone: "العقيق الأسود، الأوبال",
+                yearElement: "الخشب",
+                color: "الأحمر، الأسود",
+                flower: "الزنبق، زهرة الأوركيد",
+                compatibility: {
+                    ox: 90, rooster: 85, monkey: 80, pig: 40, rat: 35,
+                    tiger: 30, rabbit: 25, dragon: 20, snake: 15, horse: 10, goat: 5, dog: 5
+                }
+            },
+            horse: {
+                name: "الحصان",
+                years: "2026, 2014, 2002, 1990, 1978, 1966",
+                element: "fire",
+                elementName: "ناري",
+                icon: "fas fa-horse",
+                traits: ["حيوي", "مستقل", "صادق", "غير صبور", "مغامر"],
+                description: "الحصان هو رمز الحرية والحيوية في الأبراج الصينية. يتميز أصحابه بالطاقة العالية والاستقلالية والصدق. هم أشخاص مغامرون يحبون التغيير، وقد يكونون غير صبورين في بعض الأحيان. لديهم روح حرة ومستقلة.",
+                pros: ["حيوي ونشيط", "مستقل وحر", "صادق ومباشر", "مغامر وشجاع", "اجتماعي ومحب للحياة"],
+                cons: ["غير صبور", "متهور أحيانًا", "غير حساس", "غير ملتزم", "سريع الملل"],
+                stone: "التوباز، العقيق الأحمر",
+                yearElement: "الخشب",
+                color: "الأحمر، البرتقالي",
+                flower: "الزنبق، زهرة عباد الشمس",
+                compatibility: {
+                    tiger: 90, dog: 85, goat: 80, rat: 40, ox: 35,
+                    rabbit: 30, dragon: 25, snake: 20, horse: 15, monkey: 10, rooster: 5, pig: 5
+                }
+            },
+            goat: {
+                name: "الماعز",
+                years: "2027, 2015, 2003, 1991, 1979, 1967",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-ram",
+                traits: ["عطوف", "فني", "حساس", "غير حاسم", "متسامح"],
+                description: "الماعز هو رمز الفن والعطف في الأبراج الصينية. يتميز أصحابه بالحساسية والعطف والموهبة الفنية. هم أشخاص محبون للسلام والانسجام، وقد يكونون غير حاسمين في بعض الأحيان. لديهم ذوق فني رفيع وحب للجمال.",
+                pros: ["عطوف وحنون", "موهوب فنيًا", "حساس وعاطفي", "متسامح ومتفهم", "محب للسلام"],
+                cons: ["غير حاسم", "ضعيف الإرادة", "يعتمد على الآخرين", "متقلب المزاج", "غير عملي"],
+                stone: "حجر القمر، اللؤلؤ",
+                yearElement: "المعدن",
+                color: "الأخضر، الأزرق الفاتح",
+                flower: "الزنبق، زهرة القرنفل",
+                compatibility: {
+                    rabbit: 90, pig: 85, horse: 80, ox: 40, tiger: 35,
+                    dragon: 30, snake: 25, goat: 20, monkey: 15, rooster: 10, dog: 5, rat: 5
+                }
+            },
+            monkey: {
+                name: "القرد",
+                years: "2028, 2016, 2004, 1992, 1980, 1968",
+                element: "metal",
+                elementName: "معدني",
+                icon: "fas fa-monkey",
+                traits: ["ذكي", "ماهر", "مبتكر", "مخادع", "غير مسؤول"],
+                description: "القرد هو رمز الذكاء والمرح في الأبراج الصينية. يتميز أصحابه بالذكاء الحاد والبراعة والمهارة. هم أشخاص مبتكرون ومحبون للمرح، وقد يكونون مخادعين في بعض الأحيان. لديهم قدرة على حل المشكلات بطرق إبداعية.",
+                pros: ["ذكي وسريع البديهة", "ماهر ومبتكر", "مرح واجتماعي", "قادر على حل المشكلات", "متحمس ومليء بالحيوية"],
+                cons: ["مخادع أحيانًا", "غير مسؤول", "سريع الملل", "غير منظم", "غير صادق أحيانًا"],
+                stone: "العقيق الأصفر، التوباز",
+                yearElement: "الماء",
+                color: "الأبيض، الذهبي",
+                flower: "الزنبق، زهرة الكرز",
+                compatibility: {
+                    rat: 90, dragon: 85, snake: 80, tiger: 40, rabbit: 35,
+                    horse: 30, goat: 25, monkey: 20, rooster: 15, dog: 10, pig: 5, ox: 5
+                }
+            },
+            rooster: {
+                name: "الديك",
+                years: "2029, 2017, 2005, 1993, 1981, 1969",
+                element: "metal",
+                elementName: "معدني",
+                icon: "fas fa-crow",
+                traits: ["منظم", "صادق", "دقيق", "متكبر", "قاس"],
+                description: "الديك هو رمز الدقة والتنظيم في الأبراج الصينية. يتميز أصحابه بالالتزام والدقة والصدق. هم أشخاص منظمون للغاية، وقد يكونون متكبرين أو قاسين في بعض الأحيان. لديهم إحساس قوي بالمسؤولية.",
+                pros: ["منظم ودقيق", "صادق ومباشر", "ملتزم ومسؤول", "عملي وواقعي", "قوي الإرادة"],
+                cons: ["متكبر", "قاس أحيانًا", "ناقد للآخرين", "غير مرن", "غير متسامح"],
+                stone: "العقيق الأحمر، الياقوت",
+                yearElement: "الخشب",
+                color: "الأحمر، الذهبي",
+                flower: "الزنبق، زهرة الكاميليا",
+                compatibility: {
+                    ox: 90, snake: 85, dragon: 80, rabbit: 40, goat: 35,
+                    monkey: 30, rooster: 25, dog: 20, pig: 15, rat: 10, tiger: 5, horse: 5
+                }
+            },
+            dog: {
+                name: "الكلب",
+                years: "2030, 2018, 2006, 1994, 1982, 1970",
+                element: "earth",
+                elementName: "ترابي",
+                icon: "fas fa-dog",
+                traits: ["مخلص", "صادق", "مسؤول", "قلق", "متشائم"],
+                description: "الكلب هو رمز الإخلاص والصدق في الأبراج الصينية. يتميز أصحابه بالولاء والصدق والإحساس القوي بالمسؤولية. هم أشخاص يحمون من يحبون، وقد يكونون قلقين أو متشائمين في بعض الأحيان. لديهم حس أخلاقي قوي.",
+                pros: ["مخلص وموثوق", "صادق ومباشر", "مسؤول وملتزم", "شجاع وجريء", "عطوف وحنون"],
+                cons: ["قلق ومتوتر", "متشائم", "قاس على نفسه", "غير مرن", "غير متسامح"],
+                stone: "العقيق الأسود، الجزع",
+                yearElement: "النار",
+                color: "الأخضر، الأحمر",
+                flower: "الزنبق، زهرة الورد",
+                compatibility: {
+                    tiger: 90, horse: 85, rabbit: 80, dragon: 40, snake: 35,
+                    goat: 30, monkey: 25, rooster: 20, dog: 15, pig: 10, rat: 5, ox: 5
+                }
+            },
+            pig: {
+                name: "الخنزير",
+                years: "2031, 2019, 2007, 1995, 1983, 1971",
+                element: "water",
+                elementName: "مائي",
+                icon: "fas fa-piggy-bank",
+                traits: ["كريم", "صادق", "متفائل", "ساذج", "شهواني"],
+                description: "الخنزير هو رمز الكرم والصدق في الأبراج الصينية. يتميز أصحابه بالكرم والصدق والمحبة. هم أشخاص متفائلون يحبون الحياة، وقد يكونون ساذجين في بعض الأحيان. لديهم حب للمتع الجسدية والطعام الجيد.",
+                pros: ["كريم وسخي", "صادق ومباشر", "متفائل ومرح", "عطوف وحنون", "محب للحياة"],
+                cons: ["ساذج", "غير منظم", "شهواني", "غير حاسم", "غير عملي"],
+                stone: "حجر القمر، اللؤلؤ",
+                yearElement: "النار",
+                color: "الأصفر، الرمادي",
+                flower: "الزنبق، زهرة الياسمين",
+                compatibility: {
+                    rabbit: 90, goat: 85, tiger: 80, snake: 40, horse: 35,
+                    monkey: 30, rooster: 25, dog: 20, pig: 15, rat: 10, ox: 5, dragon: 5
+                }
+            }
+        };
+
+        // تهيئة سنوات الميلاد (من 1960 إلى 2031)
+        const yearSelect = document.getElementById('birth-year');
+        for (let i = 1960; i <= 2031; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            yearSelect.appendChild(option);
+        }
+
+        // اكتشاف البرج الصيني
+        document.getElementById('discover-btn').addEventListener('click', function() {
+            const year = parseInt(document.getElementById('birth-year').value);
+            
+            if (!year || year < 1960 || year > 2031) {
+                alert('الرجاء اختيار سنة ميلاد صحيحة بين 1960 و 2031');
+                return;
+            }
+            
+            const zodiacSign = getChineseZodiacSign(year);
+            if (zodiacSign) {
+                displayZodiacInfo(zodiacSign);
+            } else {
+                alert('حدث خطأ في تحديد البرج، الرجاء المحاولة مرة أخرى');
+            }
+        });
+
+        // تحديد البرج الصيني حسب سنة الميلاد
+        function getChineseZodiacSign(year) {
+            const animals = [
+                'rat', 'ox', 'tiger', 'rabbit', 
+                'dragon', 'snake', 'horse', 'goat', 
+                'monkey', 'rooster', 'dog', 'pig'
+            ];
+            const startYear = 1960; // سنة الفأر
+            const index = (year - startYear) % 12;
+            
+            if (index >= 0 && index < animals.length) {
+                return animals[index];
+            }
+            return null;
+        }
+
+        // عرض معلومات البرج
+        function displayZodiacInfo(sign) {
+            const zodiac = chineseZodiacSigns[sign];
+            if (!zodiac) {
+                alert('لا يوجد بيانات لهذا البرج');
+                return;
+            }
+            
+            const resultContainer = document.getElementById('result-container');
+            
+            // تعبئة المعلومات الأساسية
+            document.getElementById('zodiac-sign-name').textContent = zodiac.name;
+            document.getElementById('zodiac-sign-date').textContent = zodiac.years;
+            document.getElementById('element-name').textContent = zodiac.elementName;
+            document.getElementById('zodiac-sign-icon').className = zodiac.icon;
+            document.getElementById('element-icon').className = getElementIcon(zodiac.element);
+            
+            // إضافة كلاس العنصر
+            resultContainer.className = 'result-container ' + zodiac.element;
+            
+            // تعبئة الصفات
+            const traitsList = document.getElementById('traits-list');
+            traitsList.innerHTML = '';
+            zodiac.traits.forEach(trait => {
+                const traitElement = document.createElement('div');
+                traitElement.className = 'trait';
+                traitElement.textContent = trait;
+                traitsList.appendChild(traitElement);
+            });
+            
+            // تعبئة الوصف
+            document.getElementById('zodiac-description').textContent = zodiac.description;
+            
+            // تعبئة الإيجابيات
+            const prosList = document.getElementById('pros-list');
+            prosList.innerHTML = '';
+            zodiac.pros.forEach(pro => {
+                const li = document.createElement('li');
+                li.textContent = pro;
+                prosList.appendChild(li);
+            });
+            
+            // تعبئة السلبيات
+            const consList = document.getElementById('cons-list');
+            consList.innerHTML = '';
+            zodiac.cons.forEach(con => {
+                const li = document.createElement('li');
+                li.textContent = con;
+                consList.appendChild(li);
+            });
+            
+            // تعبئة تفاصيل البرج
+            document.getElementById('zodiac-stone').textContent = zodiac.stone;
+            document.getElementById('zodiac-year-element').textContent = zodiac.yearElement;
+            document.getElementById('zodiac-color').textContent = zodiac.color;
+            document.getElementById('zodiac-flower').textContent = zodiac.flower;
+            
+            // تعبئة التوافق
+            const compatibilityCards = document.getElementById('compatibility-cards');
+            compatibilityCards.innerHTML = '';
+            
+            for (const [compatibleSign, rate] of Object.entries(zodiac.compatibility)) {
+                const compatibleZodiac = chineseZodiacSigns[compatibleSign];
+                const card = document.createElement('div');
+                card.className = 'compatibility-card';
+                
+                card.innerHTML = `
+                    <div class="zodiac-icon">
+                        <i class="${compatibleZodiac.icon}"></i>
+                    </div>
+                    <h4>${compatibleZodiac.name}</h4>
+                    <div class="compatibility-rate">${rate}%</div>
+                `;
+                
+                compatibilityCards.appendChild(card);
+            }
+            
+            // عرض النتائج
+            resultContainer.style.display = 'block';
+            window.scrollTo({
+                top: resultContainer.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        // الحصول على أيقونة العنصر
+        function getElementIcon(element) {
+            switch(element) {
+                case 'wood': return 'fas fa-tree';
+                case 'fire': return 'fas fa-fire';
+                case 'earth': return 'fas fa-mountain';
+                case 'metal': return 'fas fa-gem';
+                case 'water': return 'fas fa-tint';
+                default: return 'fas fa-question';
+            }
+        }
+
+        // التحكم في القائمة الجانبية
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            // تحريك الأشرطة في زر القائمة
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            if (mobileMenuBtn.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(9px) rotate(45deg)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                
+                // إعادة الأشرطة إلى وضعها الطبيعي
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        });
+    </script>
+</body>
+</html>
