@@ -6,18 +6,19 @@
     <title>نظام إدارة سجلات المركبات</title>
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --success-color: #2ecc71;
+            --primary-color: #2c3e50;
+            --primary-light: #34495e;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
             --warning-color: #f39c12;
             --danger-color: #e74c3c;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
             --gray-color: #95a5a6;
-            --space-color: #0f1c3f;
-            --space-light: #1a3a8f;
-            --gold-color: #FFD700;
-            --silver-color: #C0C0C0;
+            --text-color: #333;
+            --border-color: #ddd;
+            --bg-color: #f5f7fa;
+            --card-bg: #fff;
         }
 
         * {
@@ -28,11 +29,10 @@
         }
 
         body {
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
-            background-image: linear-gradient(135deg, var(--space-color) 0%, var(--space-light) 100%);
-            background-attachment: fixed;
+            min-height: 100vh;
         }
 
         .container {
@@ -42,16 +42,13 @@
         }
 
         header {
-            background-color: rgba(44, 62, 80, 0.95);
+            background-color: var(--primary-color);
             color: white;
             padding: 25px 0;
             text-align: center;
             margin-bottom: 30px;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            animation: fadeInDown 0.5s ease-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -64,21 +61,14 @@
             bottom: 0;
             left: 0;
             background: linear-gradient(45deg, 
-                          rgba(255, 215, 0, 0.1) 0%, 
-                          rgba(255, 215, 0, 0) 50%, 
-                          rgba(192, 192, 192, 0.1) 100%);
+                          rgba(255, 255, 255, 0.05) 0%, 
+                          rgba(255, 255, 255, 0) 50%);
             pointer-events: none;
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         h1 {
@@ -86,6 +76,7 @@
             margin-bottom: 10px;
             position: relative;
             display: inline-block;
+            color: white;
         }
 
         h1::after {
@@ -95,22 +86,22 @@
             right: 0;
             width: 50%;
             height: 3px;
-            background: linear-gradient(to right, var(--gold-color), var(--silver-color));
+            background-color: var(--secondary-color);
             border-radius: 3px;
         }
 
         h2 {
             font-size: 26px;
             margin-bottom: 20px;
-            color: white;
+            color: var(--dark-color);
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid var(--border-color);
         }
 
         h3 {
             font-size: 22px;
             margin-bottom: 15px;
-            color: white;
+            color: var(--dark-color);
         }
 
         .btn {
@@ -123,18 +114,18 @@
             transition: all 0.3s ease;
             text-decoration: none;
             font-weight: 500;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .btn-success {
@@ -143,9 +134,9 @@
         }
 
         .btn-success:hover {
-            background-color: #27ae60;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .btn-warning {
@@ -155,8 +146,8 @@
 
         .btn-warning:hover {
             background-color: #e67e22;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .btn-danger {
@@ -166,8 +157,8 @@
 
         .btn-danger:hover {
             background-color: #c0392b;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .btn-light {
@@ -176,9 +167,9 @@
         }
 
         .btn-light:hover {
-            background-color: #e2e6ea;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #dfe6e9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .btn-sm {
@@ -192,40 +183,30 @@
         }
 
         .card {
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: var(--card-bg);
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 25px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: fadeIn 0.5s ease-out;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.3s ease-out;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .card-header {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 15px;
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .company-card {
@@ -234,18 +215,18 @@
             align-items: center;
             padding: 18px;
             margin-bottom: 15px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            background-color: white;
+            background-color: var(--card-bg);
             transition: all 0.3s ease;
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.3s ease-out;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .company-card:hover {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transform: translateY(-3px);
-            border-color: rgba(52, 152, 219, 0.3);
+            border-color: var(--secondary-color);
         }
 
         .company-name {
@@ -276,8 +257,8 @@
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
-            animation: fadeIn 0.5s ease-out;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease-out;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -295,11 +276,11 @@
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
 
         .stat-card.active {
-            background: linear-gradient(135deg, var(--success-color), #25a35a);
+            background: linear-gradient(135deg, var(--success-color), #219653);
         }
 
         .stat-card.expiring {
@@ -322,36 +303,29 @@
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
             margin-bottom: 25px;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-out;
-            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease-out;
+            border: 1px solid var(--border-color);
         }
 
         th, td {
             padding: 14px 16px;
             text-align: right;
-            border-right: 1px solid #dee2e6;
-            border-bottom: 1px solid #dee2e6;
+            border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
         }
 
         th {
-            background-color: #f8f9fa;
+            background-color: var(--light-color);
             font-weight: bold;
             position: sticky;
             top: 0;
-            color: #495057;
-            border-bottom: 2px solid #dee2e6;
-        }
-
-        th:first-child, td:first-child {
-            border-right: none;
+            color: var(--dark-color);
         }
 
         tr {
@@ -359,11 +333,11 @@
         }
 
         tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: var(--light-color);
         }
 
         tr:hover {
-            background-color: #f1f3f5;
+            background-color: #e8f4fc;
         }
 
         .status-badge {
@@ -374,38 +348,24 @@
             font-weight: bold;
             min-width: 85px;
             text-align: center;
-            animation: pulse 2s infinite;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
         }
 
         .status-active {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: #d5f5e3;
+            color: #27ae60;
+            border: 1px solid #a3e4c7;
         }
 
         .status-expiring {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
+            background-color: #fdebd0;
+            color: #f39c12;
+            border: 1px solid #f8c471;
         }
 
         .status-expired {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background-color: #fadbd8;
+            color: #e74c3c;
+            border: 1px solid #f5b7b1;
         }
 
         .form-group {
@@ -416,23 +376,23 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #495057;
+            color: var(--dark-color);
         }
 
         input, select, textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ced4da;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             font-size: 16px;
             transition: all 0.3s ease;
-            background-color: #fff;
+            background-color: var(--card-bg);
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
 
         .date-input {
@@ -445,24 +405,24 @@
         }
 
         .dropzone {
-            border: 2px dashed #ced4da;
+            border: 2px dashed var(--border-color);
             border-radius: 8px;
             padding: 30px;
             text-align: center;
             margin-bottom: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background-color: #f8f9fa;
+            background-color: var(--light-color);
         }
 
         .dropzone:hover {
-            border-color: var(--primary-color);
-            background-color: #f1f8ff;
+            border-color: var(--secondary-color);
+            background-color: #e8f4fc;
         }
 
         .dropzone.active {
             border-color: var(--success-color);
-            background-color: #e8f5e9;
+            background-color: #e8f8f0;
         }
 
         .image-preview {
@@ -476,16 +436,16 @@
             position: relative;
             width: 110px;
             height: 110px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .preview-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .preview-item img {
@@ -531,19 +491,19 @@
         }
 
         .modal-content {
-            background-color: white;
+            background-color: var(--card-bg);
             margin: 50px auto;
             max-width: 600px;
             border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             animation: modalFadeIn 0.3s;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         @keyframes modalFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-50px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -553,11 +513,11 @@
 
         .modal-header {
             padding: 18px 22px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #f8f9fa;
+            background-color: var(--light-color);
             border-radius: 8px 8px 0 0;
         }
 
@@ -567,22 +527,22 @@
 
         .modal-footer {
             padding: 18px 22px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-color);
             text-align: left;
-            background-color: #f8f9fa;
+            background-color: var(--light-color);
             border-radius: 0 0 8px 8px;
         }
 
         .close {
             font-size: 26px;
             font-weight: bold;
-            color: #6c757d;
+            color: var(--gray-color);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .close:hover {
-            color: #343a40;
+            color: var(--dark-color);
             transform: rotate(90deg);
         }
 
@@ -596,7 +556,7 @@
         .gallery-item {
             width: 130px;
             height: 130px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
@@ -605,8 +565,8 @@
         }
 
         .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
 
         .gallery-item img {
@@ -617,7 +577,7 @@
         }
 
         .gallery-item:hover img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .lightbox {
@@ -701,8 +661,8 @@
         }
 
         .note {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--primary-color);
+            background-color: var(--light-color);
+            border-right: 4px solid var(--secondary-color);
             padding: 12px 16px;
             margin-bottom: 12px;
             border-radius: 6px;
@@ -725,7 +685,7 @@
 
         .note-content {
             font-size: 15px;
-            color: #495057;
+            color: var(--text-color);
         }
 
         .note-delete {
@@ -763,7 +723,7 @@
 
         .filter-btn.active {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .no-data {
@@ -771,7 +731,7 @@
             padding: 30px;
             color: var(--gray-color);
             font-size: 18px;
-            background-color: #f8f9fa;
+            background-color: var(--light-color);
             border-radius: 8px;
             margin: 20px 0;
         }
@@ -779,6 +739,25 @@
         .serial-number {
             font-weight: bold;
             color: var(--dark-color);
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d5f5e3;
+            color: #27ae60;
+            border: 1px solid #a3e4c7;
+        }
+
+        .alert-error {
+            background-color: #fadbd8;
+            color: #e74c3c;
+            border: 1px solid #f5b7b1;
         }
 
         /* Responsive styles */
@@ -859,9 +838,12 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
+        <div id="alert-message" class="alert" style="display: none;"></div>
+        
         <header>
             <h1>نظام إدارة سجلات المركبات</h1>
         </header>
@@ -871,7 +853,9 @@
             <div class="card">
                 <div class="card-header">
                     <h2>قائمة الشركات</h2>
-                    <button id="add-company-btn" class="btn btn-primary">إضافة شركة جديدة</button>
+                    <button id="add-company-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> إضافة شركة جديدة
+                    </button>
                 </div>
                 <div id="companies-list">
                     <!-- Companies will be loaded here -->
@@ -881,11 +865,15 @@
 
         <!-- Company Details Page -->
         <div id="company-page" style="display: none;">
-            <button id="back-to-companies" class="btn btn-light mb-3">← العودة إلى الشركات</button>
+            <button id="back-to-companies" class="btn btn-light mb-3">
+                <i class="fas fa-arrow-right"></i> العودة إلى الشركات
+            </button>
             <div class="card">
                 <div class="card-header">
                     <h2 id="company-name-title">اسم الشركة</h2>
-                    <button id="add-vehicle-btn" class="btn btn-primary">إضافة مركبة جديدة</button>
+                    <button id="add-vehicle-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> إضافة مركبة جديدة
+                    </button>
                 </div>
                 
                 <div class="stats-container">
@@ -905,14 +893,24 @@
                 
                 <div class="search-container">
                     <input type="text" id="vehicle-search" class="search-input form-control" placeholder="ابحث برقم الرخصة...">
-                    <button id="clear-search" class="btn btn-light">مسح</button>
+                    <button id="clear-search" class="btn btn-light">
+                        <i class="fas fa-times"></i> مسح
+                    </button>
                 </div>
                 
                 <div class="filter-buttons">
-                    <button class="btn btn-light filter-btn active" data-filter="all">الكل</button>
-                    <button class="btn btn-success filter-btn" data-filter="active">نشطة</button>
-                    <button class="btn btn-warning filter-btn" data-filter="expiring">قريبة من الانتهاء</button>
-                    <button class="btn btn-danger filter-btn" data-filter="expired">منتهية</button>
+                    <button class="btn btn-light filter-btn active" data-filter="all">
+                        <i class="fas fa-list"></i> الكل
+                    </button>
+                    <button class="btn btn-success filter-btn" data-filter="active">
+                        <i class="fas fa-check-circle"></i> نشطة
+                    </button>
+                    <button class="btn btn-warning filter-btn" data-filter="expiring">
+                        <i class="fas fa-exclamation-triangle"></i> قريبة من الانتهاء
+                    </button>
+                    <button class="btn btn-danger filter-btn" data-filter="expired">
+                        <i class="fas fa-times-circle"></i> منتهية
+                    </button>
                 </div>
                 
                 <div id="vehicles-list">
@@ -938,13 +936,19 @@
 
         <!-- Vehicle Details Page -->
         <div id="vehicle-page" style="display: none;">
-            <button id="back-to-company" class="btn btn-light mb-3">← العودة إلى الشركة</button>
+            <button id="back-to-company" class="btn btn-light mb-3">
+                <i class="fas fa-arrow-right"></i> العودة إلى الشركة
+            </button>
             <div class="card">
                 <div class="card-header">
                     <h2>تفاصيل المركبة</h2>
                     <div>
-                        <button id="edit-vehicle-btn" class="btn btn-warning">تعديل</button>
-                        <button id="delete-vehicle-btn" class="btn btn-danger">حذف</button>
+                        <button id="edit-vehicle-btn" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> تعديل
+                        </button>
+                        <button id="delete-vehicle-btn" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> حذف
+                        </button>
                     </div>
                 </div>
                 
@@ -980,14 +984,18 @@
                 </div>
                 <div class="form-group">
                     <textarea id="new-note" class="form-control" placeholder="أضف ملاحظة جديدة..."></textarea>
-                    <button id="add-note-btn" class="btn btn-primary mt-2">إضافة ملاحظة</button>
+                    <button id="add-note-btn" class="btn btn-primary mt-2">
+                        <i class="fas fa-plus"></i> إضافة ملاحظة
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- Add/Edit Vehicle Page -->
         <div id="vehicle-form-page" style="display: none;">
-            <button id="back-from-form" class="btn btn-light mb-3">← العودة</button>
+            <button id="back-from-form" class="btn btn-light mb-3">
+                <i class="fas fa-arrow-right"></i> العودة
+            </button>
             <div class="card">
                 <div class="card-header">
                     <h2 id="form-title">إضافة مركبة جديدة</h2>
@@ -1015,6 +1023,7 @@
                     <div class="form-group">
                         <label>صور الرخصة</label>
                         <div id="dropzone" class="dropzone">
+                            <p><i class="fas fa-cloud-upload-alt" style="font-size: 24px; margin-bottom: 10px;"></i></p>
                             <p>اسحب وأسقط الصور هنا أو انقر لاختيار الملفات</p>
                             <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
                         </div>
@@ -1024,8 +1033,12 @@
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">حفظ البيانات</button>
-                        <button type="button" id="cancel-form" class="btn btn-light btn-block">إلغاء</button>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-save"></i> حفظ البيانات
+                        </button>
+                        <button type="button" id="cancel-form" class="btn btn-light btn-block">
+                            <i class="fas fa-times"></i> إلغاء
+                        </button>
                     </div>
                 </form>
             </div>
@@ -1046,8 +1059,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="save-company" class="btn btn-primary">حفظ</button>
-                <button id="cancel-company" class="btn btn-light">إلغاء</button>
+                <button id="save-company" class="btn btn-primary">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+                <button id="cancel-company" class="btn btn-light">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
             </div>
         </div>
     </div>
@@ -1067,8 +1084,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="update-company" class="btn btn-primary">تحديث</button>
-                <button id="cancel-edit-company" class="btn btn-light">إلغاء</button>
+                <button id="update-company" class="btn btn-primary">
+                    <i class="fas fa-save"></i> تحديث
+                </button>
+                <button id="cancel-edit-company" class="btn btn-light">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
             </div>
         </div>
     </div>
@@ -1084,8 +1105,12 @@
                 <p id="delete-modal-message">هل أنت متأكد أنك تريد حذف هذا العنصر؟</p>
             </div>
             <div class="modal-footer">
-                <button id="confirm-delete" class="btn btn-danger">حذف</button>
-                <button id="cancel-delete" class="btn btn-light">إلغاء</button>
+                <button id="confirm-delete" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> حذف
+                </button>
+                <button id="cancel-delete" class="btn btn-light">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
             </div>
         </div>
     </div>
@@ -1106,7 +1131,7 @@
         // Database variables
         let db;
         const DB_NAME = 'VehicleRecordsDB';
-        const DB_VERSION = 1;
+        const DB_VERSION = 2; // Increased version for updates
         
         // Object store names
         const STORES = {
@@ -1121,6 +1146,7 @@
         const companyPage = document.getElementById('company-page');
         const vehiclePage = document.getElementById('vehicle-page');
         const vehicleFormPage = document.getElementById('vehicle-form-page');
+        const alertMessage = document.getElementById('alert-message');
         
         const companiesList = document.getElementById('companies-list');
         const addCompanyBtn = document.getElementById('add-company-btn');
@@ -1179,11 +1205,23 @@
         let currentLightboxIndex = 0;
         let currentFilter = 'all';
         let currentSearchTerm = '';
+        let currentImages = [];
 
         // Initialize the app and database
         function init() {
             setupEventListeners();
             openDatabase();
+        }
+
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            alertMessage.textContent = message;
+            alertMessage.className = `alert alert-${type}`;
+            alertMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 5000);
         }
 
         // Open or create IndexedDB database
@@ -1192,7 +1230,7 @@
             
             request.onerror = function(event) {
                 console.error('فشل فتح قاعدة البيانات', event.target.error);
-                alert('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.');
+                showAlert('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
             };
             
             request.onsuccess = function(event) {
@@ -1206,7 +1244,7 @@
                 // Create object stores
                 if (!db.objectStoreNames.contains(STORES.COMPANIES)) {
                     const companiesStore = db.createObjectStore(STORES.COMPANIES, { keyPath: 'id' });
-                    companiesStore.createIndex('name', 'name', { unique: false });
+                    companiesStore.createIndex('name', 'name', { unique: true });
                 }
                 
                 if (!db.objectStoreNames.contains(STORES.VEHICLES)) {
@@ -1295,7 +1333,7 @@
                 showVehicleFormPage(currentVehicleId, currentCompanyId);
             });
             deleteVehicleBtn.addEventListener('click', () => {
-                showDeleteModal('vehicle', currentVehicleId, 'هل أنت متأكد أنك تريد حذف هذه المركبة؟');
+                showDeleteModal('vehicle', currentVehicleId, 'هل أنت متأكد أنك تريد حذف هذه المركبة؟ سيتم حذف جميع الصور والملاحظات المرتبطة بها.');
             });
             
             // Notes
@@ -1329,7 +1367,7 @@
             
             // Search and filter
             vehicleSearch.addEventListener('input', (e) => {
-                currentSearchTerm = e.target.value.toLowerCase();
+                currentSearchTerm = e.target.value.trim().toLowerCase();
                 renderCompanyVehicles(currentCompanyId);
             });
             clearSearch.addEventListener('click', () => {
@@ -1385,9 +1423,15 @@
                     companyCard.innerHTML = `
                         <div class="company-name">${company.name}</div>
                         <div class="company-actions">
-                            <button class="btn btn-primary btn-sm view-company" data-id="${company.id}">عرض</button>
-                            <button class="btn btn-warning btn-sm edit-company" data-id="${company.id}">تعديل</button>
-                            <button class="btn btn-danger btn-sm delete-company" data-id="${company.id}">حذف</button>
+                            <button class="btn btn-primary btn-sm view-company" data-id="${company.id}">
+                                <i class="fas fa-eye"></i> عرض
+                            </button>
+                            <button class="btn btn-warning btn-sm edit-company" data-id="${company.id}">
+                                <i class="fas fa-edit"></i> تعديل
+                            </button>
+                            <button class="btn btn-danger btn-sm delete-company" data-id="${company.id}">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
                         </div>
                     `;
                     companiesList.appendChild(companyCard);
@@ -1401,8 +1445,11 @@
                     btn.addEventListener('click', () => showEditCompanyModal(btn.dataset.id));
                 });
                 document.querySelectorAll('.delete-company').forEach(btn => {
-                    btn.addEventListener('click', () => showDeleteModal('company', btn.dataset.id, 'هل أنت متأكد أنك تريد حذف هذه الشركة وجميع مركباتها؟'));
+                    btn.addEventListener('click', () => showDeleteModal('company', btn.dataset.id, 'هل أنت متأكد أنك تريد حذف هذه الشركة وجميع مركباتها؟ سيتم حذف جميع البيانات المرتبطة بهذه الشركة.'));
                 });
+            }).catch(error => {
+                console.error('Error rendering companies:', error);
+                showAlert('حدث خطأ أثناء تحميل بيانات الشركات', 'error');
             });
         }
 
@@ -1412,12 +1459,15 @@
             companyPage.style.display = 'none';
             vehiclePage.style.display = 'none';
             vehicleFormPage.style.display = 'none';
+            currentCompanyId = null;
+            currentVehicleId = null;
             renderCompanies();
         }
 
         // Show company page
         function showCompanyPage(companyId) {
             currentCompanyId = companyId;
+            currentVehicleId = null;
             
             getCompany(companyId).then(company => {
                 if (!company) {
@@ -1433,6 +1483,9 @@
                 vehicleFormPage.style.display = 'none';
                 
                 renderCompanyVehicles(companyId);
+            }).catch(error => {
+                console.error('Error showing company page:', error);
+                showAlert('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
             });
         }
 
@@ -1470,11 +1523,11 @@
                     let statusBadge = '';
                     
                     if (status === 'active') {
-                        statusBadge = '<span class="status-badge status-active">نشطة</span>';
+                        statusBadge = '<span class="status-badge status-active"><i class="fas fa-check-circle"></i> نشطة</span>';
                     } else if (status === 'expiring') {
-                        statusBadge = '<span class="status-badge status-expiring">قريبة من الانتهاء</span>';
+                        statusBadge = '<span class="status-badge status-expiring"><i class="fas fa-exclamation-triangle"></i> قريبة من الانتهاء</span>';
                     } else {
-                        statusBadge = '<span class="status-badge status-expired">منتهية</span>';
+                        statusBadge = '<span class="status-badge status-expired"><i class="fas fa-times-circle"></i> منتهية</span>';
                     }
                     
                     const expiryDate = vehicle.expiryDate || 'غير محدد';
@@ -1488,7 +1541,9 @@
                         <td>${calibrationDate}</td>
                         <td>${statusBadge}</td>
                         <td>
-                            <button class="btn btn-primary btn-sm view-vehicle" data-id="${vehicle.id}">عرض</button>
+                            <button class="btn btn-primary btn-sm view-vehicle" data-id="${vehicle.id}">
+                                <i class="fas fa-eye"></i> عرض
+                            </button>
                         </td>
                     `;
                     vehiclesTableBody.appendChild(row);
@@ -1498,6 +1553,9 @@
                 document.querySelectorAll('.view-vehicle').forEach(btn => {
                     btn.addEventListener('click', () => showVehiclePage(btn.dataset.id));
                 });
+            }).catch(error => {
+                console.error('Error rendering company vehicles:', error);
+                showAlert('حدث خطأ أثناء تحميل بيانات المركبات', 'error');
             });
         }
 
@@ -1531,6 +1589,9 @@
                     return;
                 }
                 
+                // Set current company ID from vehicle data
+                currentCompanyId = vehicle.companyId;
+                
                 // Set vehicle details
                 vehicleLicenseNumber.textContent = vehicle.licenseNumber;
                 vehicleExpiryDate.textContent = vehicle.expiryDate || 'غير محدد';
@@ -1539,11 +1600,11 @@
                 // Set status
                 const status = getLicenseStatus(vehicle);
                 if (status === 'active') {
-                    vehicleStatus.innerHTML = '<span class="status-badge status-active">نشطة</span>';
+                    vehicleStatus.innerHTML = '<span class="status-badge status-active"><i class="fas fa-check-circle"></i> نشطة</span>';
                 } else if (status === 'expiring') {
-                    vehicleStatus.innerHTML = '<span class="status-badge status-expiring">قريبة من الانتهاء</span>';
+                    vehicleStatus.innerHTML = '<span class="status-badge status-expiring"><i class="fas fa-exclamation-triangle"></i> قريبة من الانتهاء</span>';
                 } else {
-                    vehicleStatus.innerHTML = '<span class="status-badge status-expired">منتهية</span>';
+                    vehicleStatus.innerHTML = '<span class="status-badge status-expired"><i class="fas fa-times-circle"></i> منتهية</span>';
                 }
                 
                 // Render images
@@ -1556,6 +1617,9 @@
                 companyPage.style.display = 'none';
                 vehiclePage.style.display = 'block';
                 vehicleFormPage.style.display = 'none';
+            }).catch(error => {
+                console.error('Error showing vehicle page:', error);
+                showAlert('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
             });
         }
 
@@ -1563,6 +1627,7 @@
         function renderVehicleImages(vehicleId) {
             getVehicleImages(vehicleId).then(vehicleImagesData => {
                 vehicleImages.innerHTML = '';
+                currentImages = vehicleImagesData;
                 
                 if (vehicleImagesData.length === 0) {
                     noImages.style.display = 'block';
@@ -1584,6 +1649,9 @@
                 document.querySelectorAll('#vehicle-images img').forEach(img => {
                     img.addEventListener('click', () => showLightbox(vehicleImagesData, parseInt(img.dataset.index)));
                 });
+            }).catch(error => {
+                console.error('Error rendering vehicle images:', error);
+                showAlert('حدث خطأ أثناء تحميل صور المركبة', 'error');
             });
         }
 
@@ -1597,13 +1665,15 @@
                     return;
                 }
                 
-                vehicleNotesData.forEach(note => {
+                vehicleNotesData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(note => {
                     const noteElement = document.createElement('div');
                     noteElement.className = 'note';
                     noteElement.innerHTML = `
                         <div class="note-header">
                             <span>${formatDateTime(note.createdAt)}</span>
-                            <span class="note-delete" data-id="${note.id}">حذف</span>
+                            <span class="note-delete" data-id="${note.id}">
+                                <i class="fas fa-trash"></i> حذف
+                            </span>
                         </div>
                         <div class="note-content">${note.content}</div>
                     `;
@@ -1616,6 +1686,9 @@
                         showDeleteModal('note', btn.dataset.id, 'هل أنت متأكد أنك تريد حذف هذه الملاحظة؟');
                     });
                 });
+            }).catch(error => {
+                console.error('Error rendering vehicle notes:', error);
+                showAlert('حدث خطأ أثناء تحميل ملاحظات المركبة', 'error');
             });
         }
 
@@ -1646,8 +1719,13 @@
                             vehicleImagesData.forEach(img => {
                                 addImageToPreview(img.data, img.id);
                             });
+                        }).catch(error => {
+                            console.error('Error loading vehicle images:', error);
                         });
                     }
+                }).catch(error => {
+                    console.error('Error loading vehicle:', error);
+                    showAlert('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
                 });
             } else {
                 // Add mode
@@ -1669,13 +1747,13 @@
             const expiryDate = expiryDateInput.value.trim();
             
             if (!licenseNumber || !expiryDate) {
-                alert('الرجاء إدخال جميع الحقول المطلوبة');
+                showAlert('الرجاء إدخال جميع الحقول المطلوبة', 'error');
                 return;
             }
             
             // Validate date format (dd/mm/yyyy)
             if (!isValidDate(expiryDate)) {
-                alert('الرجاء إدخال تاريخ انتهاء الرخصة بصيغة صحيحة (يوم/شهر/سنة)');
+                showAlert('الرجاء إدخال تاريخ انتهاء الرخصة بصيغة صحيحة (يوم/شهر/سنة)', 'error');
                 return;
             }
             
@@ -1687,7 +1765,7 @@
             };
             
             if (calibrationDateInput.value.trim() && !isValidDate(calibrationDateInput.value.trim())) {
-                alert('الرجاء إدخال تاريخ انتهاء العيار بصيغة صحيحة (يوم/شهر/سنة)');
+                showAlert('الرجاء إدخال تاريخ انتهاء العيار بصيغة صحيحة (يوم/شهر/سنة)', 'error');
                 return;
             }
             
@@ -1695,12 +1773,20 @@
                 // Update existing vehicle
                 vehicleData.id = currentVehicleId;
                 updateVehicle(vehicleData).then(() => {
+                    showAlert('تم تحديث بيانات المركبة بنجاح', 'success');
                     showVehiclePage(currentVehicleId);
+                }).catch(error => {
+                    console.error('Error updating vehicle:', error);
+                    showAlert('حدث خطأ أثناء تحديث بيانات المركبة', 'error');
                 });
             } else {
                 // Add new vehicle
                 addVehicle(vehicleData).then(() => {
+                    showAlert('تم إضافة المركبة بنجاح', 'success');
                     showCompanyPage(currentCompanyId);
+                }).catch(error => {
+                    console.error('Error adding vehicle:', error);
+                    showAlert('حدث خطأ أثناء إضافة المركبة', 'error');
                 });
             }
         }
@@ -1741,6 +1827,9 @@
                     document.getElementById('edit-company-name').value = company.name;
                     editCompanyModal.style.display = 'block';
                 }
+            }).catch(error => {
+                console.error('Error loading company for edit:', error);
+                showAlert('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
             });
         }
 
@@ -1759,11 +1848,26 @@
             const id = this.dataset.id;
             
             if (type === 'company') {
-                deleteCompany(id);
+                deleteCompany(id).then(() => {
+                    showAlert('تم حذف الشركة بنجاح', 'success');
+                }).catch(error => {
+                    console.error('Error deleting company:', error);
+                    showAlert('حدث خطأ أثناء حذف الشركة', 'error');
+                });
             } else if (type === 'vehicle') {
-                deleteVehicle(id);
+                deleteVehicle(id).then(() => {
+                    showAlert('تم حذف المركبة بنجاح', 'success');
+                }).catch(error => {
+                    console.error('Error deleting vehicle:', error);
+                    showAlert('حدث خطأ أثناء حذف المركبة', 'error');
+                });
             } else if (type === 'note') {
-                deleteNote(id);
+                deleteNote(id).then(() => {
+                    showAlert('تم حذف الملاحظة بنجاح', 'success');
+                }).catch(error => {
+                    console.error('Error deleting note:', error);
+                    showAlert('حدث خطأ أثناء حذف الملاحظة', 'error');
+                });
             }
             
             deleteModal.style.display = 'none';
@@ -1774,7 +1878,7 @@
             const name = document.getElementById('company-name').value.trim();
             
             if (!name) {
-                alert('الرجاء إدخال اسم الشركة');
+                showAlert('الرجاء إدخال اسم الشركة', 'error');
                 return;
             }
             
@@ -1785,7 +1889,15 @@
             
             addCompany(newCompany).then(() => {
                 addCompanyModal.style.display = 'none';
+                showAlert('تم إضافة الشركة بنجاح', 'success');
                 renderCompanies();
+            }).catch(error => {
+                if (error.name === 'ConstraintError') {
+                    showAlert('اسم الشركة موجود بالفعل', 'error');
+                } else {
+                    console.error('Error adding company:', error);
+                    showAlert('حدث خطأ أثناء إضافة الشركة', 'error');
+                }
             });
         }
 
@@ -1795,7 +1907,7 @@
             const name = document.getElementById('edit-company-name').value.trim();
             
             if (!name) {
-                alert('الرجاء إدخال اسم الشركة');
+                showAlert('الرجاء إدخال اسم الشركة', 'error');
                 return;
             }
             
@@ -1806,11 +1918,19 @@
             
             updateCompanyData(company).then(() => {
                 editCompanyModal.style.display = 'none';
+                showAlert('تم تحديث بيانات الشركة بنجاح', 'success');
                 renderCompanies();
                 
                 // If we're on the company page, update the title
                 if (currentCompanyId === id) {
                     companyNameTitle.textContent = name;
+                }
+            }).catch(error => {
+                if (error.name === 'ConstraintError') {
+                    showAlert('اسم الشركة موجود بالفعل', 'error');
+                } else {
+                    console.error('Error updating company:', error);
+                    showAlert('حدث خطأ أثناء تحديث بيانات الشركة', 'error');
                 }
             });
         }
@@ -1849,7 +1969,13 @@
                     } else {
                         renderCompanies();
                     }
+                }).catch(error => {
+                    console.error('Error deleting company:', error);
+                    showAlert('حدث خطأ أثناء حذف الشركة', 'error');
                 });
+            }).catch(error => {
+                console.error('Error getting company vehicles:', error);
+                showAlert('حدث خطأ أثناء حذف الشركة', 'error');
             });
         }
 
@@ -1857,40 +1983,59 @@
         function addVehicle(vehicleData) {
             vehicleData.id = generateId();
             
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 addVehicleData(vehicleData).then(() => {
                     // Save images
                     saveVehicleImages(vehicleData.id).then(() => {
                         resolve();
+                    }).catch(error => {
+                        reject(error);
                     });
+                }).catch(error => {
+                    reject(error);
                 });
             });
         }
 
         // Update vehicle
         function updateVehicle(vehicleData) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 updateVehicleData(vehicleData).then(() => {
                     // Save images - first remove existing ones
                     deleteAllImagesForVehicle(vehicleData.id).then(() => {
                         saveVehicleImages(vehicleData.id).then(() => {
                             resolve();
+                        }).catch(error => {
+                            reject(error);
                         });
+                    }).catch(error => {
+                        reject(error);
                     });
+                }).catch(error => {
+                    reject(error);
                 });
             });
         }
 
         // Delete vehicle
         function deleteVehicle(id) {
-            // Delete images
-            deleteAllImagesForVehicle(id).then(() => {
-                // Delete notes
-                deleteAllNotesForVehicle(id).then(() => {
-                    // Delete vehicle
-                    deleteVehicleData(id).then(() => {
-                        showCompanyPage(currentCompanyId);
+            return new Promise((resolve, reject) => {
+                // Delete images
+                deleteAllImagesForVehicle(id).then(() => {
+                    // Delete notes
+                    deleteAllNotesForVehicle(id).then(() => {
+                        // Delete vehicle
+                        deleteVehicleData(id).then(() => {
+                            showCompanyPage(currentCompanyId);
+                            resolve();
+                        }).catch(error => {
+                            reject(error);
+                        });
+                    }).catch(error => {
+                        reject(error);
                     });
+                }).catch(error => {
+                    reject(error);
                 });
             });
         }
@@ -1900,7 +2045,7 @@
             const content = newNote.value.trim();
             
             if (!content) {
-                alert('الرجاء إدخال محتوى الملاحظة');
+                showAlert('الرجاء إدخال محتوى الملاحظة', 'error');
                 return;
             }
             
@@ -1914,6 +2059,9 @@
             addNoteData(newNoteObj).then(() => {
                 newNote.value = '';
                 renderVehicleNotes(currentVehicleId);
+            }).catch(error => {
+                console.error('Error adding note:', error);
+                showAlert('حدث خطأ أثناء إضافة الملاحظة', 'error');
             });
         }
 
@@ -1921,6 +2069,9 @@
         function deleteNote(id) {
             deleteNoteData(id).then(() => {
                 renderVehicleNotes(currentVehicleId);
+            }).catch(error => {
+                console.error('Error deleting note:', error);
+                showAlert('حدث خطأ أثناء حذف الملاحظة', 'error');
             });
         }
 
@@ -1973,7 +2124,9 @@
                 
                 if (imageId) {
                     // Remove from database
-                    deleteImageData(imageId);
+                    deleteImageData(imageId).catch(error => {
+                        console.error('Error deleting image:', error);
+                    });
                 } else {
                     // Remove from selected files
                     const index = selectedFiles.findIndex(file => file.data === imageData);
@@ -2011,18 +2164,14 @@
 
         // Show previous image in lightbox
         function showPrevImage() {
-            getVehicleImages(currentVehicleId).then(imagesArray => {
-                currentLightboxIndex = (currentLightboxIndex - 1 + imagesArray.length) % imagesArray.length;
-                document.getElementById('lightbox-img').src = imagesArray[currentLightboxIndex].data;
-            });
+            currentLightboxIndex = (currentLightboxIndex - 1 + currentImages.length) % currentImages.length;
+            document.getElementById('lightbox-img').src = currentImages[currentLightboxIndex].data;
         }
 
         // Show next image in lightbox
         function showNextImage() {
-            getVehicleImages(currentVehicleId).then(imagesArray => {
-                currentLightboxIndex = (currentLightboxIndex + 1) % imagesArray.length;
-                document.getElementById('lightbox-img').src = imagesArray[currentLightboxIndex].data;
-            });
+            currentLightboxIndex = (currentLightboxIndex + 1) % currentImages.length;
+            document.getElementById('lightbox-img').src = currentImages[currentLightboxIndex].data;
         }
 
         // Get license status
@@ -2099,7 +2248,7 @@
                 const request = store.add(company);
                 
                 request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
+                request.onerror = (e) => reject(e.target.error);
             });
         }
 
@@ -2110,7 +2259,7 @@
                 const request = store.put(company);
                 
                 request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
+                request.onerror = (e) => reject(e.target.error);
             });
         }
 
@@ -2328,7 +2477,7 @@
         }
 
         // Initialize the app
-        init();
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
