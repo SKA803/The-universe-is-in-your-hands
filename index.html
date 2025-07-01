@@ -6,19 +6,26 @@
     <title>نظام إدارة سجلات المركبات</title>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --primary-light: #34495e;
-            --secondary-color: #3498db;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --gray-color: #95a5a6;
-            --text-color: #333;
-            --border-color: #ddd;
-            --bg-color: #f5f7fa;
-            --card-bg: #fff;
+            --primary-color: #1a73e8;
+            --primary-light: #4285f4;
+            --primary-dark: #0d47a1;
+            --secondary-color: #1976d2;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --gray-color: #5f6368;
+            --text-color: #3c4043;
+            --border-color: #dadce0;
+            --bg-color: #f1f3f4;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(60,64,67,0.1);
+            --shadow-md: 0 2px 4px 0 rgba(60,64,67,0.2);
+            --shadow-lg: 0 4px 8px 0 rgba(60,64,67,0.3);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
         }
 
         * {
@@ -33,22 +40,23 @@
             color: var(--text-color);
             line-height: 1.6;
             min-height: 100vh;
+            font-size: 14px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
 
         header {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            padding: 25px 0;
+            padding: 20px 0;
             text-align: center;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
         }
@@ -60,23 +68,22 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background: linear-gradient(45deg, 
-                          rgba(255, 255, 255, 0.05) 0%, 
-                          rgba(255, 255, 255, 0) 50%);
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
             pointer-events: none;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
+            font-size: 24px;
+            margin-bottom: 8px;
             position: relative;
             display: inline-block;
             color: white;
+            font-weight: 700;
         }
 
         h1::after {
@@ -85,47 +92,50 @@
             bottom: -5px;
             right: 0;
             width: 50%;
-            height: 3px;
-            background-color: var(--secondary-color);
+            height: 2px;
+            background-color: rgba(255,255,255,0.5);
             border-radius: 3px;
         }
 
         h2 {
-            font-size: 26px;
-            margin-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 15px;
             color: var(--dark-color);
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border-color);
         }
 
         h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
+            font-size: 18px;
+            margin-bottom: 12px;
             color: var(--dark-color);
         }
 
         .btn {
-            display: inline-block;
-            padding: 10px 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-size: 15px;
-            transition: all 0.3s ease;
+            font-size: 13px;
+            transition: all 0.2s ease;
             text-decoration: none;
             font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
+            gap: 6px;
         }
 
         .btn-primary {
-            background-color: var(--secondary-color);
+            background-color: var(--primary-color);
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-success {
@@ -134,20 +144,20 @@
         }
 
         .btn-success:hover {
-            background-color: #219653;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: #2d9249;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-warning {
             background-color: var(--warning-color);
-            color: white;
+            color: var(--dark-color);
         }
 
         .btn-warning:hover {
-            background-color: #e67e22;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: #e8ac04;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-danger {
@@ -156,109 +166,107 @@
         }
 
         .btn-danger:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: #d33426;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-light {
             background-color: var(--light-color);
-            color: var(--dark-color);
+            color: var(--gray-color);
+            border: 1px solid var(--border-color);
         }
 
         .btn-light:hover {
-            background-color: #dfe6e9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: #e8eaed;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-sm {
             padding: 6px 12px;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .btn-block {
-            display: block;
+            display: flex;
             width: 100%;
         }
 
         .card {
             background-color: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-            margin-bottom: 25px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            margin-bottom: 20px;
             border: 1px solid var(--border-color);
             animation: fadeIn 0.3s ease-out;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .card-header {
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
         }
 
         .company-card {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px;
-            margin-bottom: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             background-color: var(--card-bg);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             animation: fadeIn 0.3s ease-out;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-sm);
         }
 
         .company-card:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-3px);
-            border-color: var(--secondary-color);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
         }
 
         .company-name {
-            font-weight: bold;
-            font-size: 18px;
+            font-weight: 600;
+            font-size: 15px;
             color: var(--dark-color);
         }
 
         .company-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .stats-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
-            flex: 1;
-            min-width: 160px;
             text-align: center;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: var(--radius-sm);
             color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             animation: fadeIn 0.3s ease-out;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
             position: relative;
             overflow: hidden;
         }
@@ -270,66 +278,67 @@
             right: -10px;
             width: 40px;
             height: 40px;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255,255,255,0.2);
             border-radius: 50%;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
         .stat-card.active {
-            background: linear-gradient(135deg, var(--success-color), #219653);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         }
 
         .stat-card.expiring {
-            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            background: linear-gradient(135deg, #fbbc05, #f9ab00);
         }
 
         .stat-card.expired {
-            background: linear-gradient(135deg, var(--danger-color), #c0392b);
+            background: linear-gradient(135deg, #ea4335, #d33426);
         }
 
         .stat-value {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 8px 0;
         }
 
         .stat-label {
-            font-size: 15px;
+            font-size: 13px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background-color: var(--card-bg);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-sm);
             animation: fadeIn 0.3s ease-out;
             border: 1px solid var(--border-color);
+            font-size: 13px;
         }
 
         th, td {
-            padding: 14px 16px;
+            padding: 12px 14px;
             text-align: right;
             border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
         }
 
         th {
-            background-color: var(--light-color);
-            font-weight: bold;
+            background-color: #e8f0fe;
+            font-weight: 600;
             position: sticky;
             top: 0;
-            color: var(--dark-color);
+            color: var(--primary-dark);
         }
 
         tr {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         tr:nth-child(even) {
@@ -337,67 +346,97 @@
         }
 
         tr:hover {
-            background-color: #e8f4fc;
+            background-color: #e8f0fe;
+        }
+
+        tr.highlight {
+            background-color: #fff3e0;
+            animation: highlight 1.5s ease-out;
+        }
+
+        @keyframes highlight {
+            0% { background-color: #fff3e0; }
+            100% { background-color: inherit; }
         }
 
         .status-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            min-width: 85px;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            min-width: 75px;
+            justify-content: center;
+            gap: 4px;
         }
 
         .status-active {
-            background-color: #d5f5e3;
-            color: #27ae60;
-            border: 1px solid #a3e4c7;
+            background-color: #e6f4ea;
+            color: var(--success-color);
+            border: 1px solid #b6e2c1;
         }
 
         .status-expiring {
-            background-color: #fdebd0;
-            color: #f39c12;
-            border: 1px solid #f8c471;
+            background-color: #fef7e0;
+            color: #f9ab00;
+            border: 1px solid #fde293;
         }
 
         .status-expired {
-            background-color: #fadbd8;
-            color: #e74c3c;
+            background-color: #fce8e6;
+            color: var(--danger-color);
             border: 1px solid #f5b7b1;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
+            margin-bottom: 6px;
+            font-weight: 500;
             color: var(--dark-color);
+            font-size: 13px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            transition: all 0.2s ease;
             background-color: var(--card-bg);
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.1);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            padding-right: 40px;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
         }
 
         .date-input {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .date-input input {
@@ -406,46 +445,46 @@
 
         .dropzone {
             border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            padding: 30px;
+            border-radius: var(--radius-sm);
+            padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             background-color: var(--light-color);
         }
 
         .dropzone:hover {
-            border-color: var(--secondary-color);
-            background-color: #e8f4fc;
+            border-color: var(--primary-color);
+            background-color: #e8f0fe;
         }
 
         .dropzone.active {
             border-color: var(--success-color);
-            background-color: #e8f8f0;
+            background-color: #e6f4ea;
         }
 
         .image-preview {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .preview-item {
             position: relative;
-            width: 110px;
-            height: 110px;
+            width: 90px;
+            height: 90px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
         }
 
         .preview-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: scale(1.03);
+            box-shadow: var(--shadow-md);
         }
 
         .preview-item img {
@@ -456,25 +495,25 @@
 
         .preview-item .remove-btn {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            background-color: rgba(231, 76, 60, 0.9);
+            top: 4px;
+            left: 4px;
+            background-color: rgba(234,67,53,0.9);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 14px;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .preview-item .remove-btn:hover {
             transform: scale(1.1);
-            background-color: #c0392b;
+            background-color: #d33426;
         }
 
         .modal {
@@ -484,26 +523,27 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0,0,0,0.5);
             z-index: 1000;
             overflow-y: auto;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.2s;
+            padding: 15px;
         }
 
         .modal-content {
             background-color: var(--card-bg);
-            margin: 50px auto;
-            max-width: 600px;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            animation: modalFadeIn 0.3s;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            animation: modalFadeIn 0.2s;
             border: 1px solid var(--border-color);
         }
 
         @keyframes modalFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -512,33 +552,36 @@
         }
 
         .modal-header {
-            padding: 18px 22px;
+            padding: 15px 20px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--light-color);
-            border-radius: 8px 8px 0 0;
+            background-color: #e8f0fe;
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
         }
 
         .modal-body {
-            padding: 22px;
+            padding: 20px;
         }
 
         .modal-footer {
-            padding: 18px 22px;
+            padding: 15px 20px;
             border-top: 1px solid var(--border-color);
             text-align: left;
-            background-color: var(--light-color);
-            border-radius: 0 0 8px 8px;
+            background-color: #e8f0fe;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
         }
 
         .close {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: bold;
             color: var(--gray-color);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .close:hover {
@@ -549,31 +592,31 @@
         .gallery {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .gallery-item {
-            width: 130px;
-            height: 130px;
+            width: 100px;
+            height: 100px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
         }
 
         .gallery-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
         .gallery-item:hover img {
@@ -587,7 +630,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0,0,0,0.9);
             z-index: 1100;
             text-align: center;
         }
@@ -606,17 +649,17 @@
             max-width: 100%;
             max-height: 80vh;
             border-radius: 4px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--shadow-lg);
         }
 
         .lightbox-close {
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: 20px;
+            right: 20px;
             color: white;
-            font-size: 35px;
+            font-size: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             opacity: 0.8;
         }
 
@@ -631,79 +674,79 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 25px;
+            padding: 0 20px;
             transform: translateY(-50%);
         }
 
         .lightbox-nav-btn {
             color: white;
-            font-size: 35px;
+            font-size: 30px;
             cursor: pointer;
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 60px;
-            height: 60px;
+            background-color: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             opacity: 0.8;
         }
 
         .lightbox-nav-btn:hover {
             opacity: 1;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0,0,0,0.7);
             transform: scale(1.1);
         }
 
         .notes-container {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .note {
             background-color: var(--light-color);
-            border-right: 4px solid var(--secondary-color);
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-right: 3px solid var(--primary-color);
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
         }
 
         .note:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(3px);
+            box-shadow: var(--shadow-md);
         }
 
         .note-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 6px;
+            font-size: 12px;
             color: var(--gray-color);
         }
 
         .note-content {
-            font-size: 15px;
+            font-size: 13px;
             color: var(--text-color);
         }
 
         .note-delete {
             color: var(--danger-color);
             cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            font-size: 12px;
+            transition: all 0.2s ease;
         }
 
         .note-delete:hover {
-            color: #c0392b;
+            color: #d33426;
             transform: scale(1.1);
         }
 
         .search-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .search-input {
@@ -712,71 +755,105 @@
 
         .filter-buttons {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .filter-btn.active {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .no-data {
             text-align: center;
-            padding: 30px;
+            padding: 20px;
             color: var(--gray-color);
-            font-size: 18px;
+            font-size: 15px;
             background-color: var(--light-color);
-            border-radius: 8px;
-            margin: 20px 0;
+            border-radius: var(--radius-sm);
+            margin: 15px 0;
         }
 
         .serial-number {
-            font-weight: bold;
+            font-weight: 600;
             color: var(--dark-color);
         }
 
         .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: var(--radius-sm);
             display: none;
+            font-size: 13px;
         }
 
         .alert-success {
-            background-color: #d5f5e3;
-            color: #27ae60;
-            border: 1px solid #a3e4c7;
+            background-color: #e6f4ea;
+            color: var(--success-color);
+            border: 1px solid #b6e2c1;
         }
 
         .alert-error {
-            background-color: #fadbd8;
-            color: #e74c3c;
+            background-color: #fce8e6;
+            color: var(--danger-color);
             border: 1px solid #f5b7b1;
+        }
+
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .toast-error {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .toast-warning {
+            background-color: var(--warning-color);
+            color: var(--dark-color);
+        }
+
+        .toast-info {
+            background-color: var(--primary-color);
+            color: white;
         }
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .stats-container {
-                flex-direction: column;
-            }
-            
-            .stat-card {
-                width: 100%;
-            }
-            
             .company-card {
                 flex-direction: column;
                 align-items: flex-start;
             }
             
             .company-actions {
-                margin-top: 12px;
+                margin-top: 10px;
                 width: 100%;
                 justify-content: flex-end;
             }
@@ -791,49 +868,66 @@
             }
             
             .modal-content {
-                width: 90%;
-                margin: 30px auto;
+                width: 95%;
+                margin: 15px auto;
             }
         }
 
         @media (max-width: 576px) {
             .container {
-                padding: 15px;
+                padding: 10px;
             }
             
             header {
-                padding: 20px 0;
+                padding: 15px 0;
             }
             
             h1 {
-                font-size: 26px;
+                font-size: 20px;
             }
             
             h2 {
-                font-size: 22px;
+                font-size: 18px;
             }
             
             .btn {
-                padding: 8px 14px;
-                font-size: 14px;
+                padding: 7px 12px;
+                font-size: 12px;
             }
             
             .card {
-                padding: 20px;
+                padding: 15px;
             }
             
             .filter-buttons {
-                gap: 8px;
+                gap: 6px;
             }
             
             .filter-buttons .btn {
                 flex: 1;
-                min-width: calc(50% - 8px);
+                min-width: calc(50% - 6px);
             }
             
             th, td {
-                padding: 10px 12px;
-                font-size: 14px;
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+            
+            .stat-value {
+                font-size: 18px;
+            }
+            
+            .stat-label {
+                font-size: 12px;
+            }
+
+            .toast {
+                width: 90%;
+                text-align: center;
             }
         }
     </style>
@@ -844,6 +938,12 @@
     <div class="container">
         <div id="alert-message" class="alert" style="display: none;"></div>
         
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">
+            <i id="toast-icon" class="fas fa-info-circle"></i>
+            <span id="toast-message"></span>
+        </div>
+
         <header>
             <h1>نظام إدارة سجلات المركبات</h1>
         </header>
@@ -853,9 +953,15 @@
             <div class="card">
                 <div class="card-header">
                     <h2>قائمة الشركات</h2>
-                    <button id="add-company-btn" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> إضافة شركة جديدة
-                    </button>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="search-box" style="flex: 1; max-width: 300px;">
+                            <input type="text" id="global-search" class="form-control" placeholder="ابحث برقم الرخصة...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <button id="add-company-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> إضافة شركة جديدة
+                        </button>
+                    </div>
                 </div>
                 <div id="companies-list">
                     <!-- Companies will be loaded here -->
@@ -876,6 +982,11 @@
                     </button>
                 </div>
                 
+                <div class="search-box" style="margin-bottom: 20px;">
+                    <input type="text" id="company-vehicle-search" class="form-control" placeholder="ابحث برقم الرخصة داخل الشركة...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
                 <div class="stats-container">
                     <div class="stat-card active" id="active-stat">
                         <div class="stat-value" id="active-count">0</div>
@@ -891,18 +1002,11 @@
                     </div>
                 </div>
                 
-                <div class="search-container">
-                    <input type="text" id="vehicle-search" class="search-input form-control" placeholder="ابحث برقم الرخصة...">
-                    <button id="clear-search" class="btn btn-light">
-                        <i class="fas fa-times"></i> مسح
-                    </button>
-                </div>
-                
                 <div class="filter-buttons">
                     <button class="btn btn-light filter-btn active" data-filter="all">
                         <i class="fas fa-list"></i> الكل
                     </button>
-                    <button class="btn btn-success filter-btn" data-filter="active">
+                    <button class="btn btn-primary filter-btn" data-filter="active">
                         <i class="fas fa-check-circle"></i> نشطة
                     </button>
                     <button class="btn btn-warning filter-btn" data-filter="expiring">
@@ -943,7 +1047,7 @@
                 <div class="card-header">
                     <h2>تفاصيل المركبة</h2>
                     <div>
-                        <button id="edit-vehicle-btn" class="btn btn-warning">
+                        <button id="edit-vehicle-btn" class="btn btn-primary">
                             <i class="fas fa-edit"></i> تعديل
                         </button>
                         <button id="delete-vehicle-btn" class="btn btn-danger">
@@ -1148,13 +1252,20 @@
         const vehicleFormPage = document.getElementById('vehicle-form-page');
         const alertMessage = document.getElementById('alert-message');
         
+        // Toast elements
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const toastIcon = document.getElementById('toast-icon');
+        
         const companiesList = document.getElementById('companies-list');
         const addCompanyBtn = document.getElementById('add-company-btn');
         const backToCompaniesBtn = document.getElementById('back-to-companies');
+        const globalSearch = document.getElementById('global-search');
         
         const companyNameTitle = document.getElementById('company-name-title');
         const addVehicleBtn = document.getElementById('add-vehicle-btn');
         const backToCompanyBtn = document.getElementById('back-to-company');
+        const companyVehicleSearch = document.getElementById('company-vehicle-search');
         const vehiclesTableBody = document.getElementById('vehicles-table-body');
         const noVehicles = document.getElementById('no-vehicles');
         
@@ -1194,8 +1305,6 @@
         const activeStat = document.getElementById('active-stat');
         const expiringStat = document.getElementById('expiring-stat');
         const expiredStat = document.getElementById('expired-stat');
-        const vehicleSearch = document.getElementById('vehicle-search');
-        const clearSearch = document.getElementById('clear-search');
         const filterButtons = document.querySelectorAll('.filter-btn');
 
         // State variables
@@ -1206,11 +1315,45 @@
         let currentFilter = 'all';
         let currentSearchTerm = '';
         let currentImages = [];
+        let allVehicles = [];
 
         // Initialize the app and database
         function init() {
             setupEventListeners();
             openDatabase();
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            // Set toast content and style
+            toastMessage.textContent = message;
+            toast.className = `toast toast-${type}`;
+            
+            // Set icon based on type
+            let iconClass;
+            switch(type) {
+                case 'success':
+                    iconClass = 'fa-check-circle';
+                    break;
+                case 'error':
+                    iconClass = 'fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    iconClass = 'fa-exclamation-triangle';
+                    break;
+                default:
+                    iconClass = 'fa-info-circle';
+            }
+            
+            toastIcon.className = `fas ${iconClass}`;
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         // Show alert message
@@ -1230,12 +1373,13 @@
             
             request.onerror = function(event) {
                 console.error('فشل فتح قاعدة البيانات', event.target.error);
-                showAlert('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
+                showToast('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
             };
             
             request.onsuccess = function(event) {
                 db = event.target.result;
                 renderCompanies();
+                loadAllVehicles();
             };
             
             request.onupgradeneeded = function(event) {
@@ -1264,6 +1408,15 @@
                     imagesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
                 }
             };
+        }
+
+        // Load all vehicles for global search
+        function loadAllVehicles() {
+            getAllVehicles().then(vehicles => {
+                allVehicles = vehicles;
+            }).catch(error => {
+                console.error('Error loading all vehicles:', error);
+            });
         }
 
         // Set up event listeners
@@ -1295,6 +1448,20 @@
                 } else {
                     showCompaniesPage();
                 }
+            });
+            
+            // Global search
+            globalSearch.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.trim().toLowerCase();
+                if (searchTerm.length > 2) {
+                    searchVehicleGlobally(searchTerm);
+                }
+            });
+            
+            // Company vehicle search
+            companyVehicleSearch.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value.trim().toLowerCase();
+                renderCompanyVehicles(currentCompanyId);
             });
             
             // Company modals
@@ -1366,15 +1533,6 @@
             document.getElementById('next-image').addEventListener('click', showNextImage);
             
             // Search and filter
-            vehicleSearch.addEventListener('input', (e) => {
-                currentSearchTerm = e.target.value.trim().toLowerCase();
-                renderCompanyVehicles(currentCompanyId);
-            });
-            clearSearch.addEventListener('click', () => {
-                vehicleSearch.value = '';
-                currentSearchTerm = '';
-                renderCompanyVehicles(currentCompanyId);
-            });
             filterButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     filterButtons.forEach(b => b.classList.remove('active'));
@@ -1407,6 +1565,58 @@
             });
         }
 
+        // Search vehicle globally
+        function searchVehicleGlobally(searchTerm) {
+            const matchedVehicles = allVehicles.filter(v => 
+                v.licenseNumber.toLowerCase().includes(searchTerm)
+            );
+            
+            if (matchedVehicles.length > 0) {
+                // Get the first matching vehicle
+                const vehicle = matchedVehicles[0];
+                
+                // Get the company for this vehicle
+                getCompany(vehicle.companyId).then(company => {
+                    if (company) {
+                        // Show the company page
+                        showCompanyPage(vehicle.companyId);
+                        
+                        // After a short delay, highlight the vehicle in the table
+                        setTimeout(() => {
+                            highlightVehicleInTable(vehicle.id);
+                        }, 300);
+                        
+                        showToast(`تم العثور على ${matchedVehicles.length} نتيجة`, 'success');
+                    }
+                }).catch(error => {
+                    console.error('Error getting company:', error);
+                    showToast('حدث خطأ أثناء البحث', 'error');
+                });
+            } else {
+                showToast('لا توجد نتائج مطابقة للبحث', 'warning');
+            }
+        }
+
+        // Highlight vehicle in table
+        function highlightVehicleInTable(vehicleId) {
+            // Remove any existing highlights
+            document.querySelectorAll('#vehicles-table-body tr').forEach(row => {
+                row.classList.remove('highlight');
+            });
+            
+            // Find and highlight the matching row
+            const row = document.querySelector(`#vehicles-table-body tr[data-vehicle-id="${vehicleId}"]`);
+            if (row) {
+                row.classList.add('highlight');
+                
+                // Scroll to the row
+                row.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+
         // Render companies list
         function renderCompanies() {
             getAllCompanies().then(companies => {
@@ -1426,7 +1636,7 @@
                             <button class="btn btn-primary btn-sm view-company" data-id="${company.id}">
                                 <i class="fas fa-eye"></i> عرض
                             </button>
-                            <button class="btn btn-warning btn-sm edit-company" data-id="${company.id}">
+                            <button class="btn btn-primary btn-sm edit-company" data-id="${company.id}">
                                 <i class="fas fa-edit"></i> تعديل
                             </button>
                             <button class="btn btn-danger btn-sm delete-company" data-id="${company.id}">
@@ -1449,7 +1659,7 @@
                 });
             }).catch(error => {
                 console.error('Error rendering companies:', error);
-                showAlert('حدث خطأ أثناء تحميل بيانات الشركات', 'error');
+                showToast('حدث خطأ أثناء تحميل بيانات الشركات', 'error');
             });
         }
 
@@ -1485,7 +1695,7 @@
                 renderCompanyVehicles(companyId);
             }).catch(error => {
                 console.error('Error showing company page:', error);
-                showAlert('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
+                showToast('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
             });
         }
 
@@ -1534,6 +1744,7 @@
                     const calibrationDate = vehicle.calibrationDate || 'غير محدد';
                     
                     const row = document.createElement('tr');
+                    row.dataset.vehicleId = vehicle.id;
                     row.innerHTML = `
                         <td class="serial-number">${index + 1}</td>
                         <td>${vehicle.licenseNumber}</td>
@@ -1555,7 +1766,7 @@
                 });
             }).catch(error => {
                 console.error('Error rendering company vehicles:', error);
-                showAlert('حدث خطأ أثناء تحميل بيانات المركبات', 'error');
+                showToast('حدث خطأ أثناء تحميل بيانات المركبات', 'error');
             });
         }
 
@@ -1619,7 +1830,7 @@
                 vehicleFormPage.style.display = 'none';
             }).catch(error => {
                 console.error('Error showing vehicle page:', error);
-                showAlert('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
+                showToast('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
             });
         }
 
@@ -1651,7 +1862,7 @@
                 });
             }).catch(error => {
                 console.error('Error rendering vehicle images:', error);
-                showAlert('حدث خطأ أثناء تحميل صور المركبة', 'error');
+                showToast('حدث خطأ أثناء تحميل صور المركبة', 'error');
             });
         }
 
@@ -1688,7 +1899,7 @@
                 });
             }).catch(error => {
                 console.error('Error rendering vehicle notes:', error);
-                showAlert('حدث خطأ أثناء تحميل ملاحظات المركبة', 'error');
+                showToast('حدث خطأ أثناء تحميل ملاحظات المركبة', 'error');
             });
         }
 
@@ -1721,11 +1932,12 @@
                             });
                         }).catch(error => {
                             console.error('Error loading vehicle images:', error);
+                            showToast('حدث خطأ أثناء تحميل صور المركبة', 'error');
                         });
                     }
                 }).catch(error => {
                     console.error('Error loading vehicle:', error);
-                    showAlert('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
+                    showToast('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
                 });
             } else {
                 // Add mode
@@ -1747,13 +1959,13 @@
             const expiryDate = expiryDateInput.value.trim();
             
             if (!licenseNumber || !expiryDate) {
-                showAlert('الرجاء إدخال جميع الحقول المطلوبة', 'error');
+                showToast('الرجاء إدخال جميع الحقول المطلوبة', 'error');
                 return;
             }
             
             // Validate date format (dd/mm/yyyy)
             if (!isValidDate(expiryDate)) {
-                showAlert('الرجاء إدخال تاريخ انتهاء الرخصة بصيغة صحيحة (يوم/شهر/سنة)', 'error');
+                showToast('الرجاء إدخال تاريخ انتهاء الرخصة بصيغة صحيحة (يوم/شهر/سنة)', 'error');
                 return;
             }
             
@@ -1765,7 +1977,7 @@
             };
             
             if (calibrationDateInput.value.trim() && !isValidDate(calibrationDateInput.value.trim())) {
-                showAlert('الرجاء إدخال تاريخ انتهاء العيار بصيغة صحيحة (يوم/شهر/سنة)', 'error');
+                showToast('الرجاء إدخال تاريخ انتهاء العيار بصيغة صحيحة (يوم/شهر/سنة)', 'error');
                 return;
             }
             
@@ -1773,20 +1985,20 @@
                 // Update existing vehicle
                 vehicleData.id = currentVehicleId;
                 updateVehicle(vehicleData).then(() => {
-                    showAlert('تم تحديث بيانات المركبة بنجاح', 'success');
+                    showToast('تم تحديث بيانات المركبة بنجاح', 'success');
                     showVehiclePage(currentVehicleId);
                 }).catch(error => {
                     console.error('Error updating vehicle:', error);
-                    showAlert('حدث خطأ أثناء تحديث بيانات المركبة', 'error');
+                    showToast('حدث خطأ أثناء تحديث بيانات المركبة', 'error');
                 });
             } else {
                 // Add new vehicle
                 addVehicle(vehicleData).then(() => {
-                    showAlert('تم إضافة المركبة بنجاح', 'success');
+                    showToast('تم إضافة المركبة بنجاح', 'success');
                     showCompanyPage(currentCompanyId);
                 }).catch(error => {
                     console.error('Error adding vehicle:', error);
-                    showAlert('حدث خطأ أثناء إضافة المركبة', 'error');
+                    showToast('حدث خطأ أثناء إضافة المركبة', 'error');
                 });
             }
         }
@@ -1829,7 +2041,7 @@
                 }
             }).catch(error => {
                 console.error('Error loading company for edit:', error);
-                showAlert('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
+                showToast('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
             });
         }
 
@@ -1849,24 +2061,27 @@
             
             if (type === 'company') {
                 deleteCompany(id).then(() => {
-                    showAlert('تم حذف الشركة بنجاح', 'success');
+                    showToast('تم حذف الشركة بنجاح', 'success');
+                    showCompaniesPage();
                 }).catch(error => {
                     console.error('Error deleting company:', error);
-                    showAlert('حدث خطأ أثناء حذف الشركة', 'error');
+                    showToast('حدث خطأ أثناء حذف الشركة', 'error');
                 });
             } else if (type === 'vehicle') {
                 deleteVehicle(id).then(() => {
-                    showAlert('تم حذف المركبة بنجاح', 'success');
+                    showToast('تم حذف المركبة بنجاح', 'success');
+                    showCompanyPage(currentCompanyId);
                 }).catch(error => {
                     console.error('Error deleting vehicle:', error);
-                    showAlert('حدث خطأ أثناء حذف المركبة', 'error');
+                    showToast('حدث خطأ أثناء حذف المركبة', 'error');
                 });
             } else if (type === 'note') {
                 deleteNote(id).then(() => {
-                    showAlert('تم حذف الملاحظة بنجاح', 'success');
+                    showToast('تم حذف الملاحظة بنجاح', 'success');
+                    renderVehicleNotes(currentVehicleId);
                 }).catch(error => {
                     console.error('Error deleting note:', error);
-                    showAlert('حدث خطأ أثناء حذف الملاحظة', 'error');
+                    showToast('حدث خطأ أثناء حذف الملاحظة', 'error');
                 });
             }
             
@@ -1878,7 +2093,7 @@
             const name = document.getElementById('company-name').value.trim();
             
             if (!name) {
-                showAlert('الرجاء إدخال اسم الشركة', 'error');
+                showToast('الرجاء إدخال اسم الشركة', 'error');
                 return;
             }
             
@@ -1889,14 +2104,14 @@
             
             addCompany(newCompany).then(() => {
                 addCompanyModal.style.display = 'none';
-                showAlert('تم إضافة الشركة بنجاح', 'success');
+                showToast('تم إضافة الشركة بنجاح', 'success');
                 renderCompanies();
             }).catch(error => {
                 if (error.name === 'ConstraintError') {
-                    showAlert('اسم الشركة موجود بالفعل', 'error');
+                    showToast('اسم الشركة موجود بالفعل', 'error');
                 } else {
                     console.error('Error adding company:', error);
-                    showAlert('حدث خطأ أثناء إضافة الشركة', 'error');
+                    showToast('حدث خطأ أثناء إضافة الشركة', 'error');
                 }
             });
         }
@@ -1907,7 +2122,7 @@
             const name = document.getElementById('edit-company-name').value.trim();
             
             if (!name) {
-                showAlert('الرجاء إدخال اسم الشركة', 'error');
+                showToast('الرجاء إدخال اسم الشركة', 'error');
                 return;
             }
             
@@ -1918,7 +2133,7 @@
             
             updateCompanyData(company).then(() => {
                 editCompanyModal.style.display = 'none';
-                showAlert('تم تحديث بيانات الشركة بنجاح', 'success');
+                showToast('تم تحديث بيانات الشركة بنجاح', 'success');
                 renderCompanies();
                 
                 // If we're on the company page, update the title
@@ -1927,10 +2142,10 @@
                 }
             }).catch(error => {
                 if (error.name === 'ConstraintError') {
-                    showAlert('اسم الشركة موجود بالفعل', 'error');
+                    showToast('اسم الشركة موجود بالفعل', 'error');
                 } else {
                     console.error('Error updating company:', error);
-                    showAlert('حدث خطأ أثناء تحديث بيانات الشركة', 'error');
+                    showToast('حدث خطأ أثناء تحديث بيانات الشركة', 'error');
                 }
             });
         }
@@ -1966,16 +2181,14 @@
                 ]).then(() => {
                     if (currentCompanyId === id) {
                         showCompaniesPage();
-                    } else {
-                        renderCompanies();
                     }
                 }).catch(error => {
                     console.error('Error deleting company:', error);
-                    showAlert('حدث خطأ أثناء حذف الشركة', 'error');
+                    showToast('حدث خطأ أثناء حذف الشركة', 'error');
                 });
             }).catch(error => {
                 console.error('Error getting company vehicles:', error);
-                showAlert('حدث خطأ أثناء حذف الشركة', 'error');
+                showToast('حدث خطأ أثناء حذف الشركة', 'error');
             });
         }
 
@@ -2026,7 +2239,6 @@
                     deleteAllNotesForVehicle(id).then(() => {
                         // Delete vehicle
                         deleteVehicleData(id).then(() => {
-                            showCompanyPage(currentCompanyId);
                             resolve();
                         }).catch(error => {
                             reject(error);
@@ -2045,7 +2257,7 @@
             const content = newNote.value.trim();
             
             if (!content) {
-                showAlert('الرجاء إدخال محتوى الملاحظة', 'error');
+                showToast('الرجاء إدخال محتوى الملاحظة', 'error');
                 return;
             }
             
@@ -2059,9 +2271,10 @@
             addNoteData(newNoteObj).then(() => {
                 newNote.value = '';
                 renderVehicleNotes(currentVehicleId);
+                showToast('تم إضافة الملاحظة بنجاح', 'success');
             }).catch(error => {
                 console.error('Error adding note:', error);
-                showAlert('حدث خطأ أثناء إضافة الملاحظة', 'error');
+                showToast('حدث خطأ أثناء إضافة الملاحظة', 'error');
             });
         }
 
@@ -2071,7 +2284,7 @@
                 renderVehicleNotes(currentVehicleId);
             }).catch(error => {
                 console.error('Error deleting note:', error);
-                showAlert('حدث خطأ أثناء حذف الملاحظة', 'error');
+                showToast('حدث خطأ أثناء حذف الملاحظة', 'error');
             });
         }
 
@@ -2124,8 +2337,11 @@
                 
                 if (imageId) {
                     // Remove from database
-                    deleteImageData(imageId).catch(error => {
+                    deleteImageData(imageId).then(() => {
+                        showToast('تم حذف الصورة بنجاح', 'success');
+                    }).catch(error => {
                         console.error('Error deleting image:', error);
+                        showToast('حدث خطأ أثناء حذف الصورة', 'error');
                     });
                 } else {
                     // Remove from selected files
@@ -2235,6 +2451,17 @@
                 const transaction = db.transaction([STORES.COMPANIES], 'readonly');
                 const store = transaction.objectStore(STORES.COMPANIES);
                 const request = store.get(id);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function getAllVehicles() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORES.VEHICLES], 'readonly');
+                const store = transaction.objectStore(STORES.VEHICLES);
+                const request = store.getAll();
                 
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
