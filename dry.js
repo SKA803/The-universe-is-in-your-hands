@@ -54,6 +54,8 @@ const cancelFormBtn = document.getElementById('cancel-form');
 const addCompanyModal = document.getElementById('add-company-modal');
 const editCompanyModal = document.getElementById('edit-company-modal');
 const deleteModal = document.getElementById('delete-modal');
+const exportModal = document.getElementById('export-modal');
+const importModal = document.getElementById('import-modal');
 const lightbox = document.getElementById('lightbox');
 const activeCount = document.getElementById('active-count');
 const expiringCount = document.getElementById('expiring-count');
@@ -280,7 +282,8 @@ function loadAllVehicles() {
 
 // Show export modal
 function showExportModal(type) {
-    document.getElementById('export-type').value = type;
+    // تحديث خيارات التصدير لتحتوي فقط على الشركة الحالية
+    document.getElementById('export-type').innerHTML = '<option value="current-company">الشركة الحالية مع مركباتها</option>';
     document.getElementById('export-result').style.display = 'none';
     exportModal.style.display = 'block';
 }
@@ -443,15 +446,8 @@ function exportCompanyData(companyId) {
 // Import data
 function importData(data, overwrite = false) {
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction([
-            'companies', 
-            'vehicles', 
-            'notes', 
-            'images'
-        ], 'readwrite');
-        
-        // Clear existing data if overwrite is true
         if (overwrite) {
+            // Clear existing data if overwrite is true
             Promise.all([
                 db.companies.clear(),
                 db.vehicles.clear(),
@@ -1027,7 +1023,6 @@ function saveCompany() {
     
     if (!name) {
         showToast('الرجاء إدخال اسم الشركة', 'error');
-        return;
     }
     
     const newCompany = {
@@ -1362,9 +1357,9 @@ function getLicenseStatus(vehicle) {
     const dateParts = vehicle.expiryDate.split('/');
     if (dateParts.length !== 3) return 'expired';
     
-    const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10);
-    const year = parseInt(dateParts[2], 10);
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    const year = parseInt(parts[2], 10);
     
     const today = new Date();
     const expiryDate = new Date(year, month - 1, day);
