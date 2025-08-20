@@ -1,11 +1,15 @@
-// Database setup with Dexie.js
-const db = new Dexie('VehicleRecordsDB');
-db.version(3).stores({
-    companies: 'id, name',
-    vehicles: 'id, companyId, licenseNumber',
-    notes: 'id, vehicleId, createdAt',
-    images: 'id, vehicleId'
-});
+// Database variables
+let db;
+const DB_NAME = 'VehicleRecordsDB';
+const DB_VERSION = 3; // Increased version for updates
+
+// Object store names
+const STORES = {
+    COMPANIES: 'companies',
+    VEHICLES: 'vehicles',
+    NOTES: 'notes',
+    IMAGES: 'images'
+};
 
 // DOM Elements
 const companiesPage = document.getElementById('companies-page');
@@ -76,11 +80,10 @@ let currentImages = [];
 let allVehicles = [];
 let existingImages = [];
 
-// Initialize the app
+// Initialize the app and database
 function init() {
     setupEventListeners();
-    loadAllVehicles();
-    renderCompanies();
+    openDatabase();
 }
 
 // Show toast notification
@@ -115,26 +118,60 @@ function showAlert(message, type = 'success') {
     }, 5000);
 }
 
+// Open or create IndexedDB database
+function openDatabase() {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    
+    request.onerror = function(event) {
+        console.error('فشل فتح قاعدة البيانات', event.target.error);
+        showToast('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
+    };
+    
+    request.onsuccess = function(event) {
+        db = event.target.result;
+        renderCompanies();
+        loadAllVehicles();
+    };
+    
+    request.onupgradeneeded = function(event) {
+        const db = event.target.result;
+        
+        // Create object stores
+        if (!db.objectStoreNames.contains(STORES.COMPANIES)) {
+            const companiesStore = db.createObjectStore(STORES.COMPANIES, { keyPath: 'id' });
+            companiesStore.createIndex('name', 'name', { unique: true });
+        }
+        
+        if (!db.objectStoreNames.contains(STORES.VEHICLES)) {
+            const vehiclesStore = db.createObjectStore(STORES.VEHICLES, { keyPath: 'id' });
+            vehiclesStore.createIndex('companyId', 'companyId', { unique: false });
+            vehiclesStore.createIndex('licenseNumber', 'licenseNumber', { unique: false });
+        }
+        
+        if (!db.objectStoreNames.contains(STORES.NOTES)) {
+            const notesStore = db.createObjectStore(STORES.NOTES, { keyPath: 'id' });
+            notesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
+            notesStore.createIndex('createdAt', 'createdAt', { unique: false });
+        }
+        
+        if (!db.objectStoreNames.contains(STORES.IMAGES)) {
+            const imagesStore = db.createObjectStore(STORES.IMAGES, { keyPath: 'id' });
+            imagesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
+        }
+    };
+}
+
+// Load all vehicles for global search
+function loadAllVehicles() {
+    getAllVehicles().then(vehicles => {
+        allVehicles = vehicles;
+    }).catch(error => {
+        console.error('Error loading all vehicles:', error);
+    });
+}
+
 // Set up event listeners
 function setupEventListeners() {
-    // Navigation
-    addCompanyBtn.addEventListener('click', showAddCompanyModal);
-    backToCompaniesBtn.addEventListener('click', showCompaniesPage);
-    backToCompanyBtn.addEventListener('click', () => {
-        if (currentCompanyId) showCompanyPage(currentCompanyId);
-        else showCompaniesPage();
-    });
-    backFromFormBtn.addEventListener('click', () => {
-        if (currentVehicleId) showVehiclePage(currentVehicleId);
-        else if (currentCompanyId) showCompanyPage(currentCompanyId);
-        else showCompaniesPage();
-    });
-    cancelFormBtn.addEventListener('click', () => {
-        if (currentVehicleId) showVehiclePage(currentVehicleId);
-        else if (currentCompanyId) showCompanyPage(currentCompanyId);
-        else showCompaniesPage();
-    });
-    
     // Export/Import buttons
     exportCompanyBtn.addEventListener('click', () => showExportModal('current-company'));
     importDataBtn.addEventListener('click', showImportModal);
@@ -267,16 +304,6 @@ function setupEventListeners() {
         document.querySelector('.filter-btn[data-filter="expired"]').classList.add('active');
         currentFilter = 'expired';
         renderCompanyVehicles(currentCompanyId);
-    });
-}
-
-// Load all vehicles for global search
-function loadAllVehicles() {
-    db.vehicles.toArray().then(vehicles => {
-        allVehicles = vehicles;
-    }).catch(error => {
-        console.error('Error loading all vehicles:', error);
-        showToast('حدث خطأ أثناء تحميل بيانات المركبات', 'error');
     });
 }
 
@@ -414,8 +441,8 @@ function confirmImport() {
 function exportCompanyData(companyId) {
     return new Promise((resolve, reject) => {
         Promise.all([
-            db.companies.get(companyId),
-            db.vehicles.where('companyId').equals(companyId).toArray()
+            getCompany(companyId),
+            getVehiclesByCompany(companyId)
         ]).then(([company, vehicles]) => {
             if (!company) {
                 reject(new Error('Company not found'));
@@ -425,8 +452,8 @@ function exportCompanyData(companyId) {
             const vehicleIds = vehicles.map(v => v.id);
             
             Promise.all([
-                db.notes.where('vehicleId').anyOf(vehicleIds).toArray(),
-                db.images.where('vehicleId').anyOf(vehicleIds).toArray()
+                getNotesForVehicles(vehicleIds),
+                getImagesForVehicles(vehicleIds)
             ]).then(([notes, images]) => {
                 resolve({
                     company,
@@ -446,39 +473,61 @@ function exportCompanyData(companyId) {
 // Import data
 function importData(data, overwrite = false) {
     return new Promise((resolve, reject) => {
+        const transaction = db.transaction([
+            STORES.COMPANIES, 
+            STORES.VEHICLES, 
+            STORES.NOTES, 
+            STORES.IMAGES
+        ], 'readwrite');
+        
+        const companiesStore = transaction.objectStore(STORES.COMPANIES);
+        const vehiclesStore = transaction.objectStore(STORES.VEHICLES);
+        const notesStore = transaction.objectStore(STORES.NOTES);
+        const imagesStore = transaction.objectStore(STORES.IMAGES);
+        
+        // Clear existing data if overwrite is true
         if (overwrite) {
-            // Clear existing data if overwrite is true
-            Promise.all([
-                db.companies.clear(),
-                db.vehicles.clear(),
-                db.notes.clear(),
-                db.images.clear()
-            ]).then(() => {
-                // Import new data
-                return Promise.all([
-                    db.companies.bulkAdd(data.companies || []),
-                    db.vehicles.bulkAdd(data.vehicles || []),
-                    db.notes.bulkAdd(data.notes || []),
-                    db.images.bulkAdd(data.images || [])
-                ]);
-            }).then(() => {
-                resolve();
-            }).catch(error => {
-                reject(error);
-            });
-        } else {
-            // Import without clearing
-            Promise.all([
-                db.companies.bulkAdd(data.companies || []),
-                db.vehicles.bulkAdd(data.vehicles || []),
-                db.notes.bulkAdd(data.notes || []),
-                db.images.bulkAdd(data.images || [])
-            ]).then(() => {
-                resolve();
-            }).catch(error => {
-                reject(error);
+            companiesStore.clear();
+            vehiclesStore.clear();
+            notesStore.clear();
+            imagesStore.clear();
+        }
+        
+        // Import companies
+        if (data.companies && data.companies.length > 0) {
+            data.companies.forEach(company => {
+                companiesStore.put(company);
             });
         }
+        
+        // Import vehicles
+        if (data.vehicles && data.vehicles.length > 0) {
+            data.vehicles.forEach(vehicle => {
+                vehiclesStore.put(vehicle);
+            });
+        }
+        
+        // Import notes
+        if (data.notes && data.notes.length > 0) {
+            data.notes.forEach(note => {
+                notesStore.put(note);
+            });
+        }
+        
+        // Import images
+        if (data.images && data.images.length > 0) {
+            data.images.forEach(image => {
+                imagesStore.put(image);
+            });
+        }
+        
+        transaction.oncomplete = () => {
+            resolve();
+        };
+        
+        transaction.onerror = (event) => {
+            reject(event.target.error);
+        };
     });
 }
 
@@ -491,7 +540,7 @@ function searchVehicleGlobally(searchTerm) {
     if (matchedVehicles.length > 0) {
         const vehicle = matchedVehicles[0];
         
-        db.companies.get(vehicle.companyId).then(company => {
+        getCompany(vehicle.companyId).then(company => {
             if (company) {
                 showCompanyPage(vehicle.companyId);
                 
@@ -529,7 +578,7 @@ function highlightVehicleInTable(vehicleId) {
 
 // Render companies list
 function renderCompanies() {
-    db.companies.toArray().then(companies => {
+    getAllCompanies().then(companies => {
         companiesList.innerHTML = '';
         
         if (companies.length === 0) {
@@ -589,7 +638,7 @@ function showCompanyPage(companyId) {
     currentCompanyId = companyId;
     currentVehicleId = null;
     
-    db.companies.get(companyId).then(company => {
+    getCompany(companyId).then(company => {
         if (!company) {
             showCompaniesPage();
             return;
@@ -611,7 +660,7 @@ function showCompanyPage(companyId) {
 
 // Render company vehicles
 function renderCompanyVehicles(companyId) {
-    db.vehicles.where('companyId').equals(companyId).toArray().then(companyVehicles => {
+    getVehiclesByCompany(companyId).then(companyVehicles => {
         // Filter by search term
         let filteredVehicles = companyVehicles;
         if (currentSearchTerm) {
@@ -659,7 +708,7 @@ function renderCompanyVehicles(companyId) {
                 <td class="serial-number">${index + 1}</td>
                 <td>${vehicle.licenseNumber}</td>
                 <td>${expiryDate}</td>
-                <td>${calibrationDate}</td>
+                <td>${calibrationDate</td>
                 <td>${statusBadge}</td>
                 <td>
                     <button class="btn btn-primary btn-sm view-vehicle" data-id="${vehicle.id}">
@@ -700,7 +749,7 @@ function updateVehicleStats(companyVehicles) {
 function showVehiclePage(vehicleId) {
     currentVehicleId = vehicleId;
     
-    db.vehicles.get(vehicleId).then(vehicle => {
+    getVehicle(vehicleId).then(vehicle => {
         if (!vehicle) {
             if (currentCompanyId) showCompanyPage(currentCompanyId);
             else showCompaniesPage();
@@ -743,7 +792,7 @@ function showVehiclePage(vehicleId) {
 
 // Render vehicle images
 function renderVehicleImages(vehicleId) {
-    db.images.where('vehicleId').equals(vehicleId).toArray().then(vehicleImagesData => {
+    getVehicleImages(vehicleId).then(vehicleImagesData => {
         vehicleImages.innerHTML = '';
         currentImages = vehicleImagesData;
         
@@ -775,7 +824,7 @@ function renderVehicleImages(vehicleId) {
 
 // Render vehicle notes
 function renderVehicleNotes(vehicleId) {
-    db.notes.where('vehicleId').equals(vehicleId).toArray().then(vehicleNotesData => {
+    getVehicleNotes(vehicleId).then(vehicleNotesData => {
         vehicleNotes.innerHTML = '';
         
         if (vehicleNotesData.length === 0) {
@@ -827,14 +876,14 @@ function showVehicleFormPage(vehicleId, companyId) {
         formTitle.textContent = 'تعديل المركبة';
         vehicleIdInput.value = vehicleId;
         
-        db.vehicles.get(vehicleId).then(vehicle => {
+        getVehicle(vehicleId).then(vehicle => {
             if (vehicle) {
                 licenseNumberInput.value = vehicle.licenseNumber;
                 expiryDateInput.value = vehicle.expiryDate || '';
                 calibrationDateInput.value = vehicle.calibrationDate || '';
                 
                 // Load existing images
-                db.images.where('vehicleId').equals(vehicleId).toArray().then(vehicleImagesData => {
+                getVehicleImages(vehicleId).then(vehicleImagesData => {
                     vehicleImagesData.forEach(img => {
                         existingImages.push(img);
                         addImageToPreview(img.data, img.id);
@@ -951,7 +1000,7 @@ function showAddCompanyModal() {
 
 // Show edit company modal
 function showEditCompanyModal(companyId) {
-    db.companies.get(companyId).then(company => {
+    getCompany(companyId).then(company => {
         if (company) {
             document.getElementById('edit-company-id').value = companyId;
             document.getElementById('edit-company-name').value = company.name;
@@ -1023,6 +1072,7 @@ function saveCompany() {
     
     if (!name) {
         showToast('الرجاء إدخال اسم الشركة', 'error');
+        return;
     }
     
     const newCompany = {
@@ -1035,7 +1085,7 @@ function saveCompany() {
     saveBtn.innerHTML = '<div class="spinner"></div> جاري الحفظ...';
     saveBtn.disabled = true;
     
-    db.companies.add(newCompany).then(() => {
+    addCompany(newCompany).then(() => {
         addCompanyModal.style.display = 'none';
         showToast('تم إضافة الشركة بنجاح', 'success');
         renderCompanies();
@@ -1073,7 +1123,7 @@ function updateCompany() {
     updateBtn.innerHTML = '<div class="spinner"></div> جاري التحديث...';
     updateBtn.disabled = true;
     
-    db.companies.update(id, company).then(() => {
+    updateCompanyData(company).then(() => {
         editCompanyModal.style.display = 'none';
         showToast('تم تحديث بيانات الشركة بنجاح', 'success');
         renderCompanies();
@@ -1100,24 +1150,24 @@ function updateCompany() {
 // Delete company
 function deleteCompany(id) {
     // First get all vehicles for this company
-    return db.vehicles.where('companyId').equals(id).toArray().then(companyVehicles => {
+    return getVehiclesByCompany(id).then(companyVehicles => {
         const vehicleIds = companyVehicles.map(v => v.id);
         
         // Delete all images for these vehicles
         const deleteImagesPromises = vehicleIds.map(vehicleId => 
-            db.images.where('vehicleId').equals(vehicleId).delete()
+            deleteAllImagesForVehicle(vehicleId)
         );
         
         // Delete all notes for these vehicles
         const deleteNotesPromises = vehicleIds.map(vehicleId => 
-            db.notes.where('vehicleId').equals(vehicleId).delete()
+            deleteAllNotesForVehicle(vehicleId)
         );
         
         // Delete all vehicles
-        const deleteVehiclesPromise = db.vehicles.where('companyId').equals(id).delete();
+        const deleteVehiclesPromise = deleteAllVehiclesForCompany(id);
         
         // Delete the company
-        const deleteCompanyPromise = db.companies.delete(id);
+        const deleteCompanyPromise = deleteCompanyData(id);
         
         // Wait for all deletions to complete
         return Promise.all([
@@ -1134,7 +1184,7 @@ function addVehicle(vehicleData) {
     vehicleData.id = generateId();
     
     return new Promise((resolve, reject) => {
-        db.vehicles.add(vehicleData).then(() => {
+        addVehicleData(vehicleData).then(() => {
             // Save images
             saveVehicleImages(vehicleData.id).then(() => {
                 resolve();
@@ -1150,7 +1200,7 @@ function addVehicle(vehicleData) {
 // Update vehicle
 function updateVehicle(vehicleData) {
     return new Promise((resolve, reject) => {
-        db.vehicles.update(vehicleData.id, vehicleData).then(() => {
+        updateVehicleData(vehicleData).then(() => {
             // First, find images that were removed
             const removedImages = existingImages.filter(img => 
                 !document.querySelector(`.preview-item[data-image-id="${img.id}"]`)
@@ -1158,7 +1208,7 @@ function updateVehicle(vehicleData) {
             
             // Delete removed images
             const deletePromises = removedImages.map(img => 
-                db.images.delete(img.id)
+                deleteImageData(img.id)
             );
             
             // Save new images
@@ -1182,11 +1232,11 @@ function updateVehicle(vehicleData) {
 function deleteVehicle(id) {
     return new Promise((resolve, reject) => {
         // Delete images
-        db.images.where('vehicleId').equals(id).delete().then(() => {
+        deleteAllImagesForVehicle(id).then(() => {
             // Delete notes
-            db.notes.where('vehicleId').equals(id).delete().then(() => {
+            deleteAllNotesForVehicle(id).then(() => {
                 // Delete vehicle
-                db.vehicles.delete(id).then(() => {
+                deleteVehicleData(id).then(() => {
                     resolve();
                 }).catch(error => {
                     reject(error);
@@ -1221,7 +1271,7 @@ function addNote() {
     addBtn.innerHTML = '<div class="spinner"></div> جاري الإضافة...';
     addBtn.disabled = true;
     
-    db.notes.add(newNoteObj).then(() => {
+    addNoteData(newNoteObj).then(() => {
         newNote.value = '';
         renderVehicleNotes(currentVehicleId);
         showToast('تم إضافة الملاحظة بنجاح', 'success');
@@ -1237,7 +1287,7 @@ function addNote() {
 
 // Delete note
 function deleteNote(id) {
-    return db.notes.delete(id).then(() => {
+    return deleteNoteData(id).then(() => {
         renderVehicleNotes(currentVehicleId);
     }).catch(error => {
         console.error('Error deleting note:', error);
@@ -1296,7 +1346,7 @@ function addImageToPreview(imageData, imageId = null) {
             
             if (imageId) {
                 // Remove from database
-                db.images.delete(imageId).then(() => {
+                deleteImageData(imageId).then(() => {
                     showToast('تم حذف الصورة بنجاح', 'success');
                 }).catch(error => {
                     console.error('Error deleting image:', error);
@@ -1316,7 +1366,7 @@ function addImageToPreview(imageData, imageId = null) {
 // Save vehicle images
 function saveVehicleImages(vehicleId) {
     const promises = selectedFiles.map(file => {
-        return db.images.add({
+        return addImageData({
             id: generateId(),
             vehicleId,
             data: file.data,
@@ -1357,9 +1407,9 @@ function getLicenseStatus(vehicle) {
     const dateParts = vehicle.expiryDate.split('/');
     if (dateParts.length !== 3) return 'expired';
     
-    const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10);
-    const year = parseInt(parts[2], 10);
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10);
+    const year = parseInt(dateParts[2], 10);
     
     const today = new Date();
     const expiryDate = new Date(year, month - 1, day);
@@ -1391,6 +1441,342 @@ function formatDateTime(isoString) {
 // Generate unique ID
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+// IndexedDB Helper Functions
+
+function getAllCompanies() {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.COMPANIES], 'readonly');
+        const store = transaction.objectStore(STORES.COMPANIES);
+        const request = store.getAll();
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getCompany(id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.COMPANIES], 'readonly');
+        const store = transaction.objectStore(STORES.COMPANIES);
+        const request = store.get(id);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getAllVehicles() {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.VEHICLES], 'readonly');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const request = store.getAll();
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getVehiclesByCompany(companyId) {
+    return new Promise((resolve, reject) {
+        const transaction = db.transaction([STORES.VEHICLES], 'readonly');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const index = store.index('companyId');
+        const request = index.getAll(companyId);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getVehicle(id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.VEHICLES], 'readonly');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const request = store.get(id);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function addCompany(company) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
+        const store = transaction.objectStore(STORES.COMPANIES);
+        const request = store.add(company);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = (e) => reject(e.target.error);
+    });
+}
+
+function updateCompanyData(company) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
+        const store = transaction.objectStore(STORES.COMPANIES);
+        const request = store.put(company);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = (e) => reject(e.target.error);
+    });
+}
+
+function deleteCompanyData(id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
+        const store = transaction.objectStore(STORES.COMPANIES);
+        const request = store.delete(id);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function addVehicleData(vehicle) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const request = store.add(vehicle);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function updateVehicleData(vehicle) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const request = store.put(vehicle);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deleteVehicleData(id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const request = store.delete(id);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deleteAllVehiclesForCompany(companyId) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
+        const store = transaction.objectStore(STORES.VEHICLES);
+        const index = store.index('companyId');
+        const request = index.getAllKeys(companyId);
+        
+        request.onsuccess = () => {
+            const keys = request.result;
+            const deleteRequests = keys.map(key => {
+                return new Promise((res, rej) => {
+                    const deleteRequest = store.delete(key);
+                    deleteRequest.onsuccess = () => res();
+                    deleteRequest.onerror = () => rej(deleteRequest.error);
+                });
+            });
+            
+            Promise.all(deleteRequests)
+                .then(() => resolve())
+                .catch(error => reject(error));
+        };
+        
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getVehicleNotes(vehicleId) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.NOTES], 'readonly');
+        const store = transaction.objectStore(STORES.NOTES);
+        const index = store.index('vehicleId');
+        const request = index.getAll(vehicleId);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getAllNotes() {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.NOTES], 'readonly');
+        const store = transaction.objectStore(STORES.NOTES);
+        const request = store.getAll();
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getNotesForVehicles(vehicleIds) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.NOTES], 'readonly');
+        const store = transaction.objectStore(STORES.NOTES);
+        const index = store.index('vehicleId');
+        
+        const requests = vehicleIds.map(id => {
+            return new Promise((res, rej) => {
+                const request = index.getAll(id);
+                request.onsuccess = () => res(request.result);
+                request.onerror = () => rej(request.error);
+            });
+        });
+        
+        Promise.all(requests).then(results => {
+            resolve(results.flat());
+        }).catch(error => {
+            reject(error);
+        });
+    });
+}
+
+function addNoteData(note) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.NOTES], 'readwrite');
+        const store = transaction.objectStore(STORES.NOTES);
+        const request = store.add(note);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deleteNoteData(id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.NOTES], 'readwrite');
+        const store = transaction.objectStore(STORES.NOTES);
+        const request = store.delete(id);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deleteAllNotesForVehicle(vehicleId) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.NOTES], 'readwrite');
+        const store = transaction.objectStore(STORES.NOTES);
+        const index = store.index('vehicleId');
+        const request = index.getAllKeys(vehicleId);
+        
+        request.onsuccess = () => {
+            const keys = request.result;
+            const deleteRequests = keys.map(key => {
+                return new Promise((res, rej) => {
+                    const deleteRequest = store.delete(key);
+                    deleteRequest.onsuccess = () => res();
+                    deleteRequest.onerror = () => rej(deleteRequest.error);
+                });
+            });
+            
+            Promise.all(deleteRequests)
+                .then(() => resolve())
+                .catch(error => reject(error));
+        };
+        
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getVehicleImages(vehicleId) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.IMAGES], 'readonly');
+        const store = transaction.objectStore(STORES.IMAGES);
+        const index = store.index('vehicleId');
+        const request = index.getAll(vehicleId);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getAllImages() {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.IMAGES], 'readonly');
+        const store = transaction.objectStore(STORES.IMAGES);
+        const request = store.getAll();
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getImagesForVehicles(vehicleIds) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.IMAGES], 'readonly');
+        const store = transaction.objectStore(STORES.IMAGES);
+        const index = store.index('vehicleId');
+        
+        const requests = vehicleIds.map(id => {
+            return new Promise((res, rej) => {
+                const request = index.getAll(id);
+                request.onsuccess = () => res(request.result);
+                request.onerror = () => rej(request.error);
+            });
+        });
+        
+        Promise.all(requests).then(results => {
+            resolve(results.flat());
+        }).catch(error => {
+            reject(error);
+        });
+    });
+}
+
+function addImageData(image) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.IMAGES], 'readwrite');
+        const store = transaction.objectStore(STORES.IMAGES);
+        const request = store.add(image);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deleteImageData(id) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.IMAGES], 'readwrite');
+        const store = transaction.objectStore(STORES.IMAGES);
+        const request = store.delete(id);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deleteAllImagesForVehicle(vehicleId) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORES.IMAGES], 'readwrite');
+        const store = transaction.objectStore(STORES.IMAGES);
+        const index = store.index('vehicleId');
+        const request = index.getAllKeys(vehicleId);
+        
+        request.onsuccess = () => {
+            const keys = request.result;
+            const deleteRequests = keys.map(key => {
+                return new Promise((res, rej) => {
+                    const deleteRequest = store.delete(key);
+                    deleteRequest.onsuccess = () => res();
+                    deleteRequest.onerror = () => rej(deleteRequest.error);
+                });
+            });
+            
+            Promise.all(deleteRequests)
+                .then(() => resolve())
+                .catch(error => reject(error));
+        };
+        
+        request.onerror = () => reject(request.error);
+    });
 }
 
 // Initialize the app
