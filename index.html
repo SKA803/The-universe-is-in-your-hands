@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة سجلات المركبات</title>
     <style>
+        /* جميع أنماط CSS الأصلية هنا */
         :root {
             --primary-color: #1a73e8;
             --primary-light: #4285f4;
@@ -824,6 +825,19 @@
 
         .search-input {
             flex: 1;
+            position: relative;
+        }
+
+        .search-input input {
+            padding-left: 40px;
+        }
+
+        .search-input .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
         }
 
         .filter-buttons {
@@ -1222,1305 +1236,210 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>حالة الرخصة:</label>
+                    <label>الحالة:</label>
                     <p id="vehicle-status" class="form-control-static"></p>
                 </div>
                 
-                <h3>صور الرخصة</h3>
-                <div id="vehicle-images" class="gallery">
-                    <!-- Images will be loaded here -->
-                </div>
-                <div id="no-images" class="no-data" style="display: none;">لا توجد صور مرفقة</div>
-                
-                <h3>الملاحظات</h3>
-                <div class="notes-container" id="vehicle-notes">
-                    <!-- Notes will be loaded here -->
-                </div>
                 <div class="form-group">
-                    <textarea id="new-note" class="form-control" placeholder="أضف ملاحظة جديدة..."></textarea>
-                    <button id="add-note-btn" class="btn btn-primary mt-2">
-                        <i class="fas fa-plus"></i> إضافة ملاحظة
-                    </button>
+                    <label>ملاحظات:</label>
+                    <div id="vehicle-notes">
+                        <!-- Notes will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>المرفقات:</label>
+                    <div id="vehicle-attachments" class="gallery">
+                        <!-- Attachments will be loaded here -->
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Add/Edit Vehicle Page -->
-        <div id="vehicle-form-page" style="display: none;">
-            <button id="back-from-form" class="btn btn-light mb-3">
-                <i class="fas fa-arrow-right"></i> العودة
-            </button>
-            <div class="card">
-                <div class="card-header">
-                    <h2 id="form-title">إضافة مركبة جديدة</h2>
-                </div>
-                
-                <form id="vehicle-form">
-                    <input type="hidden" id="vehicle-id">
+    <!-- Add/Edit Company Modal -->
+    <div id="company-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="company-modal-title">إضافة شركة جديدة</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="company-form">
                     <input type="hidden" id="company-id">
-                    
                     <div class="form-group">
-                        <label for="license-number">رقم الرخصة <span class="text-danger">*</span></label>
-                        <input type="text" id="license-number" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="expiry-date">تاريخ انتهاء الرخصة (يوم/شهر/سنة) <span class="text-danger">*</span></label>
-                        <input type="text" id="expiry-date" placeholder="مثال: 01/12/2023" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="calibration-date">تاريخ انتهاء العيار (يوم/شهر/سنة) (اختياري)</label>
-                        <input type="text" id="calibration-date" placeholder="مثال: 01/06/2023">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>صور الرخصة</label>
-                        <div id="dropzone" class="dropzone">
-                            <p><i class="fas fa-cloud-upload-alt" style="font-size: 24px; margin-bottom: 10px;"></i></p>
-                            <p>اسحب وأسقط الصور هنا أو انقر لاختيار الملفات</p>
-                            <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
-                        </div>
-                        <div id="image-preview" class="image-preview">
-                            <!-- Preview images will be shown here -->
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-save"></i> حفظ البيانات
-                        </button>
-                        <button type="button" id="cancel-form" class="btn btn-light btn-block">
-                            <i class="fas fa-times"></i> إلغاء
-                        </button>
+                        <label for="company-name">اسم الشركة:</label>
+                        <input type="text" id="company-name" required>
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <!-- Add Company Modal -->
-    <div id="add-company-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>إضافة شركة جديدة</h3>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="company-name">اسم الشركة <span class="text-danger">*</span></label>
-                    <input type="text" id="company-name" required>
-                </div>
-            </div>
             <div class="modal-footer">
-                <button id="save-company" class="btn btn-primary">
-                    <i class="fas fa-save"></i> حفظ
-                </button>
-                <button id="cancel-company" class="btn btn-light">
-                    <i class="fas fa-times"></i> إلغاء
-                </button>
+                <button type="button" class="btn btn-light" id="cancel-company">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="save-company">حفظ</button>
             </div>
         </div>
     </div>
 
-    <!-- Edit Company Modal -->
-    <div id="edit-company-modal" class="modal">
+    <!-- Add/Edit Vehicle Modal -->
+    <div id="vehicle-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>تعديل اسم الشركة</h3>
+                <h3 id="vehicle-modal-title">إضافة مركبة جديدة</h3>
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="edit-company-id">
-                <div class="form-group">
-                    <label for="edit-company-name">اسم الشركة <span class="text-danger">*</span></label>
-                    <input type="text" id="edit-company-name" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="update-company" class="btn btn-primary">
-                    <i class="fas fa-save"></i> تحديث
-                </button>
-                <button id="cancel-edit-company" class="btn btn-light">
-                    <i class="fas fa-times"></i> إلغاء
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div id="delete-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="delete-modal-title">تأكيد الحذف</h3>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p id="delete-modal-message">هل أنت متأكد أنك تريد حذف هذا العنصر؟</p>
-            </div>
-            <div class="modal-footer">
-                <button id="confirm-delete" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> حذف
-                </button>
-                <button id="cancel-delete" class="btn btn-light">
-                    <i class="fas fa-times"></i> إلغاء
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Modal -->
-    <div id="export-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="export-modal-title">تصدير البيانات</h3>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>اختر نوع التصدير:</label>
-                    <select id="export-type" class="form-control">
-                        <option value="all">جميع البيانات (الشركات والمركبات)</option>
-                        <option value="current-company">الشركة الحالية مع مركباتها</option>
-                        <option value="active-vehicles">المركبات النشطة فقط</option>
-                        <option value="expiring-vehicles">المركبات القريبة من الانتهاء</option>
-                        <option value="expired-vehicles">المركبات المنتهية</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>تنسيق التصدير:</label>
-                    <select id="export-format" class="form-control">
-                        <option value="json">JSON (للاستيراد لاحقاً)</option>
-                        <option value="csv">CSV (للتحليل في Excel)</option>
-                        <option value="excel">Excel (ملف XLSX)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button id="generate-export" class="btn btn-primary btn-block">
-                        <i class="fas fa-file-export"></i> توليد ملف التصدير
-                    </button>
-                </div>
-                <div id="export-result" style="display: none;">
+                <form id="vehicle-form">
+                    <input type="hidden" id="vehicle-id">
+                    <input type="hidden" id="vehicle-company-id">
+                    
                     <div class="form-group">
-                        <label>تم توليد ملف التصدير بنجاح:</label>
-                        <textarea id="export-data" class="form-control" rows="6" readonly></textarea>
+                        <label for="vehicle-license">رقم الرخصة:</label>
+                        <input type="text" id="vehicle-license" required>
                     </div>
+                    
                     <div class="form-group">
-                        <button id="download-export" class="btn btn-success btn-block">
-                            <i class="fas fa-download"></i> تحميل الملف
-                        </button>
+                        <label for="vehicle-expiry">تاريخ انتهاء الرخصة:</label>
+                        <input type="date" id="vehicle-expiry" required>
                     </div>
-                </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicle-calibration">تاريخ انتهاء العيار:</label>
+                        <input type="date" id="vehicle-calibration" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicle-notes-input">ملاحظات:</label>
+                        <textarea id="vehicle-notes-input" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>المرفقات:</label>
+                        <div class="dropzone" id="vehicle-dropzone">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 24px; margin-bottom: 10px;"></i>
+                            <p>اسحب الصور هنا أو انقر لرفعها</p>
+                            <input type="file" id="vehicle-attachments-input" multiple accept="image/*" style="display: none;">
+                        </div>
+                        <div id="vehicle-attachments-preview" class="image-preview"></div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button id="close-export" class="btn btn-light">
-                    <i class="fas fa-times"></i> إغلاق
-                </button>
+                <button type="button" class="btn btn-light" id="cancel-vehicle">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="save-vehicle">حفظ</button>
             </div>
         </div>
     </div>
 
-    <!-- Import Modal -->
+    <!-- Import Data Modal -->
     <div id="import-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="import-modal-title">استيراد البيانات</h3>
+                <h3>استيراد بيانات</h3>
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>اختر تنسيق الملف:</label>
-                    <select id="import-format" class="form-control">
-                        <option value="json">JSON</option>
-                        <option value="csv">CSV</option>
-                        <option value="excel">Excel (XLSX)</option>
-                    </select>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>تحذير:</strong> استيراد البيانات سيستبدل البيانات الحالية. يرجى التأكد من صحة الملف قبل الاستيراد.
                 </div>
+                
                 <div class="form-group">
-                    <label>اختر ملف للاستيراد:</label>
-                    <input type="file" id="import-file" class="form-control" accept=".json,.csv,.xlsx">
+                    <label>اختر ملف JSON للاستيراد:</label>
+                    <input type="file" id="import-file" accept=".json">
                 </div>
+                
                 <div class="form-group">
-                    <label>خيارات الاستيراد:</label>
-                    <div class="form-check">
-                        <input type="checkbox" id="import-overwrite" class="form-check-input">
-                        <label for="import-overwrite" class="form-check-label">استبدال البيانات الموجودة</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" id="import-skip-duplicates" class="form-check-input" checked>
-                        <label for="import-skip-duplicates" class="form-check-label">تخطي البيانات المكررة</label>
-                    </div>
-                </div>
-                <div id="import-preview" style="display: none; margin-top: 15px;">
-                    <h4>معاينة البيانات:</h4>
-                    <div id="import-preview-content" class="card" style="max-height: 200px; overflow-y: auto;"></div>
+                    <label>
+                        <input type="checkbox" id="replace-data">
+                        استبدال جميع البيانات الحالية (سيؤدي هذا إلى حذف جميع البيانات الحالية واستبدالها بالبيانات الجديدة)
+                    </label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="confirm-import" class="btn btn-primary" disabled>
-                    <i class="fas fa-file-import"></i> استيراد البيانات
-                </button>
-                <button id="cancel-import" class="btn btn-light">
-                    <i class="fas fa-times"></i> إلغاء
-                </button>
+                <button type="button" class="btn btn-light" id="cancel-import">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="process-import">استيراد</button>
             </div>
         </div>
     </div>
 
-    <!-- Image Lightbox -->
+    <!-- Lightbox for Image Viewing -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
         <div class="lightbox-nav">
-            <span class="lightbox-nav-btn" id="prev-image">&#10094;</span>
-            <span class="lightbox-nav-btn" id="next-image">&#10095;</span>
+            <span class="lightbox-nav-btn" id="lightbox-prev"><i class="fas fa-chevron-left"></i></span>
+            <span class="lightbox-nav-btn" id="lightbox-next"><i class="fas fa-chevron-right"></i></span>
         </div>
         <div class="lightbox-content">
             <img id="lightbox-img" class="lightbox-img" src="">
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        // Database variables
-        let db;
-        const DB_NAME = 'VehicleRecordsDB';
-        const DB_VERSION = 4; // Increased version for updates
-        
-        // Object store names
-        const STORES = {
-            COMPANIES: 'companies',
-            VEHICLES: 'vehicles',
-            NOTES: 'notes',
-            IMAGES: 'images'
-        };
+        // البيانات الأولية
+        let companies = JSON.parse(localStorage.getItem('companies')) || [];
+        let currentCompanyId = null;
+        let currentVehicleId = null;
+        let currentFilter = 'all';
+        let currentImages = [];
+        let currentImageIndex = 0;
 
         // DOM Elements
         const companiesPage = document.getElementById('companies-page');
         const companyPage = document.getElementById('company-page');
         const vehiclePage = document.getElementById('vehicle-page');
-        const vehicleFormPage = document.getElementById('vehicle-form-page');
+        const companiesList = document.getElementById('companies-list');
+        const vehiclesTableBody = document.getElementById('vehicles-table-body');
+        const noVehicles = document.getElementById('no-vehicles');
+        const companyNameTitle = document.getElementById('company-name-title');
+        const globalSearch = document.getElementById('global-search');
+        const companyVehicleSearch = document.getElementById('company-vehicle-search');
         const alertMessage = document.getElementById('alert-message');
-        
-        // Sidebar elements
-        const sidebar = document.querySelector('.sidebar');
-        const sidebarToggle = document.querySelector('.sidebar-toggle');
-        const sidebarCompanies = document.getElementById('sidebar-companies');
-        const sidebarExportAll = document.getElementById('sidebar-export-all');
-        const sidebarImport = document.getElementById('sidebar-import');
-        
-        // Toast elements
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
         const toastIcon = document.getElementById('toast-icon');
-        
-        const companiesList = document.getElementById('companies-list');
-        const addCompanyBtn = document.getElementById('add-company-btn');
-        const backToCompaniesBtn = document.getElementById('back-to-companies');
-        const globalSearch = document.getElementById('global-search');
-        
-        // Export/Import elements
-        const exportAllBtn = document.getElementById('export-all-btn');
-        const exportCompanyBtn = document.getElementById('export-company-btn');
-        const importDataBtn = document.getElementById('import-data-btn');
-        const exportModal = document.getElementById('export-modal');
-        const importModal = document.getElementById('import-modal');
-        
-        const companyNameTitle = document.getElementById('company-name-title');
-        const addVehicleBtn = document.getElementById('add-vehicle-btn');
-        const backToCompanyBtn = document.getElementById('back-to-company');
-        const companyVehicleSearch = document.getElementById('company-vehicle-search');
-        const vehiclesTableBody = document.getElementById('vehicles-table-body');
-        const noVehicles = document.getElementById('no-vehicles');
-        
-        const vehicleLicenseNumber = document.getElementById('vehicle-license-number');
-        const vehicleExpiryDate = document.getElementById('vehicle-expiry-date');
-        const vehicleCalibrationDate = document.getElementById('vehicle-calibration-date');
-        const vehicleStatus = document.getElementById('vehicle-status');
-        const vehicleImages = document.getElementById('vehicle-images');
-        const noImages = document.getElementById('no-images');
-        const vehicleNotes = document.getElementById('vehicle-notes');
-        const newNote = document.getElementById('new-note');
-        const addNoteBtn = document.getElementById('add-note-btn');
-        const editVehicleBtn = document.getElementById('edit-vehicle-btn');
-        const deleteVehicleBtn = document.getElementById('delete-vehicle-btn');
-        
-        const backFromFormBtn = document.getElementById('back-from-form');
-        const formTitle = document.getElementById('form-title');
-        const vehicleForm = document.getElementById('vehicle-form');
-        const vehicleIdInput = document.getElementById('vehicle-id');
-        const companyIdInput = document.getElementById('company-id');
-        const licenseNumberInput = document.getElementById('license-number');
-        const expiryDateInput = document.getElementById('expiry-date');
-        const calibrationDateInput = document.getElementById('calibration-date');
-        const dropzone = document.getElementById('dropzone');
-        const fileInput = document.getElementById('file-input');
-        const imagePreview = document.getElementById('image-preview');
-        const cancelFormBtn = document.getElementById('cancel-form');
-        
-        const addCompanyModal = document.getElementById('add-company-modal');
-        const editCompanyModal = document.getElementById('edit-company-modal');
-        const deleteModal = document.getElementById('delete-modal');
-        const lightbox = document.getElementById('lightbox');
-        
+
+        // Stats elements
         const activeCount = document.getElementById('active-count');
         const expiringCount = document.getElementById('expiring-count');
         const expiredCount = document.getElementById('expired-count');
         const activeStat = document.getElementById('active-stat');
         const expiringStat = document.getElementById('expiring-stat');
         const expiredStat = document.getElementById('expired-stat');
-        const filterButtons = document.querySelectorAll('.filter-btn');
 
-        // State variables
-        let currentCompanyId = null;
-        let currentVehicleId = null;
-        let selectedFiles = [];
-        let currentLightboxIndex = 0;
-        let currentFilter = 'all';
-        let currentSearchTerm = '';
-        let currentImages = [];
-        let allVehicles = [];
-        let existingImages = []; // To keep track of existing images during edit
-
-        // Initialize the app and database
-        function init() {
+        // تهيئة التطبيق
+        function initApp() {
+            loadCompanies();
             setupEventListeners();
-            openDatabase();
         }
 
-        // Show toast notification
-        function showToast(message, type = 'info') {
-            // Set toast content and style
-            toastMessage.textContent = message;
-            toast.className = `toast toast-${type}`;
-            
-            // Set icon based on type
-            let iconClass;
-            switch(type) {
-                case 'success':
-                    iconClass = 'fa-check-circle';
-                    break;
-                case 'error':
-                    iconClass = 'fa-exclamation-circle';
-                    break;
-                case 'warning':
-                    iconClass = 'fa-exclamation-triangle';
-                    break;
-                default:
-                    iconClass = 'fa-info-circle';
-            }
-            
-            toastIcon.className = `fas ${iconClass}`;
-            
-            // Show toast
-            toast.classList.add('show');
-            
-            // Hide after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Show alert message
-        function showAlert(message, type = 'success') {
-            alertMessage.textContent = message;
-            alertMessage.className = `alert alert-${type}`;
-            alertMessage.style.display = 'block';
-            
-            setTimeout(() => {
-                alertMessage.style.display = 'none';
-            }, 5000);
-        }
-
-        // Toggle sidebar on mobile
-        function toggleSidebar() {
-            sidebar.classList.toggle('active');
-        }
-
-        // Open or create IndexedDB database
-        function openDatabase() {
-            const request = indexedDB.open(DB_NAME, DB_VERSION);
-            
-            request.onerror = function(event) {
-                console.error('فشل فتح قاعدة البيانات', event.target.error);
-                showToast('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
-                
-                // Show error message in companies list
+        // تحميل قائمة الشركات
+        function loadCompanies() {
+            if (companies.length === 0) {
                 companiesList.innerHTML = `
                     <div class="no-data">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 15px;"></i>
-                        <p>حدث خطأ في فتح قاعدة البيانات</p>
-                        <p>${event.target.error.message}</p>
-                        <button class="btn btn-primary" onclick="location.reload()">
-                            <i class="fas fa-redo"></i> إعادة تحميل الصفحة
+                        <i class="fas fa-building" style="font-size: 24px; margin-bottom: 10px;"></i>
+                        <p>لا توجد شركات مسجلة</p>
+                        <button id="add-first-company" class="btn btn-primary mt-2">
+                            <i class="fas fa-plus"></i> إضافة شركة جديدة
                         </button>
                     </div>
                 `;
-            };
-            
-            request.onsuccess = function(event) {
-                db = event.target.result;
                 
-                // Add version tracking to database
-                if (!db.objectStoreNames.contains('metadata')) {
-                    const transaction = db.transaction(['metadata'], 'readwrite');
-                    const store = transaction.objectStore('metadata');
-                    store.add({ id: 'version', value: DB_VERSION });
-                }
-                
-                renderCompanies();
-                loadAllVehicles();
-            };
-            
-            request.onupgradeneeded = function(event) {
-                const db = event.target.result;
-                const oldVersion = event.oldVersion;
-                
-                // Create object stores if they don't exist
-                if (!db.objectStoreNames.contains(STORES.COMPANIES)) {
-                    const companiesStore = db.createObjectStore(STORES.COMPANIES, { keyPath: 'id', autoIncrement: true });
-                    companiesStore.createIndex('name', 'name', { unique: true });
-                }
-                
-                if (!db.objectStoreNames.contains(STORES.VEHICLES)) {
-                    const vehiclesStore = db.createObjectStore(STORES.VEHICLES, { keyPath: 'id', autoIncrement: true });
-                    vehiclesStore.createIndex('companyId', 'companyId', { unique: false });
-                    vehiclesStore.createIndex('licenseNumber', 'licenseNumber', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains(STORES.NOTES)) {
-                    const notesStore = db.createObjectStore(STORES.NOTES, { keyPath: 'id', autoIncrement: true });
-                    notesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
-                    notesStore.createIndex('createdAt', 'createdAt', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains(STORES.IMAGES)) {
-                    const imagesStore = db.createObjectStore(STORES.IMAGES, { keyPath: 'id', autoIncrement: true });
-                    imagesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
-                }
-                
-                // Create metadata store for version tracking
-                if (!db.objectStoreNames.contains('metadata')) {
-                    db.createObjectStore('metadata', { keyPath: 'id' });
-                }
-                
-                // Handle upgrades from older versions
-                if (oldVersion > 0 && oldVersion < 4) {
-                    // Migration logic for older versions if needed
-                    console.log(`Upgrading database from version ${oldVersion} to ${DB_VERSION}`);
-                }
-            };
-            
-            request.onblocked = function(event) {
-                console.error('Database upgrade blocked', event);
-                showToast('تم حظر ترقية قاعدة البيانات. يرجى إغلاق جميع علامات التبويب المفتوحة لهذا التطبيق.', 'error');
-            };
-        }
-
-        // Load all vehicles for global search
-        function loadAllVehicles() {
-            getAllVehicles().then(vehicles => {
-                allVehicles = vehicles;
-            }).catch(error => {
-                console.error('Error loading all vehicles:', error);
-            });
-        }
-
-        // Set up event listeners
-        function setupEventListeners() {
-            // Sidebar toggle
-            sidebarToggle.addEventListener('click', toggleSidebar);
-            sidebarCompanies.addEventListener('click', (e) => {
-                e.preventDefault();
-                showCompaniesPage();
-                toggleSidebar();
-            });
-            sidebarExportAll.addEventListener('click', (e) => {
-                e.preventDefault();
-                showExportModal('all');
-                toggleSidebar();
-            });
-            sidebarImport.addEventListener('click', (e) => {
-                e.preventDefault();
-                showImportModal();
-                toggleSidebar();
-            });
-            
-            // Navigation
-            addCompanyBtn.addEventListener('click', showAddCompanyModal);
-            backToCompaniesBtn.addEventListener('click', showCompaniesPage);
-            backToCompanyBtn.addEventListener('click', () => {
-                if (currentCompanyId) {
-                    showCompanyPage(currentCompanyId);
-                } else {
-                    showCompaniesPage();
-                }
-            });
-            backFromFormBtn.addEventListener('click', () => {
-                if (currentVehicleId) {
-                    showVehiclePage(currentVehicleId);
-                } else if (currentCompanyId) {
-                    showCompanyPage(currentCompanyId);
-                } else {
-                    showCompaniesPage();
-                }
-            });
-            cancelFormBtn.addEventListener('click', () => {
-                if (currentVehicleId) {
-                    showVehiclePage(currentVehicleId);
-                } else if (currentCompanyId) {
-                    showCompanyPage(currentCompanyId);
-                } else {
-                    showCompaniesPage();
-                }
-            });
-            
-            // Export/Import buttons
-            exportAllBtn.addEventListener('click', () => showExportModal('all'));
-            exportCompanyBtn.addEventListener('click', () => showExportModal('current-company'));
-            importDataBtn.addEventListener('click', showImportModal);
-            
-            // Global search
-            globalSearch.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.trim().toLowerCase();
-                if (searchTerm.length > 2) {
-                    searchVehicleGlobally(searchTerm);
-                } else if (searchTerm.length === 0) {
-                    renderCompanies();
-                }
-            });
-            
-            // Company vehicle search
-            companyVehicleSearch.addEventListener('input', (e) => {
-                currentSearchTerm = e.target.value.trim().toLowerCase();
-                renderCompanyVehicles(currentCompanyId);
-            });
-            
-            // Company modals
-            document.querySelector('#add-company-modal .close').addEventListener('click', () => {
-                addCompanyModal.style.display = 'none';
-            });
-            document.querySelector('#edit-company-modal .close').addEventListener('click', () => {
-                editCompanyModal.style.display = 'none';
-            });
-            document.querySelector('#delete-modal .close').addEventListener('click', () => {
-                deleteModal.style.display = 'none';
-            });
-            document.querySelector('#export-modal .close').addEventListener('click', () => {
-                exportModal.style.display = 'none';
-            });
-            document.querySelector('#import-modal .close').addEventListener('click', () => {
-                importModal.style.display = 'none';
-            });
-            document.querySelector('#lightbox .lightbox-close').addEventListener('click', () => {
-                lightbox.style.display = 'none';
-            });
-            
-            document.getElementById('save-company').addEventListener('click', saveCompany);
-            document.getElementById('cancel-company').addEventListener('click', () => {
-                addCompanyModal.style.display = 'none';
-            });
-            document.getElementById('update-company').addEventListener('click', updateCompany);
-            document.getElementById('cancel-edit-company').addEventListener('click', () => {
-                editCompanyModal.style.display = 'none';
-            });
-            document.getElementById('confirm-delete').addEventListener('click', confirmDelete);
-            document.getElementById('cancel-delete').addEventListener('click', () => {
-                deleteModal.style.display = 'none';
-            });
-            document.getElementById('close-export').addEventListener('click', () => {
-                exportModal.style.display = 'none';
-            });
-            document.getElementById('cancel-import').addEventListener('click', () => {
-                importModal.style.display = 'none';
-            });
-            
-            // Export/Import functions
-            document.getElementById('generate-export').addEventListener('click', generateExport);
-            document.getElementById('download-export').addEventListener('click', downloadExport);
-            document.getElementById('import-file').addEventListener('change', handleImportFile);
-            document.getElementById('confirm-import').addEventListener('click', confirmImport);
-            
-            // Vehicle form
-            addVehicleBtn.addEventListener('click', () => {
-                showVehicleFormPage(null, currentCompanyId);
-            });
-            vehicleForm.addEventListener('submit', handleVehicleFormSubmit);
-            editVehicleBtn.addEventListener('click', () => {
-                showVehicleFormPage(currentVehicleId, currentCompanyId);
-            });
-            deleteVehicleBtn.addEventListener('click', () => {
-                showDeleteModal('vehicle', currentVehicleId, 'هل أنت متأكد أنك تريد حذف هذه المركبة؟ سيتم حذف جميع الصور والملاحظات المرتبطة بها.');
-            });
-            
-            // Notes
-            addNoteBtn.addEventListener('click', addNote);
-            
-            // Image handling
-            dropzone.addEventListener('click', () => fileInput.click());
-            dropzone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropzone.classList.add('active');
-            });
-            dropzone.addEventListener('dragleave', () => {
-                dropzone.classList.remove('active');
-            });
-            dropzone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropzone.classList.remove('active');
-                if (e.dataTransfer.files.length > 0) {
-                    handleFiles(e.dataTransfer.files);
-                }
-            });
-            fileInput.addEventListener('change', () => {
-                if (fileInput.files.length > 0) {
-                    handleFiles(fileInput.files);
-                }
-            });
-            
-            // Lightbox navigation
-            document.getElementById('prev-image').addEventListener('click', showPrevImage);
-            document.getElementById('next-image').addEventListener('click', showNextImage);
-            
-            // Search and filter
-            filterButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.filter;
-                    renderCompanyVehicles(currentCompanyId);
+                document.getElementById('add-first-company').addEventListener('click', () => {
+                    showAddCompanyModal();
                 });
-            });
-            
-            // Stats cards as filters
-            activeStat.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                document.querySelector('.filter-btn[data-filter="active"]').classList.add('active');
-                currentFilter = 'active';
-                renderCompanyVehicles(currentCompanyId);
-            });
-            
-            expiringStat.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                document.querySelector('.filter-btn[data-filter="expiring"]').classList.add('active');
-                currentFilter = 'expiring';
-                renderCompanyVehicles(currentCompanyId);
-            });
-            
-            expiredStat.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                document.querySelector('.filter-btn[data-filter="expired"]').classList.add('active');
-                currentFilter = 'expired';
-                renderCompanyVehicles(currentCompanyId);
-            });
-        }
-
-        // Show export modal
-        function showExportModal(type) {
-            document.getElementById('export-type').value = type;
-            document.getElementById('export-result').style.display = 'none';
-            exportModal.style.display = 'block';
-        }
-
-        // Generate export data
-        function generateExport() {
-            const exportType = document.getElementById('export-type').value;
-            const exportFormat = document.getElementById('export-format').value;
-            const generateBtn = document.getElementById('generate-export');
-            const originalText = generateBtn.innerHTML;
-            
-            generateBtn.innerHTML = '<div class="spinner"></div> جاري التصدير...';
-            generateBtn.disabled = true;
-            
-            let exportPromise;
-            
-            if (exportType === 'all') {
-                exportPromise = exportAllData();
-            } else if (exportType === 'current-company' && currentCompanyId) {
-                exportPromise = exportCompanyData(currentCompanyId);
-            } else if (exportType === 'active-vehicles') {
-                exportPromise = exportVehiclesByStatus('active');
-            } else if (exportType === 'expiring-vehicles') {
-                exportPromise = exportVehiclesByStatus('expiring');
-            } else if (exportType === 'expired-vehicles') {
-                exportPromise = exportVehiclesByStatus('expired');
-            } else {
-                showToast('الرجاء تحديد شركة أولاً', 'error');
-                generateBtn.innerHTML = originalText;
-                generateBtn.disabled = false;
                 return;
             }
-            
-            exportPromise.then(data => {
-                let exportData;
-                
-                if (exportFormat === 'csv') {
-                    exportData = convertToCSV(data);
-                } else if (exportFormat === 'excel') {
-                    // For Excel format, we'll create a download link directly
-                    exportToExcel(data, exportType);
-                    generateBtn.innerHTML = originalText;
-                    generateBtn.disabled = false;
-                    return;
-                } else {
-                    exportData = JSON.stringify(data, null, 2);
-                }
-                
-                const exportDataElement = document.getElementById('export-data');
-                exportDataElement.value = exportData;
-                document.getElementById('export-result').style.display = 'block';
-                generateBtn.innerHTML = originalText;
-                generateBtn.disabled = false;
-            }).catch(error => {
-                console.error('Error exporting data:', error);
-                showToast('حدث خطأ أثناء تصدير البيانات', 'error');
-                generateBtn.innerHTML = originalText;
-                generateBtn.disabled = false;
-            });
-        }
 
-        // Convert data to CSV format
-        function convertToCSV(data) {
-            let csvContent = '';
-            
-            if (data.companies && data.companies.length > 0) {
-                csvContent += 'الشركات\n';
-                csvContent += 'ID,الاسم\n';
-                data.companies.forEach(company => {
-                    csvContent += `${company.id},${company.name}\n`;
-                });
-                csvContent += '\n';
-            }
-            
-            if (data.vehicles && data.vehicles.length > 0) {
-                csvContent += 'المركبات\n';
-                csvContent += 'ID,رقم الرخصة,تاريخ انتهاء الرخصة,تاريخ انتهاء العيار,معرف الشركة\n';
-                data.vehicles.forEach(vehicle => {
-                    csvContent += `${vehicle.id},${vehicle.licenseNumber},${vehicle.expiryDate || ''},${vehicle.calibrationDate || ''},${vehicle.companyId}\n`;
-                });
-                csvContent += '\n';
-            }
-            
-            if (data.notes && data.notes.length > 0) {
-                csvContent += 'الملاحظات\n';
-                csvContent += 'ID,المحتوى,معرف المركبة,تاريخ الإنشاء\n';
-                data.notes.forEach(note => {
-                    csvContent += `${note.id},${note.content},${note.vehicleId},${note.createdAt}\n`;
-                });
-                csvContent += '\n';
-            }
-            
-            return csvContent;
-        }
-
-        // Export to Excel format
-        function exportToExcel(data, exportType) {
-            try {
-                const workbook = XLSX.utils.book_new();
-                
-                if (data.companies && data.companies.length > 0) {
-                    const companiesWS = XLSX.utils.json_to_sheet(data.companies.map(c => ({
-                        'ID': c.id,
-                        'الاسم': c.name
-                    })));
-                    XLSX.utils.book_append_sheet(workbook, companiesWS, 'الشركات');
-                }
-                
-                if (data.vehicles && data.vehicles.length > 0) {
-                    const vehiclesWS = XLSX.utils.json_to_sheet(data.vehicles.map(v => ({
-                        'ID': v.id,
-                        'رقم الرخصة': v.licenseNumber,
-                        'تاريخ انتهاء الرخصة': v.expiryDate || '',
-                        'تاريخ انتهاء العيار': v.calibrationDate || '',
-                        'معرف الشركة': v.companyId
-                    })));
-                    XLSX.utils.book_append_sheet(workbook, vehiclesWS, 'المركبات');
-                }
-                
-                if (data.notes && data.notes.length > 0) {
-                    const notesWS = XLSX.utils.json_to_sheet(data.notes.map(n => ({
-                        'ID': n.id,
-                        'المحتوى': n.content,
-                        'معرف المركبة': n.vehicleId,
-                        'تاريخ الإنشاء': n.createdAt
-                    })));
-                    XLSX.utils.book_append_sheet(workbook, notesWS, 'الملاحظات');
-                }
-                
-                let filename = 'vehicle-records-export';
-                if (exportType === 'current-company' && currentCompanyId) {
-                    filename = `company-${currentCompanyId}-export`;
-                } else if (exportType === 'active-vehicles') {
-                    filename = 'active-vehicles-export';
-                } else if (exportType === 'expiring-vehicles') {
-                    filename = 'expiring-vehicles-export';
-                } else if (exportType === 'expired-vehicles') {
-                    filename = 'expired-vehicles-export';
-                }
-                
-                XLSX.writeFile(workbook, `${filename}-${new Date().toISOString().split('T')[0]}.xlsx`);
-                showToast('تم تنزيل ملف Excel بنجاح', 'success');
-            } catch (error) {
-                console.error('Error exporting to Excel:', error);
-                showToast('حدث خطأ أثناء تصدير ملف Excel', 'error');
-            }
-        }
-
-        // Download export file
-        function downloadExport() {
-            const data = document.getElementById('export-data').value;
-            const exportFormat = document.getElementById('export-format').value;
-            const fileExtension = exportFormat === 'csv' ? 'csv' : 'json';
-            const mimeType = exportFormat === 'csv' ? 'text/csv' : 'application/json';
-            
-            const blob = new Blob([data], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            
-            let filename = 'vehicle-records-export';
-            const exportType = document.getElementById('export-type').value;
-            
-            if (exportType === 'current-company' && currentCompanyId) {
-                filename = `company-${currentCompanyId}-export`;
-            } else if (exportType === 'active-vehicles') {
-                filename = 'active-vehicles-export';
-            } else if (exportType === 'expiring-vehicles') {
-                filename = 'expiring-vehicles-export';
-            } else if (exportType === 'expired-vehicles') {
-                filename = 'expired-vehicles-export';
-            }
-            
-            a.download = `${filename}-${new Date().toISOString().split('T')[0]}.${fileExtension}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast('تم تنزيل ملف التصدير بنجاح', 'success');
-        }
-
-        // Show import modal
-        function showImportModal() {
-            document.getElementById('import-file').value = '';
-            document.getElementById('import-overwrite').checked = false;
-            document.getElementById('import-skip-duplicates').checked = true;
-            document.getElementById('import-preview').style.display = 'none';
-            document.getElementById('confirm-import').disabled = true;
-            importModal.style.display = 'block';
-        }
-
-        // Handle import file selection
-        function handleImportFile(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const importFormat = document.getElementById('import-format').value;
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                try {
-                    let data;
-                    
-                    if (importFormat === 'json') {
-                        data = JSON.parse(event.target.result);
-                    } else if (importFormat === 'csv') {
-                        // Parse CSV file
-                        const csvData = Papa.parse(event.target.result, {
-                            header: true,
-                            skipEmptyLines: true
-                        });
-                        data = convertCSVToStructuredData(csvData.data);
-                    } else if (importFormat === 'excel') {
-                        // Parse Excel file
-                        const workbook = XLSX.read(event.target.result, { type: 'binary' });
-                        data = convertExcelToStructuredData(workbook);
-                    }
-                    
-                    document.getElementById('import-preview-content').innerHTML = `
-                        <p><strong>الشركات:</strong> ${data.companies ? data.companies.length : 0}</p>
-                        <p><strong>المركبات:</strong> ${data.vehicles ? data.vehicles.length : 0}</p>
-                        <p><strong>الملاحظات:</strong> ${data.notes ? data.notes.length : 0}</p>
-                    `;
-                    document.getElementById('import-preview').style.display = 'block';
-                    document.getElementById('confirm-import').disabled = false;
-                    document.getElementById('confirm-import').dataset.importData = JSON.stringify(data);
-                } catch (error) {
-                    console.error('Error parsing file:', error);
-                    showToast('ملف غير صالح. الرجاء اختيار ملف صحيح.', 'error');
-                    document.getElementById('import-preview').style.display = 'none';
-                    document.getElementById('confirm-import').disabled = true;
-                }
-            };
-            
-            if (importFormat === 'excel') {
-                reader.readAsBinaryString(file);
-            } else {
-                reader.readAsText(file);
-            }
-        }
-
-        // Convert CSV data to structured data
-        function convertCSVToStructuredData(csvData) {
-            const result = {
-                companies: [],
-                vehicles: [],
-                notes: []
-            };
-            
-            // This is a simplified conversion - you would need to implement
-            // a more robust conversion based on your CSV structure
-            csvData.forEach(row => {
-                if (row.hasOwnProperty('الاسم')) {
-                    result.companies.push({
-                        id: row.ID || generateId(),
-                        name: row.الاسم
-                    });
-                } else if (row.hasOwnProperty('رقم الرخصة')) {
-                    result.vehicles.push({
-                        id: row.ID || generateId(),
-                        licenseNumber: row['رقم الرخصة'],
-                        expiryDate: row['تاريخ انتهاء الرخصة'] || null,
-                        calibrationDate: row['تاريخ انتهاء العيار'] || null,
-                        companyId: row['معرف الشركة'] || null
-                    });
-                } else if (row.hasOwnProperty('المحتوى')) {
-                    result.notes.push({
-                        id: row.ID || generateId(),
-                        content: row.المحتوى,
-                        vehicleId: row['معرف المركبة'] || null,
-                        createdAt: row['تاريخ الإنشاء'] || new Date().toISOString()
-                    });
-                }
-            });
-            
-            return result;
-        }
-
-        // Convert Excel data to structured data
-        function convertExcelToStructuredData(workbook) {
-            const result = {
-                companies: [],
-                vehicles: [],
-                notes: []
-            };
-            
-            // Read companies sheet
-            if (workbook.SheetNames.includes('الشركات')) {
-                const companiesSheet = workbook.Sheets['الشركات'];
-                const companiesData = XLSX.utils.sheet_to_json(companiesSheet);
-                
-                companiesData.forEach(row => {
-                    result.companies.push({
-                        id: row.ID || generateId(),
-                        name: row.الاسم
-                    });
-                });
-            }
-            
-            // Read vehicles sheet
-            if (workbook.SheetNames.includes('المركبات')) {
-                const vehiclesSheet = workbook.Sheets['المركبات'];
-                const vehiclesData = XLSX.utils.sheet_to_json(vehiclesSheet);
-                
-                vehiclesData.forEach(row => {
-                    result.vehicles.push({
-                        id: row.ID || generateId(),
-                        licenseNumber: row['رقم الرخصة'],
-                        expiryDate: row['تاريخ انتهاء الرخصة'] || null,
-                        calibrationDate: row['تاريخ انتهاء العيار'] || null,
-                        companyId: row['معرف الشركة'] || null
-                    });
-                });
-            }
-            
-            // Read notes sheet
-            if (workbook.SheetNames.includes('الملاحظات')) {
-                const notesSheet = workbook.Sheets['الملاحظات'];
-                const notesData = XLSX.utils.sheet_to_json(notesSheet);
-                
-                notesData.forEach(row => {
-                    result.notes.push({
-                        id: row.ID || generateId(),
-                        content: row.المحتوى,
-                        vehicleId: row['معرف المركبة'] || null,
-                        createdAt: row['تاريخ الإنشاء'] || new Date().toISOString()
-                    });
-                });
-            }
-            
-            return result;
-        }
-
-        // Confirm import
-        function confirmImport() {
-            const importData = JSON.parse(this.dataset.importData);
-            const overwrite = document.getElementById('import-overwrite').checked;
-            const skipDuplicates = document.getElementById('import-skip-duplicates').checked;
-            const confirmBtn = document.getElementById('confirm-import');
-            const originalText = confirmBtn.innerHTML;
-            
-            confirmBtn.innerHTML = '<div class="spinner"></div> جاري الاستيراد...';
-            confirmBtn.disabled = true;
-            
-            importDataToDB(importData, overwrite, skipDuplicates).then(() => {
-                showToast('تم استيراد البيانات بنجاح', 'success');
-                renderCompanies();
-                if (currentCompanyId) {
-                    renderCompanyVehicles(currentCompanyId);
-                }
-                importModal.style.display = 'none';
-                confirmBtn.innerHTML = originalText;
-                confirmBtn.disabled = false;
-            }).catch(error => {
-                console.error('Error importing data:', error);
-                showToast('حدث خطأ أثناء استيراد البيانات', 'error');
-                confirmBtn.innerHTML = originalText;
-                confirmBtn.disabled = false;
-            });
-        }
-
-        // Import data to database
-        function importDataToDB(data, overwrite = false, skipDuplicates = true) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([
-                    STORES.COMPANIES, 
-                    STORES.VEHICLES, 
-                    STORES.NOTES
-                ], 'readwrite');
-                
-                const companiesStore = transaction.objectStore(STORES.COMPANIES);
-                const vehiclesStore = transaction.objectStore(STORES.VEHICLES);
-                const notesStore = transaction.objectStore(STORES.NOTES);
-                
-                // Clear existing data if overwrite is true
-                if (overwrite) {
-                    companiesStore.clear();
-                    vehiclesStore.clear();
-                    notesStore.clear();
-                }
-                
-                // Import companies
-                if (data.companies) {
-                    data.companies.forEach(company => {
-                        if (skipDuplicates) {
-                            companiesStore.get(company.id).onsuccess = (e) => {
-                                if (!e.target.result) {
-                                    companiesStore.add(company);
-                                }
-                            };
-                        } else {
-                            companiesStore.put(company);
-                        }
-                    });
-                }
-                
-                // Import vehicles
-                if (data.vehicles) {
-                    data.vehicles.forEach(vehicle => {
-                        if (skipDuplicates) {
-                            vehiclesStore.get(vehicle.id).onsuccess = (e) => {
-                                if (!e.target.result) {
-                                    vehiclesStore.add(vehicle);
-                                }
-                            };
-                        } else {
-                            vehiclesStore.put(vehicle);
-                        }
-                    });
-                }
-                
-                // Import notes
-                if (data.notes) {
-                    data.notes.forEach(note => {
-                        if (skipDuplicates) {
-                            notesStore.get(note.id).onsuccess = (e) => {
-                                if (!e.target.result) {
-                                    notesStore.add(note);
-                                }
-                            };
-                        } else {
-                            notesStore.put(note);
-                        }
-                    });
-                }
-                
-                transaction.oncomplete = () => {
-                    resolve();
-                };
-                
-                transaction.onerror = (event) => {
-                    reject(event.target.error);
-                };
-            });
-        }
-
-        // Export all data
-        function exportAllData() {
-            return new Promise((resolve, reject) => {
-                Promise.all([
-                    getAllCompanies(),
-                    getAllVehicles(),
-                    getAllNotes(),
-                    getAllImages()
-                ]).then(([companies, vehicles, notes, images]) => {
-                    resolve({
-                        companies,
-                        vehicles,
-                        notes,
-                        images,
-                        exportedAt: new Date().toISOString(),
-                        version: '1.0'
-                    });
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        // Export company data
-        function exportCompanyData(companyId) {
-            return new Promise((resolve, reject) => {
-                Promise.all([
-                    getCompany(companyId),
-                    getVehiclesByCompany(companyId)
-                ]).then(([company, vehicles]) => {
-                    if (!company) {
-                        reject(new Error('Company not found'));
-                        return;
-                    }
-                    
-                    const vehicleIds = vehicles.map(v => v.id);
-                    
-                    Promise.all([
-                        getNotesForVehicles(vehicleIds),
-                        getImagesForVehicles(vehicleIds)
-                    ]).then(([notes, images]) => {
-                        resolve({
-                            company,
-                            vehicles,
-                            notes,
-                            images,
-                            exportedAt: new Date().toISOString(),
-                            version: '1.0'
-                        });
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        // Export vehicles by status
-        function exportVehiclesByStatus(status) {
-            return new Promise((resolve, reject) => {
-                getAllVehicles().then(vehicles => {
-                    const filteredVehicles = vehicles.filter(vehicle => getLicenseStatus(vehicle) === status);
-                    
-                    const vehicleIds = filteredVehicles.map(v => v.id);
-                    
-                    Promise.all([
-                        getAllCompanies(),
-                        getNotesForVehicles(vehicleIds),
-                        getImagesForVehicles(vehicleIds)
-                    ]).then(([companies, notes, images]) => {
-                        resolve({
-                            companies: companies.filter(company => 
-                                filteredVehicles.some(vehicle => vehicle.companyId === company.id)
-                            ),
-                            vehicles: filteredVehicles,
-                            notes,
-                            images,
-                            exportedAt: new Date().toISOString(),
-                            version: '1.0'
-                        });
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        // Search vehicle globally
-        function searchVehicleGlobally(searchTerm) {
-            const matchedVehicles = allVehicles.filter(v => 
-                v.licenseNumber.toLowerCase().includes(searchTerm)
-            );
-            
-            if (matchedVehicles.length > 0) {
-                // Get the first matching vehicle
-                const vehicle = matchedVehicles[0];
-                
-                // Get the company for this vehicle
-                getCompany(vehicle.companyId).then(company => {
-                    if (company) {
-                        // Show the company page
-                        showCompanyPage(vehicle.companyId);
-                        
-                        // After a short delay, highlight the vehicle in the table
-                        setTimeout(() => {
-                            highlightVehicleInTable(vehicle.id);
-                        }, 300);
-                        
-                        showToast(`تم العثور على ${matchedVehicles.length} نتيجة`, 'success');
-                    }
-                }).catch(error => {
-                    console.error('Error getting company:', error);
-                    showToast('حدث خطأ أثناء البحث', 'error');
-                });
-            } else {
-                showToast('لا توجد نتائج مطابقة للبحث', 'warning');
-            }
-        }
-
-        // Highlight vehicle in table
-        function highlightVehicleInTable(vehicleId) {
-            // Remove any existing highlights
-            document.querySelectorAll('#vehicles-table-body tr').forEach(row => {
-                row.classList.remove('highlight');
-            });
-            
-            // Find and highlight the matching row
-            const row = document.querySelector(`#vehicles-table-body tr[data-vehicle-id="${vehicleId}"]`);
-            if (row) {
-                row.classList.add('highlight');
-                
-                // Scroll to the row
-                row.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
-        }
-
-        // Render companies list
-        function renderCompanies() {
-            getAllCompanies().then(companies => {
-                companiesList.innerHTML = '';
-                
-                if (companies.length === 0) {
-                    companiesList.innerHTML = `
-                        <div class="no-data">
-                            <i class="fas fa-building" style="font-size: 48px; margin-bottom: 15px;"></i>
-                            <p>لا توجد شركات مسجلة</p>
-                            <button id="add-first-company" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> إضافة أول شركة
-                            </button>
+            let html = '';
+            companies.forEach((company, index) => {
+                const vehicleCount = company.vehicles ? company.vehicles.length : 0;
+                html += `
+                    <div class="company-card" data-id="${company.id}">
+                        <div class="company-info">
+                            <div class="company-name">${company.name}</div>
+                            <div style="font-size: 13px; color: var(--gray-color);">${vehicleCount} مركبة</div>
                         </div>
-                    `;
-                    document.getElementById('add-first-company').addEventListener('click', showAddCompanyModal);
-                    return;
-                }
-                
-                companies.sort((a, b) => a.name.localeCompare(b.name)).forEach(company => {
-                    const companyCard = document.createElement('div');
-                    companyCard.className = 'company-card';
-                    companyCard.innerHTML = `
-                        <div class="company-name">${company.name}</div>
                         <div class="company-actions">
                             <button class="btn btn-primary btn-sm view-company" data-id="${company.id}">
                                 <i class="fas fa-eye"></i> عرض
@@ -2532,704 +1451,892 @@
                                 <i class="fas fa-trash"></i> حذف
                             </button>
                         </div>
-                    `;
-                    companiesList.appendChild(companyCard);
-                });
-                
-                // Add event listeners to company buttons
-                document.querySelectorAll('.view-company').forEach(btn => {
-                    btn.addEventListener('click', () => showCompanyPage(btn.dataset.id));
-                });
-                document.querySelectorAll('.edit-company').forEach(btn => {
-                    btn.addEventListener('click', () => showEditCompanyModal(btn.dataset.id));
-                });
-                document.querySelectorAll('.delete-company').forEach(btn => {
-                    btn.addEventListener('click', () => showDeleteModal('company', btn.dataset.id, 'هل أنت متأكد أنك تريد حذف هذه الشركة وجميع مركباتها؟ سيتم حذف جميع البيانات المرتبطة بهذه الشركة.'));
-                });
-            }).catch(error => {
-                console.error('Error rendering companies:', error);
-                showToast('حدث خطأ أثناء تحميل بيانات الشركات', 'error');
+                    </div>
+                `;
             });
-        }
-
-        // Show companies page
-        function showCompaniesPage() {
-            companiesPage.style.display = 'block';
-            companyPage.style.display = 'none';
-            vehiclePage.style.display = 'none';
-            vehicleFormPage.style.display = 'none';
-            currentCompanyId = null;
-            currentVehicleId = null;
-            renderCompanies();
-        }
-
-        // Show company page
-        function showCompanyPage(companyId) {
-            currentCompanyId = companyId;
-            currentVehicleId = null;
             
-            getCompany(companyId).then(company => {
-                if (!company) {
-                    showCompaniesPage();
-                    return;
-                }
-                
-                companyNameTitle.textContent = company.name;
-                
-                companiesPage.style.display = 'none';
-                companyPage.style.display = 'block';
-                vehiclePage.style.display = 'none';
-                vehicleFormPage.style.display = 'none';
-                
-                renderCompanyVehicles(companyId);
-            }).catch(error => {
-                console.error('Error showing company page:', error);
-                showToast('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
+            companiesList.innerHTML = html;
+            
+            // إضافة مستمعي الأحداث للأزرار
+            document.querySelectorAll('.view-company').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const companyId = e.target.closest('.view-company').dataset.id;
+                    viewCompany(companyId);
+                });
+            });
+            
+            document.querySelectorAll('.edit-company').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const companyId = e.target.closest('.edit-company').dataset.id;
+                    editCompany(companyId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-company').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const companyId = e.target.closest('.delete-company').dataset.id;
+                    deleteCompany(companyId);
+                });
             });
         }
 
-        // Render company vehicles
-        function renderCompanyVehicles(companyId) {
-            getVehiclesByCompany(companyId).then(companyVehicles => {
-                // Filter by search term
-                let filteredVehicles = companyVehicles;
-                if (currentSearchTerm) {
-                    filteredVehicles = filteredVehicles.filter(v => 
-                        v.licenseNumber.toLowerCase().includes(currentSearchTerm)
-                    );
-                }
-                
-                // Filter by status
-                if (currentFilter !== 'all') {
-                    filteredVehicles = filteredVehicles.filter(v => getLicenseStatus(v) === currentFilter);
-                }
-                
-                // Update stats
-                updateVehicleStats(companyVehicles);
-                
-                // Render table
+        // عرض شركة مع مركباتها
+        function viewCompany(companyId) {
+            const company = companies.find(c => c.id === companyId);
+            if (!company) return;
+            
+            currentCompanyId = companyId;
+            companyNameTitle.textContent = company.name;
+            companiesPage.style.display = 'none';
+            companyPage.style.display = 'block';
+            
+            loadCompanyVehicles();
+            updateCompanyStats();
+        }
+
+        // تحميل مركبات الشركة
+        function loadCompanyVehicles() {
+            const company = companies.find(c => c.id === currentCompanyId);
+            if (!company || !company.vehicles) {
                 vehiclesTableBody.innerHTML = '';
+                noVehicles.style.display = 'block';
+                return;
+            }
+            
+            let filteredVehicles = [...company.vehicles];
+            
+            // تطبيق البحث
+            const searchTerm = companyVehicleSearch.value.trim().toLowerCase();
+            if (searchTerm) {
+                filteredVehicles = filteredVehicles.filter(v => 
+                    v.licenseNumber.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // تطبيق الفلتر
+            if (currentFilter !== 'all') {
+                filteredVehicles = filteredVehicles.filter(v => getVehicleStatus(v) === currentFilter);
+            }
+            
+            if (filteredVehicles.length === 0) {
+                vehiclesTableBody.innerHTML = '';
+                noVehicles.style.display = 'block';
+                return;
+            }
+            
+            noVehicles.style.display = 'none';
+            
+            let html = '';
+            filteredVehicles.forEach((vehicle, index) => {
+                const status = getVehicleStatus(vehicle);
+                let statusClass = '';
+                let statusText = '';
                 
-                if (filteredVehicles.length === 0) {
-                    noVehicles.style.display = 'block';
-                    return;
+                if (status === 'active') {
+                    statusClass = 'status-active';
+                    statusText = 'نشطة';
+                } else if (status === 'expiring') {
+                    statusClass = 'status-expiring';
+                    statusText = 'قريبة من الانتهاء';
+                } else {
+                    statusClass = 'status-expired';
+                    statusText = 'منتهية';
                 }
                 
-                noVehicles.style.display = 'none';
-                
-                filteredVehicles.forEach((vehicle, index) => {
-                    const status = getLicenseStatus(vehicle);
-                    let statusBadge = '';
-                    
-                    if (status === 'active') {
-                        statusBadge = '<span class="status-badge status-active"><i class="fas fa-check-circle"></i> نشطة</span>';
-                    } else if (status === 'expiring') {
-                        statusBadge = '<span class="status-badge status-expiring"><i class="fas fa-exclamation-triangle"></i> قريبة من الانتهاء</span>';
-                    } else {
-                        statusBadge = '<span class="status-badge status-expired"><i class="fas fa-times-circle"></i> منتهية</span>';
-                    }
-                    
-                    const expiryDate = vehicle.expiryDate || 'غير محدد';
-                    const calibrationDate = vehicle.calibrationDate || 'غير محدد';
-                    
-                    const row = document.createElement('tr');
-                    row.dataset.vehicleId = vehicle.id;
-                    row.innerHTML = `
+                html += `
+                    <tr data-id="${vehicle.id}">
                         <td class="serial-number">${index + 1}</td>
                         <td>${vehicle.licenseNumber}</td>
-                        <td>${expiryDate}</td>
-                        <td>${calibrationDate}</td>
-                        <td>${statusBadge}</td>
+                        <td>${formatDate(vehicle.expiryDate)}</td>
+                        <td>${formatDate(vehicle.calibrationDate)}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                         <td>
                             <button class="btn btn-primary btn-sm view-vehicle" data-id="${vehicle.id}">
-                                <i class="fas fa-eye"></i> عرض
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm edit-vehicle" data-id="${vehicle.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm delete-vehicle" data-id="${vehicle.id}">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
-                    `;
-                    vehiclesTableBody.appendChild(row);
+                    </tr>
+                `;
+            });
+            
+            vehiclesTableBody.innerHTML = html;
+            
+            // إضافة مستمعي الأحداث للأزرار
+            document.querySelectorAll('.view-vehicle').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const vehicleId = e.target.closest('.view-vehicle').dataset.id;
+                    viewVehicle(vehicleId);
                 });
-                
-                // Add event listeners to vehicle buttons
-                document.querySelectorAll('.view-vehicle').forEach(btn => {
-                    btn.addEventListener('click', () => showVehiclePage(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.edit-vehicle').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const vehicleId = e.target.closest('.edit-vehicle').dataset.id;
+                    editVehicle(vehicleId);
                 });
-            }).catch(error => {
-                console.error('Error rendering company vehicles:', error);
-                showToast('حدث خطأ أثناء تحميل بيانات المركبات', 'error');
+            });
+            
+            document.querySelectorAll('.delete-vehicle').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const vehicleId = e.target.closest('.delete-vehicle').dataset.id;
+                    deleteVehicle(vehicleId);
+                });
             });
         }
 
-        // Update vehicle stats
-        function updateVehicleStats(companyVehicles) {
-            let active = 0, expiring = 0, expired = 0;
+        // تحديث إحصائيات الشركة
+        function updateCompanyStats() {
+            const company = companies.find(c => c.id === currentCompanyId);
+            if (!company || !company.vehicles) {
+                activeCount.textContent = '0';
+                expiringCount.textContent = '0';
+                expiredCount.textContent = '0';
+                return;
+            }
             
-            companyVehicles.forEach(vehicle => {
-                const status = getLicenseStatus(vehicle);
+            let active = 0;
+            let expiring = 0;
+            let expired = 0;
+            
+            company.vehicles.forEach(vehicle => {
+                const status = getVehicleStatus(vehicle);
                 if (status === 'active') active++;
                 else if (status === 'expiring') expiring++;
-                else expired++;
+                else if (status === 'expired') expired++;
             });
             
             activeCount.textContent = active;
             expiringCount.textContent = expiring;
             expiredCount.textContent = expired;
-        }
-
-        // Show vehicle page
-        function showVehiclePage(vehicleId) {
-            currentVehicleId = vehicleId;
             
-            getVehicle(vehicleId).then(vehicle => {
-                if (!vehicle) {
-                    if (currentCompanyId) {
-                        showCompanyPage(currentCompanyId);
-                    } else {
-                        showCompaniesPage();
-                    }
-                    return;
-                }
-                
-                // Set current company ID from vehicle data
-                currentCompanyId = vehicle.companyId;
-                
-                // Set vehicle details
-                vehicleLicenseNumber.textContent = vehicle.licenseNumber;
-                vehicleExpiryDate.textContent = vehicle.expiryDate || 'غير محدد';
-                vehicleCalibrationDate.textContent = vehicle.calibrationDate || 'غير محدد';
-                
-                // Set status
-                const status = getLicenseStatus(vehicle);
-                if (status === 'active') {
-                    vehicleStatus.innerHTML = '<span class="status-badge status-active"><i class="fas fa-check-circle"></i> نشطة</span>';
-                } else if (status === 'expiring') {
-                    vehicleStatus.innerHTML = '<span class="status-badge status-expiring"><i class="fas fa-exclamation-triangle"></i> قريبة من الانتهاء</span>';
+            // إضافة مستمعي الأحداث للإحصائيات
+            activeStat.onclick = () => filterVehicles('active');
+            expiringStat.onclick = () => filterVehicles('expiring');
+            expiredStat.onclick = () => filterVehicles('expired');
+        }
+
+        // تصفية المركبات حسب الحالة
+        function filterVehicles(filter) {
+            currentFilter = filter;
+            
+            // تحديث حالة أزرار الفلتر
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.add('active');
                 } else {
-                    vehicleStatus.innerHTML = '<span class="status-badge status-expired"><i class="fas fa-times-circle"></i> منتهية</span>';
+                    btn.classList.remove('active');
                 }
-                
-                // Render images
-                renderVehicleImages(vehicleId);
-                
-                // Render notes
-                renderVehicleNotes(vehicleId);
-                
-                companiesPage.style.display = 'none';
-                companyPage.style.display = 'none';
-                vehiclePage.style.display = 'block';
-                vehicleFormPage.style.display = 'none';
-            }).catch(error => {
-                console.error('Error showing vehicle page:', error);
-                showToast('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
             });
+            
+            loadCompanyVehicles();
         }
 
-        // Render vehicle images
-        function renderVehicleImages(vehicleId) {
-            getVehicleImages(vehicleId).then(vehicleImagesData => {
-                vehicleImages.innerHTML = '';
-                currentImages = vehicleImagesData;
-                
-                if (vehicleImagesData.length === 0) {
-                    noImages.style.display = 'block';
-                    return;
-                }
-                
-                noImages.style.display = 'none';
-                
-                vehicleImagesData.forEach((img, index) => {
-                    const imgElement = document.createElement('div');
-                    imgElement.className = 'gallery-item';
-                    imgElement.innerHTML = `
-                        <img src="${img.data}" alt="صورة الرخصة" data-index="${index}">
-                    `;
-                    vehicleImages.appendChild(imgElement);
-                });
-                
-                // Add click event to images
-                document.querySelectorAll('#vehicle-images img').forEach(img => {
-                    img.addEventListener('click', () => showLightbox(vehicleImagesData, parseInt(img.dataset.index)));
-                });
-            }).catch(error => {
-                console.error('Error rendering vehicle images:', error);
-                showToast('حدث خطأ أثناء تحميل صور المركبة', 'error');
-            });
-        }
-
-        // Render vehicle notes
-        function renderVehicleNotes(vehicleId) {
-            getVehicleNotes(vehicleId).then(vehicleNotesData => {
-                vehicleNotes.innerHTML = '';
-                
-                if (vehicleNotesData.length === 0) {
-                    vehicleNotes.innerHTML = '<div class="no-data">لا توجد ملاحظات</div>';
-                    return;
-                }
-                
-                vehicleNotesData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(note => {
+        // عرض تفاصيل المركبة
+        function viewVehicle(vehicleId) {
+            const company = companies.find(c => c.id === currentCompanyId);
+            if (!company || !company.vehicles) return;
+            
+            const vehicle = company.vehicles.find(v => v.id === vehicleId);
+            if (!vehicle) return;
+            
+            currentVehicleId = vehicleId;
+            companyPage.style.display = 'none';
+            vehiclePage.style.display = 'block';
+            
+            // تعبئة بيانات المركبة
+            document.getElementById('vehicle-license-number').textContent = vehicle.licenseNumber;
+            document.getElementById('vehicle-expiry-date').textContent = formatDate(vehicle.expiryDate);
+            document.getElementById('vehicle-calibration-date').textContent = formatDate(vehicle.calibrationDate);
+            
+            const status = getVehicleStatus(vehicle);
+            let statusText = '';
+            let statusClass = '';
+            
+            if (status === 'active') {
+                statusText = 'نشطة';
+                statusClass = 'status-active';
+            } else if (status === 'expiring') {
+                statusText = 'قريبة من الانتهاء';
+                statusClass = 'status-expiring';
+            } else {
+                statusText = 'منتهية';
+                statusClass = 'status-expired';
+            }
+            
+            document.getElementById('vehicle-status').innerHTML = `<span class="status-badge ${statusClass}">${statusText}</span>`;
+            
+            // تحميل الملاحظات
+            const notesContainer = document.getElementById('vehicle-notes');
+            notesContainer.innerHTML = '';
+            
+            if (vehicle.notes && vehicle.notes.length > 0) {
+                vehicle.notes.forEach((note, index) => {
                     const noteElement = document.createElement('div');
                     noteElement.className = 'note';
                     noteElement.innerHTML = `
                         <div class="note-header">
-                            <span>${formatDateTime(note.createdAt)}</span>
-                            <span class="note-delete" data-id="${note.id}">
-                                <i class="fas fa-trash"></i> حذف
-                            </span>
+                            <span>${formatDate(note.date)}</span>
+                            <span class="note-delete" data-index="${index}"><i class="fas fa-trash"></i></span>
                         </div>
-                        <div class="note-content">${note.content}</div>
+                        <div class="note-content">${note.text}</div>
                     `;
-                    vehicleNotes.appendChild(noteElement);
+                    notesContainer.appendChild(noteElement);
                 });
                 
-                // Add delete event to note delete buttons
+                // إضافة مستمعي الأحداث لأزرار حذف الملاحظات
                 document.querySelectorAll('.note-delete').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        showDeleteModal('note', btn.dataset.id, 'هل أنت متأكد أنك تريد حذف هذه الملاحظة؟');
+                    btn.addEventListener('click', (e) => {
+                        const noteIndex = parseInt(e.target.closest('.note-delete').dataset.index);
+                        deleteNote(noteIndex);
                     });
                 });
-            }).catch(error => {
-                console.error('Error rendering vehicle notes:', error);
-                showToast('حدث خطأ أثناء تحميل ملاحظات المركبة', 'error');
-            });
+            } else {
+                notesContainer.innerHTML = '<div class="no-data">لا توجد ملاحظات</div>';
+            }
+            
+            // تحميل المرفقات
+            const attachmentsContainer = document.getElementById('vehicle-attachments');
+            attachmentsContainer.innerHTML = '';
+            
+            if (vehicle.attachments && vehicle.attachments.length > 0) {
+                vehicle.attachments.forEach((attachment, index) => {
+                    const attachmentElement = document.createElement('div');
+                    attachmentElement.className = 'gallery-item';
+                    attachmentElement.innerHTML = `
+                        <img src="${attachment}" alt="مرفق ${index + 1}" data-index="${index}">
+                    `;
+                    attachmentsContainer.appendChild(attachmentElement);
+                    
+                    // إضافة مستمع الحدث لعرض الصورة
+                    attachmentElement.querySelector('img').addEventListener('click', (e) => {
+                        openLightbox(vehicle.attachments, parseInt(e.target.dataset.index));
+                    });
+                });
+            } else {
+                attachmentsContainer.innerHTML = '<div class="no-data">لا توجد مرفقات</div>';
+            }
         }
 
-        // Show vehicle form page
-        function showVehicleFormPage(vehicleId, companyId) {
-            currentVehicleId = vehicleId;
-            currentCompanyId = companyId;
-            companyIdInput.value = companyId;
+        // فتح معرض الصور
+        function openLightbox(images, index) {
+            currentImages = images;
+            currentImageIndex = index;
             
-            // Reset form
-            vehicleForm.reset();
-            imagePreview.innerHTML = '';
-            selectedFiles = [];
-            existingImages = [];
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightbox.style.display = 'block';
+            lightboxImg.src = currentImages[currentImageIndex];
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        // إغلاق معرض الصور
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // الانتقال إلى الصورة التالية في المعرض
+        function nextImage() {
+            if (currentImages.length === 0) return;
+            
+            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+            document.getElementById('lightbox-img').src = currentImages[currentImageIndex];
+        }
+
+        // الانتقال إلى الصورة السابقة في المعرض
+        function prevImage() {
+            if (currentImages.length === 0) return;
+            
+            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+            document.getElementById('lightbox-img').src = currentImages[currentImageIndex];
+        }
+
+        // حذف ملاحظة
+        function deleteNote(noteIndex) {
+            const companyIndex = companies.findIndex(c => c.id === currentCompanyId);
+            if (companyIndex === -1) return;
+            
+            const vehicleIndex = companies[companyIndex].vehicles.findIndex(v => v.id === currentVehicleId);
+            if (vehicleIndex === -1) return;
+            
+            companies[companyIndex].vehicles[vehicleIndex].notes.splice(noteIndex, 1);
+            saveData();
+            viewVehicle(currentVehicleId);
+            showToast('تم حذف الملاحظة بنجاح', 'success');
+        }
+
+        // عرض نموذج إضافة/تعديل شركة
+        function showAddCompanyModal() {
+            document.getElementById('company-modal-title').textContent = 'إضافة شركة جديدة';
+            document.getElementById('company-id').value = '';
+            document.getElementById('company-name').value = '';
+            
+            const modal = document.getElementById('company-modal');
+            modal.style.display = 'block';
+        }
+
+        function showEditCompanyModal(companyId) {
+            const company = companies.find(c => c.id === companyId);
+            if (!company) return;
+            
+            document.getElementById('company-modal-title').textContent = 'تعديل الشركة';
+            document.getElementById('company-id').value = company.id;
+            document.getElementById('company-name').value = company.name;
+            
+            const modal = document.getElementById('company-modal');
+            modal.style.display = 'block';
+        }
+
+        // حفظ الشركة
+        function saveCompany() {
+            const companyId = document.getElementById('company-id').value;
+            const companyName = document.getElementById('company-name').value.trim();
+            
+            if (!companyName) {
+                showAlert('يرجى إدخال اسم الشركة', 'error');
+                return;
+            }
+            
+            if (companyId) {
+                // تعديل شركة موجودة
+                const companyIndex = companies.findIndex(c => c.id === companyId);
+                if (companyIndex !== -1) {
+                    companies[companyIndex].name = companyName;
+                }
+            } else {
+                // إضافة شركة جديدة
+                const newCompany = {
+                    id: generateId(),
+                    name: companyName,
+                    vehicles: []
+                };
+                
+                companies.push(newCompany);
+            }
+            
+            saveData();
+            closeModal('company-modal');
+            loadCompanies();
+            showToast(companyId ? 'تم تعديل الشركة بنجاح' : 'تم إضافة الشركة بنجاح', 'success');
+        }
+
+        // حذف شركة
+        function deleteCompany(companyId) {
+            if (!confirm('هل أنت متأكد من حذف هذه الشركة؟ سيتم حذف جميع المركبات التابعة لها.')) {
+                return;
+            }
+            
+            companies = companies.filter(c => c.id !== companyId);
+            saveData();
+            loadCompanies();
+            showToast('تم حذف الشركة بنجاح', 'success');
+        }
+
+        // عرض نموذج إضافة/تعديل مركبة
+        function showAddVehicleModal() {
+            document.getElementById('vehicle-modal-title').textContent = 'إضافة مركبة جديدة';
+            document.getElementById('vehicle-id').value = '';
+            document.getElementById('vehicle-company-id').value = currentCompanyId;
+            document.getElementById('vehicle-license').value = '';
+            document.getElementById('vehicle-expiry').value = '';
+            document.getElementById('vehicle-calibration').value = '';
+            document.getElementById('vehicle-notes-input').value = '';
+            document.getElementById('vehicle-attachments-preview').innerHTML = '';
+            
+            const modal = document.getElementById('vehicle-modal');
+            modal.style.display = 'block';
+        }
+
+        function showEditVehicleModal(vehicleId) {
+            const company = companies.find(c => c.id === currentCompanyId);
+            if (!company || !company.vehicles) return;
+            
+            const vehicle = company.vehicles.find(v => v.id === vehicleId);
+            if (!vehicle) return;
+            
+            document.getElementById('vehicle-modal-title').textContent = 'تعديل المركبة';
+            document.getElementById('vehicle-id').value = vehicle.id;
+            document.getElementById('vehicle-company-id').value = currentCompanyId;
+            document.getElementById('vehicle-license').value = vehicle.licenseNumber;
+            document.getElementById('vehicle-expiry').value = vehicle.expiryDate;
+            document.getElementById('vehicle-calibration').value = vehicle.calibrationDate;
+            document.getElementById('vehicle-notes-input').value = vehicle.notes && vehicle.notes.length > 0 
+                ? vehicle.notes[vehicle.notes.length - 1].text : '';
+            
+            // عرض المرفقات الحالية
+            const previewContainer = document.getElementById('vehicle-attachments-preview');
+            previewContainer.innerHTML = '';
+            
+            if (vehicle.attachments && vehicle.attachments.length > 0) {
+                vehicle.attachments.forEach((attachment, index) => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${attachment}" alt="مرفق ${index + 1}">
+                        <button type="button" class="remove-btn" data-index="${index}">&times;</button>
+                    `;
+                    previewContainer.appendChild(previewItem);
+                    
+                    // إضافة مستمع الحدث لحذف المرفق
+                    previewItem.querySelector('.remove-btn').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        vehicle.attachments.splice(parseInt(e.target.dataset.index), 1);
+                        showEditVehicleModal(vehicleId);
+                    });
+                });
+            }
+            
+            const modal = document.getElementById('vehicle-modal');
+            modal.style.display = 'block';
+        }
+
+        // حفظ المركبة
+        function saveVehicle() {
+            const vehicleId = document.getElementById('vehicle-id').value;
+            const companyId = document.getElementById('vehicle-company-id').value;
+            const licenseNumber = document.getElementById('vehicle-license').value.trim();
+            const expiryDate = document.getElementById('vehicle-expiry').value;
+            const calibrationDate = document.getElementById('vehicle-calibration').value;
+            const notesText = document.getElementById('vehicle-notes-input').value.trim();
+            
+            if (!licenseNumber || !expiryDate || !calibrationDate) {
+                showAlert('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            const companyIndex = companies.findIndex(c => c.id === companyId);
+            if (companyIndex === -1) return;
+            
+            if (!companies[companyIndex].vehicles) {
+                companies[companyIndex].vehicles = [];
+            }
             
             if (vehicleId) {
-                // Edit mode
-                formTitle.textContent = 'تعديل المركبة';
-                vehicleIdInput.value = vehicleId;
-                
-                getVehicle(vehicleId).then(vehicle => {
-                    if (vehicle) {
-                        licenseNumberInput.value = vehicle.licenseNumber;
-                        expiryDateInput.value = vehicle.expiryDate || '';
-                        calibrationDateInput.value = vehicle.calibrationDate || '';
+                // تعديل مركبة موجودة
+                const vehicleIndex = companies[companyIndex].vehicles.findIndex(v => v.id === vehicleId);
+                if (vehicleIndex !== -1) {
+                    companies[companyIndex].vehicles[vehicleIndex].licenseNumber = licenseNumber;
+                    companies[companyIndex].vehicles[vehicleIndex].expiryDate = expiryDate;
+                    companies[companyIndex].vehicles[vehicleIndex].calibrationDate = calibrationDate;
+                    
+                    // إضافة ملاحظة جديدة إذا كانت موجودة
+                    if (notesText) {
+                        if (!companies[companyIndex].vehicles[vehicleIndex].notes) {
+                            companies[companyIndex].vehicles[vehicleIndex].notes = [];
+                        }
                         
-                        // Load existing images
-                        getVehicleImages(vehicleId).then(vehicleImagesData => {
-                            vehicleImagesData.forEach(img => {
-                                existingImages.push(img);
-                                addImageToPreview(img.data, img.id);
-                            });
-                        }).catch(error => {
-                            console.error('Error loading vehicle images:', error);
-                            showToast('حدث خطأ أثناء تحميل صور المركبة', 'error');
+                        companies[companyIndex].vehicles[vehicleIndex].notes.push({
+                            date: new Date().toISOString().split('T')[0],
+                            text: notesText
                         });
                     }
-                }).catch(error => {
-                    console.error('Error loading vehicle:', error);
-                    showToast('حدث خطأ أثناء تحميل بيانات المركبة', 'error');
-                });
-            } else {
-                // Add mode
-                formTitle.textContent = 'إضافة مركبة جديدة';
-                vehicleIdInput.value = '';
-            }
-            
-            companiesPage.style.display = 'none';
-            companyPage.style.display = 'none';
-            vehiclePage.style.display = 'none';
-            vehicleFormPage.style.display = 'block';
-        }
-
-        // Handle vehicle form submission
-        function handleVehicleFormSubmit(e) {
-            e.preventDefault();
-            
-            const licenseNumber = licenseNumberInput.value.trim();
-            const expiryDate = expiryDateInput.value.trim();
-            
-            if (!licenseNumber || !expiryDate) {
-                showToast('الرجاء إدخال جميع الحقول المطلوبة', 'error');
-                return;
-            }
-            
-            // Validate date format (dd/mm/yyyy)
-            if (!isValidDate(expiryDate)) {
-                showToast('الرجاء إدخال تاريخ انتهاء الرخصة بصيغة صحيحة (يوم/شهر/سنة)', 'error');
-                return;
-            }
-            
-            const vehicleData = {
-                licenseNumber,
-                expiryDate,
-                companyId: companyIdInput.value,
-                calibrationDate: calibrationDateInput.value.trim() || null
-            };
-            
-            if (calibrationDateInput.value.trim() && !isValidDate(calibrationDateInput.value.trim())) {
-                showToast('الرجاء إدخال تاريخ انتهاء العيار بصيغة صحيحة (يوم/شهر/سنة)', 'error');
-                return;
-            }
-            
-            const submitBtn = vehicleForm.querySelector('button[type="submit']');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<div class="spinner"></div> جاري الحفظ...';
-            submitBtn.disabled = true;
-            
-            if (currentVehicleId) {
-                // Update existing vehicle
-                vehicleData.id = currentVehicleId;
-                updateVehicle(vehicleData).then(() => {
-                    showToast('تم تحديث بيانات المركبة بنجاح', 'success');
-                    showVehiclePage(currentVehicleId);
-                }).catch(error => {
-                    console.error('Error updating vehicle:', error);
-                    showToast('حدث خطأ أثناء تحديث بيانات المركبة', 'error');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
-            } else {
-                // Add new vehicle
-                addVehicle(vehicleData).then(() => {
-                    showToast('تم إضافة المركبة بنجاح', 'success');
-                    showCompanyPage(currentCompanyId);
-                }).catch(error => {
-                    console.error('Error adding vehicle:', error);
-                    showToast('حدث خطأ أثناء إضافة المركبة', 'error');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
-            }
-        }
-
-        // Validate date format (dd/mm/yyyy)
-        function isValidDate(dateString) {
-            const regex = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-            if (!regex.test(dateString)) return false;
-            
-            const parts = dateString.split('/');
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10);
-            const year = parseInt(parts[2], 10);
-            
-            if (year < 1000 || year > 3000 || month === 0 || month > 12) return false;
-            
-            const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-            
-            // Adjust for leap years
-            if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)) {
-                monthLength[1] = 29;
-            }
-            
-            return day > 0 && day <= monthLength[month - 1];
-        }
-
-        // Show add company modal
-        function showAddCompanyModal() {
-            document.getElementById('company-name').value = '';
-            addCompanyModal.style.display = 'block';
-        }
-
-        // Show edit company modal
-        function showEditCompanyModal(companyId) {
-            getCompany(companyId).then(company => {
-                if (company) {
-                    document.getElementById('edit-company-id').value = companyId;
-                    document.getElementById('edit-company-name').value = company.name;
-                    editCompanyModal.style.display = 'block';
-                }
-            }).catch(error => {
-                console.error('Error loading company for edit:', error);
-                showToast('حدث خطأ أثناء تحميل بيانات الشركة', 'error');
-            });
-        }
-
-        // Show delete confirmation modal
-        function showDeleteModal(type, id, message) {
-            document.getElementById('delete-modal-title').textContent = 'تأكيد الحذف';
-            document.getElementById('delete-modal-message').textContent = message;
-            document.getElementById('confirm-delete').dataset.type = type;
-            document.getElementById('confirm-delete').dataset.id = id;
-            deleteModal.style.display = 'block';
-        }
-
-        // Confirm delete action
-        function confirmDelete() {
-            const type = this.dataset.type;
-            const id = this.dataset.id;
-            const deleteBtn = this;
-            const originalText = deleteBtn.innerHTML;
-            
-            deleteBtn.innerHTML = '<div class="spinner"></div> جاري الحذف...';
-            deleteBtn.disabled = true;
-            
-            if (type === 'company') {
-                deleteCompany(id).then(() => {
-                    showToast('تم حذف الشركة بنجاح', 'success');
-                    showCompaniesPage();
-                }).catch(error => {
-                    console.error('Error deleting company:', error);
-                    showToast('حدث خطأ أثناء حذف الشركة', 'error');
-                    deleteBtn.innerHTML = originalText;
-                    deleteBtn.disabled = false;
-                });
-            } else if (type === 'vehicle') {
-                deleteVehicle(id).then(() => {
-                    showToast('تم حذف المركبة بنجاح', 'success');
-                    showCompanyPage(currentCompanyId);
-                }).catch(error => {
-                    console.error('Error deleting vehicle:', error);
-                    showToast('حدث خطأ أثناء حذف المركبة', 'error');
-                    deleteBtn.innerHTML = originalText;
-                    deleteBtn.disabled = false;
-                });
-            } else if (type === 'note') {
-                deleteNote(id).then(() => {
-                    showToast('تم حذف الملاحظة بنجاح', 'success');
-                    renderVehicleNotes(currentVehicleId);
-                }).catch(error => {
-                    console.error('Error deleting note:', error);
-                    showToast('حدث خطأ أثناء حذف الملاحظة', 'error');
-                    deleteBtn.innerHTML = originalText;
-                    deleteBtn.disabled = false;
-                });
-            }
-            
-            deleteModal.style.display = 'none';
-        }
-
-        // Save new company
-        function saveCompany() {
-            const name = document.getElementById('company-name').value.trim();
-            
-            if (!name) {
-                showToast('الرجاء إدخال اسم الشركة', 'error');
-                return;
-            }
-            
-            const newCompany = {
-                id: generateId(),
-                name
-            };
-            
-            const saveBtn = document.getElementById('save-company');
-            const originalText = saveBtn.innerHTML;
-            saveBtn.innerHTML = '<div class="spinner"></div> جاري الحفظ...';
-            saveBtn.disabled = true;
-            
-            addCompany(newCompany).then(() => {
-                addCompanyModal.style.display = 'none';
-                showToast('تم إضافة الشركة بنجاح', 'success');
-                renderCompanies();
-                saveBtn.innerHTML = originalText;
-                saveBtn.disabled = false;
-            }).catch(error => {
-                if (error.name === 'ConstraintError') {
-                    showToast('اسم الشركة موجود بالفعل', 'error');
-                } else {
-                    console.error('Error adding company:', error);
-                    showToast('حدث خطأ أثناء إضافة الشركة', 'error');
-                }
-                saveBtn.innerHTML = originalText;
-                saveBtn.disabled = false;
-            });
-        }
-
-        // Update company
-        function updateCompany() {
-            const id = document.getElementById('edit-company-id').value;
-            const name = document.getElementById('edit-company-name').value.trim();
-            
-            if (!name) {
-                showToast('الرجاء إدخال اسم الشركة', 'error');
-                return;
-            }
-            
-            const company = {
-                id,
-                name
-            };
-            
-            const updateBtn = document.getElementById('update-company');
-            const originalText = updateBtn.innerHTML;
-            updateBtn.innerHTML = '<div class="spinner"></div> جاري التحديث...';
-            updateBtn.disabled = true;
-            
-            updateCompanyData(company).then(() => {
-                editCompanyModal.style.display = 'none';
-                showToast('تم تحديث بيانات الشركة بنجاح', 'success');
-                renderCompanies();
-                
-                // If we're on the company page, update the title
-                if (currentCompanyId === id) {
-                    companyNameTitle.textContent = name;
-                }
-                
-                updateBtn.innerHTML = originalText;
-                updateBtn.disabled = false;
-            }).catch(error => {
-                if (error.name === 'ConstraintError') {
-                    showToast('اسم الشركة موجود بالفعل', 'error');
-                } else {
-                    console.error('Error updating company:', error);
-                    showToast('حدث خطأ أثناء تحديث بيانات الشركة', 'error');
-                }
-                updateBtn.innerHTML = originalText;
-                updateBtn.disabled = false;
-            });
-        }
-
-        // Delete company
-        function deleteCompany(id) {
-            // First get all vehicles for this company
-            return getVehiclesByCompany(id).then(companyVehicles => {
-                const vehicleIds = companyVehicles.map(v => v.id);
-                
-                // Delete all images for these vehicles
-                const deleteImagesPromises = vehicleIds.map(vehicleId => 
-                    deleteAllImagesForVehicle(vehicleId)
-                );
-                
-                // Delete all notes for these vehicles
-                const deleteNotesPromises = vehicleIds.map(vehicleId => 
-                    deleteAllNotesForVehicle(vehicleId)
-                );
-                
-                // Delete all vehicles
-                const deleteVehiclesPromise = deleteAllVehiclesForCompany(id);
-                
-                // Delete the company
-                const deleteCompanyPromise = deleteCompanyData(id);
-                
-                // Wait for all deletions to complete
-                return Promise.all([
-                    ...deleteImagesPromises,
-                    ...deleteNotesPromises,
-                    deleteVehiclesPromise,
-                    deleteCompanyPromise
-                ]);
-            });
-        }
-
-        // Add new vehicle
-        function addVehicle(vehicleData) {
-            vehicleData.id = generateId();
-            
-            return new Promise((resolve, reject) => {
-                addVehicleData(vehicleData).then(() => {
-                    // Save images
-                    saveVehicleImages(vehicleData.id).then(() => {
-                        resolve();
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        // Update vehicle
-        function updateVehicle(vehicleData) {
-            return new Promise((resolve, reject) => {
-                updateVehicleData(vehicleData).then(() => {
-                    // First, find images that were removed
-                    const removedImages = existingImages.filter(img => 
-                        !document.querySelector(`.preview-item[data-image-id="${img.id}"]`)
-                    );
                     
-                    // Delete removed images
-                    const deletePromises = removedImages.map(img => 
-                        deleteImageData(img.id)
-                    );
-                    
-                    // Save new images
-                    saveVehicleImages(vehicleData.id).then(() => {
-                        Promise.all(deletePromises).then(() => {
-                            resolve();
-                        }).catch(error => {
-                            console.error('Error deleting old images:', error);
-                            resolve(); // Still resolve as the main update was successful
-                        });
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        // Delete vehicle
-        function deleteVehicle(id) {
-            return new Promise((resolve, reject) => {
-                // Delete images
-                deleteAllImagesForVehicle(id).then(() => {
-                    // Delete notes
-                    deleteAllNotesForVehicle(id).then(() => {
-                        // Delete vehicle
-                        deleteVehicleData(id).then(() => {
-                            resolve();
-                        }).catch(error => {
-                            reject(error);
-                        });
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        // Add note to vehicle
-        function addNote() {
-            const content = newNote.value.trim();
+                    // حفظ المرفقات الجديدة
+                    const newAttachments = getNewAttachments();
+                    if (newAttachments.length > 0) {
+                        if (!companies[companyIndex].vehicles[vehicleIndex].attachments) {
+                            companies[companyIndex].vehicles[vehicleIndex].attachments = [];
+                        }
+                        
+                        companies[companyIndex].vehicles[vehicleIndex].attachments = [
+                            ...companies[companyIndex].vehicles[vehicleIndex].attachments,
+                            ...newAttachments
+                        ];
+                    }
+                }
+            } else {
+                // إضافة مركبة جديدة
+                const newVehicle = {
+                    id: generateId(),
+                    licenseNumber: licenseNumber,
+                    expiryDate: expiryDate,
+                    calibrationDate: calibrationDate,
+                    notes: notesText ? [{
+                        date: new Date().toISOString().split('T')[0],
+                        text: notesText
+                    }] : [],
+                    attachments: getNewAttachments()
+                };
+                
+                companies[companyIndex].vehicles.push(newVehicle);
+            }
             
-            if (!content) {
-                showToast('الرجاء إدخال محتوى الملاحظة', 'error');
+            saveData();
+            closeModal('vehicle-modal');
+            loadCompanyVehicles();
+            updateCompanyStats();
+            showToast(vehicleId ? 'تم تعديل المركبة بنجاح' : 'تم إضافة المركبة بنجاح', 'success');
+        }
+
+        // الحصول على المرفقات الجديدة
+        function getNewAttachments() {
+            const newAttachments = [];
+            const previewItems = document.querySelectorAll('#vehicle-attachments-preview .preview-item');
+            
+            previewItems.forEach(item => {
+                const img = item.querySelector('img');
+                if (img && img.src && !img.src.includes('data:image')) {
+                    newAttachments.push(img.src);
+                }
+            });
+            
+            return newAttachments;
+        }
+
+        // حذف مركبة
+        function deleteVehicle(vehicleId) {
+            if (!confirm('هل أنت متأكد من حذف هذه المركبة؟')) {
                 return;
             }
             
-            const newNoteObj = {
-                id: generateId(),
-                vehicleId: currentVehicleId,
-                content,
-                createdAt: new Date().toISOString()
+            const companyIndex = companies.findIndex(c => c.id === currentCompanyId);
+            if (companyIndex === -1) return;
+            
+            if (!companies[companyIndex].vehicles) return;
+            
+            companies[companyIndex].vehicles = companies[companyIndex].vehicles.filter(v => v.id !== vehicleId);
+            saveData();
+            loadCompanyVehicles();
+            updateCompanyStats();
+            showToast('تم حذف المركبة بنجاح', 'success');
+        }
+
+        // تصدير جميع البيانات
+        function exportAllData() {
+            const dataStr = JSON.stringify(companies, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `vehicles-data-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showToast('تم تصدير جميع البيانات بنجاح', 'success');
+        }
+
+        // تصدير بيانات شركة محددة
+        function exportCompanyData() {
+            const company = companies.find(c => c.id === currentCompanyId);
+            if (!company) return;
+            
+            const dataStr = JSON.stringify([company], null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `${company.name}-data-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showToast('تم تصدير بيانات الشركة بنجاح', 'success');
+        }
+
+        // استيراد البيانات
+        function importData() {
+            const fileInput = document.getElementById('import-file');
+            const replaceData = document.getElementById('replace-data').checked;
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showAlert('يرجى اختيار ملف للاستيراد', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (replaceData) {
+                        // استبدال جميع البيانات
+                        companies = Array.isArray(importedData) ? importedData : [importedData];
+                    } else {
+                        // دمج البيانات
+                        if (Array.isArray(importedData)) {
+                            companies = [...companies, ...importedData];
+                        } else {
+                            companies.push(importedData);
+                        }
+                    }
+                    
+                    saveData();
+                    closeModal('import-modal');
+                    loadCompanies();
+                    showToast('تم استيراد البيانات بنجاح', 'success');
+                } catch (error) {
+                    showAlert('خطأ في قراءة الملف. يرجى التأكد من صحة formato JSON', 'error');
+                    console.error('Error parsing imported file:', error);
+                }
             };
             
-            const addBtn = addNoteBtn;
-            const originalText = addBtn.innerHTML;
-            addBtn.innerHTML = '<div class="spinner"></div> جاري الإضافة...';
-            addBtn.disabled = true;
+            reader.readAsText(file);
+        }
+
+        // حفظ البيانات في localStorage
+        function saveData() {
+            localStorage.setItem('companies', JSON.stringify(companies));
+        }
+
+        // توليد معرف فريد
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // الحصول على حالة المركبة
+        function getVehicleStatus(vehicle) {
+            const today = new Date();
+            const expiryDate = new Date(vehicle.expiryDate);
+            const calibrationDate = new Date(vehicle.calibrationDate);
             
-            addNoteData(newNoteObj).then(() => {
-                newNote.value = '';
-                renderVehicleNotes(currentVehicleId);
-                showToast('تم إضافة الملاحظة بنجاح', 'success');
-                addBtn.innerHTML = originalText;
-                addBtn.disabled = false;
-            }).catch(error => {
-                console.error('Error adding note:', error);
-                showToast('حدث خطأ أثناء إضافة الملاحظة', 'error');
-                addBtn.innerHTML = originalText;
-                addBtn.disabled = false;
+            // حساب الفرق بالأيام
+            const expiryDiff = Math.floor((expiryDate - today) / (1000 * 60 * 60 * 24));
+            const calibrationDiff = Math.floor((calibrationDate - today) / (1000 * 60 * 60 * 24));
+            
+            // أخذ أقرب تاريخ انتهاء
+            const minDiff = Math.min(expiryDiff, calibrationDiff);
+            
+            if (minDiff < 0) {
+                return 'expired';
+            } else if (minDiff <= 30) {
+                return 'expiring';
+            } else {
+                return 'active';
+            }
+        }
+
+        // تنسيق التاريخ
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ar-SA');
+        }
+
+        // إظهار رسالة تنبيه
+        function showAlert(message, type) {
+            alertMessage.textContent = message;
+            alertMessage.className = `alert alert-${type}`;
+            alertMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // إظهار إشعار toast
+        function showToast(message, type) {
+            toast.className = `toast toast-${type}`;
+            toastMessage.textContent = message;
+            
+            switch(type) {
+                case 'success':
+                    toastIcon.className = 'fas fa-check-circle';
+                    break;
+                case 'error':
+                    toastIcon.className = 'fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    toastIcon.className = 'fas fa-exclamation-triangle';
+                    break;
+                default:
+                    toastIcon.className = 'fas fa-info-circle';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // إغلاق modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            // التنقل بين الصفحات
+            document.getElementById('back-to-companies').addEventListener('click', () => {
+                companyPage.style.display = 'none';
+                vehiclePage.style.display = 'none';
+                companiesPage.style.display = 'block';
+            });
+            
+            document.getElementById('back-to-company').addEventListener('click', () => {
+                vehiclePage.style.display = 'none';
+                companyPage.style.display = 'block';
+            });
+            
+            // إضافة شركة جديدة
+            document.getElementById('add-company-btn').addEventListener('click', showAddCompanyModal);
+            
+            // حفظ الشركة
+            document.getElementById('save-company').addEventListener('click', saveCompany);
+            document.getElementById('cancel-company').addEventListener('click', () => closeModal('company-modal'));
+            
+            // إضافة مركبة جديدة
+            document.getElementById('add-vehicle-btn').addEventListener('click', showAddVehicleModal);
+            
+            // حفظ المركبة
+            document.getElementById('save-vehicle').addEventListener('click', saveVehicle);
+            document.getElementById('cancel-vehicle').addEventListener('click', () => closeModal('vehicle-modal'));
+            
+            // البحث العام
+            globalSearch.addEventListener('input', () => {
+                const searchTerm = globalSearch.value.trim().toLowerCase();
+                
+                document.querySelectorAll('.company-card').forEach(card => {
+                    const companyId = card.dataset.id;
+                    const company = companies.find(c => c.id === companyId);
+                    
+                    if (company) {
+                        const hasMatchingVehicle = company.vehicles && company.vehicles.some(v => 
+                            v.licenseNumber.toLowerCase().includes(searchTerm)
+                        );
+                        
+                        card.style.display = (searchTerm === '' || hasMatchingVehicle) ? 'flex' : 'none';
+                    }
+                });
+            });
+            
+            // البحث داخل الشركة
+            companyVehicleSearch.addEventListener('input', loadCompanyVehicles);
+            
+            // أزرار الفلتر
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filter = e.target.closest('.filter-btn').dataset.filter;
+                    filterVehicles(filter);
+                });
+            });
+            
+            // تحميل المرفقات
+            const dropzone = document.getElementById('vehicle-dropzone');
+            const fileInput = document.getElementById('vehicle-attachments-input');
+            
+            dropzone.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('active');
+            });
+            
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('active');
+            });
+            
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('active');
+                
+                if (e.dataTransfer.files.length > 0) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+            
+            // إغلاق modals بالنقر على X
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', (e) => {
+                    const modal = e.target.closest('.modal');
+                    modal.style.display = 'none';
+                });
+            });
+            
+            // إغلاق modals بالنقر خارج المحتوى
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+            
+            // تصدير البيانات
+            document.getElementById('export-all-btn').addEventListener('click', exportAllData);
+            document.getElementById('export-company-btn').addEventListener('click', exportCompanyData);
+            
+            // استيراد البيانات
+            document.getElementById('import-data-btn').addEventListener('click', () => {
+                document.getElementById('import-file').value = '';
+                document.getElementById('replace-data').checked = false;
+                document.getElementById('import-modal').style.display = 'block';
+            });
+            
+            document.getElementById('process-import').addEventListener('click', importData);
+            document.getElementById('cancel-import').addEventListener('click', () => closeModal('import-modal'));
+            
+            // معرض الصور
+            document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+            document.getElementById('lightbox-prev').addEventListener('click', prevImage);
+            document.getElementById('lightbox-next').addEventListener('click', nextImage);
+            
+            // إغلاق معرض الصور بالضغط على ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && document.getElementById('lightbox').style.display === 'block') {
+                    closeLightbox();
+                }
+            });
+            
+            // تبديل القائمة الجانبية في الشاشات الصغيرة
+            document.querySelector('.sidebar-toggle').addEventListener('click', () => {
+                document.querySelector('.sidebar').classList.toggle('active');
+            });
+            
+            // التنقل في القائمة الجانبية
+            document.getElementById('sidebar-companies').addEventListener('click', (e) => {
+                e.preventDefault();
+                companyPage.style.display = 'none';
+                vehiclePage.style.display = 'none';
+                companiesPage.style.display = 'block';
+                document.querySelector('.sidebar').classList.remove('active');
+            });
+            
+            document.getElementById('sidebar-export-all').addEventListener('click', (e) => {
+                e.preventDefault();
+                exportAllData();
+                document.querySelector('.sidebar').classList.remove('active');
+            });
+            
+            document.getElementById('sidebar-import').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('import-file').value = '';
+                document.getElementById('replace-data').checked = false;
+                document.getElementById('import-modal').style.display = 'block';
+                document.querySelector('.sidebar').classList.remove('active');
+            });
+            
+            document.getElementById('sidebar-about').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('نظام إدارة سجلات المركبات\nإصدار 1.0\nتم التطوير بواسطة فريق العمل');
+                document.querySelector('.sidebar').classList.remove('active');
             });
         }
 
-        // Delete note
-        function deleteNote(id) {
-            return deleteNoteData(id).then(() => {
-                renderVehicleNotes(currentVehicleId);
-            }).catch(error => {
-                console.error('Error deleting note:', error);
-                showToast('حدث خطأ أثناء حذف الملاحظة', 'error');
-            });
+        // معالجة اختيار الملفات
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
         }
 
-        // Handle dropped/selected files
         function handleFiles(files) {
+            const previewContainer = document.getElementById('vehicle-attachments-preview');
+            
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 
@@ -3241,11 +2348,18 @@
                 
                 reader.onload = (function(theFile) {
                     return function(e) {
-                        addImageToPreview(e.target.result);
-                        selectedFiles.push({
-                            data: e.target.result,
-                            name: theFile.name,
-                            type: theFile.type
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'preview-item';
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" alt="${theFile.name}">
+                            <button type="button" class="remove-btn">&times;</button>
+                        `;
+                        previewContainer.appendChild(previewItem);
+                        
+                        // إضافة مستمع الحدث لحذف المرفق
+                        previewItem.querySelector('.remove-btn').addEventListener('click', (e) => {
+                            e.preventDefault();
+                            previewItem.remove();
                         });
                     };
                 })(file);
@@ -3254,466 +2368,8 @@
             }
         }
 
-        // Add image to preview
-        function addImageToPreview(imageData, imageId = null) {
-            const previewItem = document.createElement('div');
-            previewItem.className = 'preview-item';
-            
-            previewItem.innerHTML = `
-                <img src="${imageData}" alt="معاينة الصورة">
-                <button class="remove-btn">&times;</button>
-            `;
-            
-            if (imageId) {
-                previewItem.dataset.imageId = imageId;
-            }
-            
-            imagePreview.appendChild(previewItem);
-            
-            // Add remove event
-            previewItem.querySelector('.remove-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                if (confirm('هل أنت متأكد أنك تريد حذف هذه الصورة؟')) {
-                    previewItem.remove();
-                    
-                    if (imageId) {
-                        // Remove from database
-                        deleteImageData(imageId).then(() => {
-                            showToast('تم حذف الصورة بنجاح', 'success');
-                        }).catch(error => {
-                            console.error('Error deleting image:', error);
-                            showToast('حدث خطأ أثناء حذف الصورة', 'error');
-                        });
-                    } else {
-                        // Remove from selected files
-                        const index = selectedFiles.findIndex(file => file.data === imageData);
-                        if (index !== -1) {
-                            selectedFiles.splice(index, 1);
-                        }
-                    }
-                }
-            });
-        }
-
-        // Save vehicle images
-        function saveVehicleImages(vehicleId) {
-            const promises = selectedFiles.map(file => {
-                return addImageData({
-                    id: generateId(),
-                    vehicleId,
-                    data: file.data,
-                    name: file.name,
-                    type: file.type
-                });
-            });
-            
-            selectedFiles = [];
-            return Promise.all(promises);
-        }
-
-        // Show image in lightbox
-        function showLightbox(imagesArray, index) {
-            if (imagesArray.length === 0) return;
-            
-            currentLightboxIndex = index;
-            document.getElementById('lightbox-img').src = imagesArray[currentLightboxIndex].data;
-            lightbox.style.display = 'block';
-        }
-
-        // Show previous image in lightbox
-        function showPrevImage() {
-            currentLightboxIndex = (currentLightboxIndex - 1 + currentImages.length) % currentImages.length;
-            document.getElementById('lightbox-img').src = currentImages[currentLightboxIndex].data;
-        }
-
-        // Show next image in lightbox
-        function showNextImage() {
-            currentLightboxIndex = (currentLightboxIndex + 1) % currentImages.length;
-            document.getElementById('lightbox-img').src = currentImages[currentLightboxIndex].data;
-        }
-
-        // Get license status
-        function getLicenseStatus(vehicle) {
-            if (!vehicle.expiryDate) return 'expired';
-            
-            const dateParts = vehicle.expiryDate.split('/');
-            if (dateParts.length !== 3) return 'expired';
-            
-            const day = parseInt(dateParts[0], 10);
-            const month = parseInt(dateParts[1], 10);
-            const year = parseInt(dateParts[2], 10);
-            
-            const today = new Date();
-            const expiryDate = new Date(year, month - 1, day);
-            const diffTime = expiryDate - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays < 0) {
-                return 'expired';
-            } else if (diffDays <= 30) {
-                return 'expiring';
-            } else {
-                return 'active';
-            }
-        }
-
-        // Format date and time
-        function formatDateTime(isoString) {
-            const date = new Date(isoString);
-            const options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            return date.toLocaleDateString('ar-EG', options);
-        }
-
-        // Generate unique ID
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-
-        // IndexedDB Helper Functions
-
-        function getAllCompanies() {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.COMPANIES], 'readonly');
-                const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.getAll();
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getCompany(id) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.COMPANIES], 'readonly');
-                const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.get(id);
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getAllVehicles() {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readonly');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.getAll();
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getVehiclesByCompany(companyId) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readonly');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const index = store.index('companyId');
-                const request = index.getAll(companyId);
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getVehicle(id) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readonly');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.get(id);
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function addCompany(company) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
-                const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.add(company);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = (e) => reject(e.target.error);
-            });
-        }
-
-        function updateCompanyData(company) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
-                const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.put(company);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = (e) => reject(e.target.error);
-            });
-        }
-
-        function deleteCompanyData(id) {
-            return new Promise((resolve, reject) {
-                const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
-                const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.delete(id);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function addVehicleData(vehicle) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.add(vehicle);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function updateVehicleData(vehicle) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.put(vehicle);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function deleteVehicleData(id) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.delete(id);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function deleteAllVehiclesForCompany(companyId) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
-                const store = transaction.objectStore(STORES.VEHICLES);
-                const index = store.index('companyId');
-                const request = index.getAllKeys(companyId);
-                
-                request.onsuccess = () => {
-                    const keys = request.result;
-                    const deleteRequests = keys.map(key => {
-                        return new Promise((res, rej) => {
-                            const deleteRequest = store.delete(key);
-                            deleteRequest.onsuccess = () => res();
-                            deleteRequest.onerror = () => rej(deleteRequest.error);
-                        });
-                    });
-                    
-                    Promise.all(deleteRequests)
-                        .then(() => resolve())
-                        .catch(error => reject(error));
-                };
-                
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getVehicleNotes(vehicleId) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.NOTES], 'readonly');
-                const store = transaction.objectStore(STORES.NOTES);
-                const index = store.index('vehicleId');
-                const request = index.getAll(vehicleId);
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getAllNotes() {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.NOTES], 'readonly');
-                const store = transaction.objectStore(STORES.NOTES);
-                const request = store.getAll();
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getNotesForVehicles(vehicleIds) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.NOTES], 'readonly');
-                const store = transaction.objectStore(STORES.NOTES);
-                const index = store.index('vehicleId');
-                
-                const requests = vehicleIds.map(id => {
-                    return new Promise((res, rej) => {
-                        const request = index.getAll(id);
-                        request.onsuccess = () => res(request.result);
-                        request.onerror = () => rej(request.error);
-                    });
-                });
-                
-                Promise.all(requests).then(results => {
-                    resolve(results.flat());
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        function addNoteData(note) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.NOTES], 'readwrite');
-                const store = transaction.objectStore(STORES.NOTES);
-                const request = store.add(note);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function deleteNoteData(id) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.NOTES], 'readwrite');
-                const store = transaction.objectStore(STORES.NOTES);
-                const request = store.delete(id);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function deleteAllNotesForVehicle(vehicleId) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.NOTES], 'readwrite');
-                const store = transaction.objectStore(STORES.NOTES);
-                const index = store.index('vehicleId');
-                const request = index.getAllKeys(vehicleId);
-                
-                request.onsuccess = () => {
-                    const keys = request.result;
-                    const deleteRequests = keys.map(key => {
-                        return new Promise((res, rej) => {
-                            const deleteRequest = store.delete(key);
-                            deleteRequest.onsuccess = () => res();
-                            deleteRequest.onerror = () => rej(deleteRequest.error);
-                        });
-                    });
-                    
-                    Promise.all(deleteRequests)
-                        .then(() => resolve())
-                        .catch(error => reject(error));
-                };
-                
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getVehicleImages(vehicleId) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.IMAGES], 'readonly');
-                const store = transaction.objectStore(STORES.IMAGES);
-                const index = store.index('vehicleId');
-                const request = index.getAll(vehicleId);
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getAllImages() {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.IMAGES], 'readonly');
-                const store = transaction.objectStore(STORES.IMAGES);
-                const request = store.getAll();
-                
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function getImagesForVehicles(vehicleIds) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.IMAGES], 'readonly');
-                const store = transaction.objectStore(STORES.IMAGES);
-                const index = store.index('vehicleId');
-                
-                const requests = vehicleIds.map(id => {
-                    return new Promise((res, rej) => {
-                        const request = index.getAll(id);
-                        request.onsuccess = () => res(request.result);
-                        request.onerror = () => rej(request.error);
-                    });
-                });
-                
-                Promise.all(requests).then(results => {
-                    resolve(results.flat());
-                }).catch(error => {
-                    reject(error);
-                });
-            });
-        }
-
-        function addImageData(image) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.IMAGES], 'readwrite');
-                const store = transaction.objectStore(STORES.IMAGES);
-                const request = store.add(image);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function deleteImageData(id) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.IMAGES], 'readwrite');
-                const store = transaction.objectStore(STORES.IMAGES);
-                const request = store.delete(id);
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        function deleteAllImagesForVehicle(vehicleId) {
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORES.IMAGES], 'readwrite');
-                const store = transaction.objectStore(STORES.IMAGES);
-                const index = store.index('vehicleId');
-                const request = index.getAllKeys(vehicleId);
-                
-                request.onsuccess = () => {
-                    const keys = request.result;
-                    const deleteRequests = keys.map(key => {
-                        return new Promise((res, rej) => {
-                            const deleteRequest = store.delete(key);
-                            deleteRequest.onsuccess = () => res();
-                            deleteRequest.onerror = () => rej(deleteRequest.error);
-                        });
-                    });
-                    
-                    Promise.all(deleteRequests)
-                        .then(() => resolve())
-                        .catch(error => reject(error));
-                };
-                
-                request.onerror = () => reject(request.error);
-            });
-        }
-
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', init);
+        // بدء التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
