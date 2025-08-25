@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة سجلات المركبات</title>
     <style>
-        /* جميع أنماط CSS الأصلية هنا */
         :root {
             --primary-color: #1a73e8;
             --primary-light: #4285f4;
@@ -637,8 +636,6 @@
 
         .modal-body {
             padding: 20px;
-            max-height: 70vh;
-            overflow-y: auto;
         }
 
         .modal-footer {
@@ -1400,7 +1397,7 @@
                     <div class="form-group">
                         <button id="download-export" class="btn btn-success btn-block">
                             <i class="fas fa-download"></i> تحميل الملف
-                            </button>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1614,69 +1611,93 @@
         function toggleSidebar() {
             sidebar.classList.toggle('active');
         }
-
-        // Open or create IndexedDB database
-        function openDatabase() {
-            const request = indexedDB.open(DB_NAME, DB_VERSION);
+        <!--  -->
+        // Open or create IndexedDB database with version handling
+function openDatabase() {
+    // First check if the database already exists
+    const DBExistsRequest = indexedDB.open(DB_NAME);
+    
+    DBExistsRequest.onsuccess = function() {
+        const oldDb = DBExistsRequest.result;
+        const oldVersion = oldDb.version;
+        oldDb.close();
+        
+        // If database exists with old version, open with that version first to preserve data
+        if (oldVersion > 0 && oldVersion < DB_VERSION) {
+            // Open with old version first to preserve data
+            const migrateRequest = indexedDB.open(DB_NAME, oldVersion);
             
-            request.onerror = function(event) {
-                console.error('فشل فتح قاعدة البيانات', event.target.error);
-                showToast('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
+            migrateRequest.onsuccess = function() {
+                migrateRequest.result.close();
+                // Now open with new version to trigger upgrade
+                openWithVersion(DB_VERSION);
             };
             
-            request.onsuccess = function(event) {
-                db = event.target.result;
-                renderCompanies();
-                loadAllVehicles();
+            migrateRequest.onerror = function(event) {
+                console.error('Failed to open old version:', event.target.error);
+                openWithVersion(DB_VERSION);
             };
-            
-            request.onupgradeneeded = function(event) {
-                const db = event.target.result;
-                const oldVersion = event.oldVersion;
-                
-                // Create object stores only if they don't exist
-                if (!db.objectStoreNames.contains(STORES.COMPANIES)) {
-                    const companiesStore = db.createObjectStore(STORES.COMPANIES, { 
-                        keyPath: 'id',
-                        autoIncrement: true 
-                    });
-                    companiesStore.createIndex('name', 'name', { unique: true });
-                }
-                
-                if (!db.objectStoreNames.contains(STORES.VEHICLES)) {
-                    const vehiclesStore = db.createObjectStore(STORES.VEHICLES, { 
-                        keyPath: 'id',
-                        autoIncrement: true 
-                    });
-                    vehiclesStore.createIndex('companyId', 'companyId', { unique: false });
-                    vehiclesStore.createIndex('licenseNumber', 'licenseNumber', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains(STORES.NOTES)) {
-                    const notesStore = db.createObjectStore(STORES.NOTES, { 
-                        keyPath: 'id',
-                        autoIncrement: true 
-                    });
-                    notesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
-                    notesStore.createIndex('createdAt', 'createdAt', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains(STORES.IMAGES)) {
-                    const imagesStore = db.createObjectStore(STORES.IMAGES, { 
-                        keyPath: 'id',
-                        autoIncrement: true 
-                    });
-                    imagesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
-                }
-                
-                // Handle database upgrades without losing data
-                if (oldVersion > 0) {
-                    console.log('Upgrading database from version', oldVersion, 'to', DB_VERSION);
-                    // Here you can add migration logic if needed
-                }
-            };
+        } else {
+            // Open with current version
+            openWithVersion(DB_VERSION);
         }
+    };
+    
+    DBExistsRequest.onerror = function() {
+        // Database doesn't exist, create new one
+        openWithVersion(DB_VERSION);
+    };
+}
 
+// Helper function to open database with specific version
+function openWithVersion(version) {
+    const request = indexedDB.open(DB_NAME, version);
+    
+    request.onerror = function(event) {
+        console.error('Failed to open database', event.target.error);
+        showToast('حدث خطأ في فتح قاعدة البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
+    };
+    
+    request.onsuccess = function(event) {
+        db = event.target.result;
+        renderCompanies();
+        loadAllVehicles();
+    };
+    
+    request.onupgradeneeded = function(event) {
+        const db = event.target.result;
+        const oldVersion = event.oldVersion;
+        
+        // Handle database upgrades
+        if (oldVersion < 1) {
+            // Initial version - create all object stores
+            const companiesStore = db.createObjectStore(STORES.COMPANIES, { keyPath: 'id' });
+            companiesStore.createIndex('name', 'name', { unique: true });
+            
+            const vehiclesStore = db.createObjectStore(STORES.VEHICLES, { keyPath: 'id' });
+            vehiclesStore.createIndex('companyId', 'companyId', { unique: false });
+            vehiclesStore.createIndex('licenseNumber', 'licenseNumber', { unique: false });
+            
+            const notesStore = db.createObjectStore(STORES.NOTES, { keyPath: 'id' });
+            notesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
+            notesStore.createIndex('createdAt', 'createdAt', { unique: false });
+            
+            const imagesStore = db.createObjectStore(STORES.IMAGES, { keyPath: 'id' });
+            imagesStore.createIndex('vehicleId', 'vehicleId', { unique: false });
+        } else {
+            // Handle upgrades from older versions
+            if (oldVersion < 2) {
+                // Version 2 upgrade logic here
+                // Example: add new index or object store
+            }
+            
+            if (oldVersion < 3) {
+                // Version 3 upgrade logic here
+            }
+        }
+    };
+}
+<!--  -->
         // Load all vehicles for global search
         function loadAllVehicles() {
             getAllVehicles().then(vehicles => {
@@ -2042,7 +2063,7 @@
 
         // Export company data
         function exportCompanyData(companyId) {
-            return new Promise((resolve, reject) {
+            return new Promise((resolve, reject) => {
                 Promise.all([
                     getCompany(companyId),
                     getVehiclesByCompany(companyId)
@@ -2348,7 +2369,7 @@
                 if (status === 'active') active++;
                 else if (status === 'expiring') expiring++;
                 else expired++;
-            }
+            });
             
             activeCount.textContent = active;
             expiringCount.textContent = expiring;
@@ -2689,6 +2710,7 @@
             }
             
             const newCompany = {
+                id: generateId(),
                 name
             };
             
@@ -2793,9 +2815,10 @@
 
         // Add new vehicle
         function addVehicle(vehicleData) {
+            vehicleData.id = generateId();
+            
             return new Promise((resolve, reject) => {
-                addVehicleData(vehicleData).then((id) => {
-                    vehicleData.id = id;
+                addVehicleData(vehicleData).then(() => {
                     // Save images
                     saveVehicleImages(vehicleData.id).then(() => {
                         resolve();
@@ -2871,6 +2894,7 @@
             }
             
             const newNoteObj = {
+                id: generateId(),
                 vehicleId: currentVehicleId,
                 content,
                 createdAt: new Date().toISOString()
@@ -2977,6 +3001,7 @@
         function saveVehicleImages(vehicleId) {
             const promises = selectedFiles.map(file => {
                 return addImageData({
+                    id: generateId(),
                     vehicleId,
                     data: file.data,
                     name: file.name,
@@ -3069,7 +3094,7 @@
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.COMPANIES], 'readonly');
                 const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.get(parseInt(id));
+                const request = store.get(id);
                 
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
@@ -3092,7 +3117,7 @@
                 const transaction = db.transaction([STORES.VEHICLES], 'readonly');
                 const store = transaction.objectStore(STORES.VEHICLES);
                 const index = store.index('companyId');
-                const request = index.getAll(parseInt(companyId));
+                const request = index.getAll(companyId);
                 
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
@@ -3103,7 +3128,7 @@
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.VEHICLES], 'readonly');
                 const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.get(parseInt(id));
+                const request = store.get(id);
                 
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
@@ -3116,7 +3141,7 @@
                 const store = transaction.objectStore(STORES.COMPANIES);
                 const request = store.add(company);
                 
-                request.onsuccess = () => resolve(request.result);
+                request.onsuccess = () => resolve();
                 request.onerror = (e) => reject(e.target.error);
             });
         }
@@ -3136,7 +3161,7 @@
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.COMPANIES], 'readwrite');
                 const store = transaction.objectStore(STORES.COMPANIES);
-                const request = store.delete(parseInt(id));
+                const request = store.delete(id);
                 
                 request.onsuccess = () => resolve();
                 request.onerror = () => reject(request.error);
@@ -3149,7 +3174,7 @@
                 const store = transaction.objectStore(STORES.VEHICLES);
                 const request = store.add(vehicle);
                 
-                request.onsuccess = () => resolve(request.result);
+                request.onsuccess = () => resolve();
                 request.onerror = () => reject(request.error);
             });
         }
@@ -3169,7 +3194,7 @@
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
                 const store = transaction.objectStore(STORES.VEHICLES);
-                const request = store.delete(parseInt(id));
+                const request = store.delete(id);
                 
                 request.onsuccess = () => resolve();
                 request.onerror = () => reject(request.error);
@@ -3181,7 +3206,7 @@
                 const transaction = db.transaction([STORES.VEHICLES], 'readwrite');
                 const store = transaction.objectStore(STORES.VEHICLES);
                 const index = store.index('companyId');
-                const request = index.getAllKeys(parseInt(companyId));
+                const request = index.getAllKeys(companyId);
                 
                 request.onsuccess = () => {
                     const keys = request.result;
@@ -3207,7 +3232,7 @@
                 const transaction = db.transaction([STORES.NOTES], 'readonly');
                 const store = transaction.objectStore(STORES.NOTES);
                 const index = store.index('vehicleId');
-                const request = index.getAll(parseInt(vehicleId));
+                const request = index.getAll(vehicleId);
                 
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
@@ -3233,7 +3258,7 @@
                 
                 const requests = vehicleIds.map(id => {
                     return new Promise((res, rej) => {
-                        const request = index.getAll(parseInt(id));
+                        const request = index.getAll(id);
                         request.onsuccess = () => res(request.result);
                         request.onerror = () => rej(request.error);
                     });
@@ -3262,7 +3287,7 @@
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.NOTES], 'readwrite');
                 const store = transaction.objectStore(STORES.NOTES);
-                const request = store.delete(parseInt(id));
+                const request = store.delete(id);
                 
                 request.onsuccess = () => resolve();
                 request.onerror = () => reject(request.error);
@@ -3274,7 +3299,7 @@
                 const transaction = db.transaction([STORES.NOTES], 'readwrite');
                 const store = transaction.objectStore(STORES.NOTES);
                 const index = store.index('vehicleId');
-                const request = index.getAllKeys(parseInt(vehicleId));
+                const request = index.getAllKeys(vehicleId);
                 
                 request.onsuccess = () => {
                     const keys = request.result;
@@ -3300,7 +3325,7 @@
                 const transaction = db.transaction([STORES.IMAGES], 'readonly');
                 const store = transaction.objectStore(STORES.IMAGES);
                 const index = store.index('vehicleId');
-                const request = index.getAll(parseInt(vehicleId));
+                const request = index.getAll(vehicleId);
                 
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
@@ -3326,7 +3351,7 @@
                 
                 const requests = vehicleIds.map(id => {
                     return new Promise((res, rej) => {
-                        const request = index.getAll(parseInt(id));
+                        const request = index.getAll(id);
                         request.onsuccess = () => res(request.result);
                         request.onerror = () => rej(request.error);
                     });
@@ -3341,7 +3366,7 @@
         }
 
         function addImageData(image) {
-            return new Promise((resolve, reject) {
+            return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.IMAGES], 'readwrite');
                 const store = transaction.objectStore(STORES.IMAGES);
                 const request = store.add(image);
@@ -3355,7 +3380,7 @@
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([STORES.IMAGES], 'readwrite');
                 const store = transaction.objectStore(STORES.IMAGES);
-                const request = store.delete(parseInt(id));
+                const request = store.delete(id);
                 
                 request.onsuccess = () => resolve();
                 request.onerror = () => reject(request.error);
@@ -3367,7 +3392,7 @@
                 const transaction = db.transaction([STORES.IMAGES], 'readwrite');
                 const store = transaction.objectStore(STORES.IMAGES);
                 const index = store.index('vehicleId');
-                const request = index.getAllKeys(parseInt(vehicleId));
+                const request = index.getAllKeys(vehicleId);
                 
                 request.onsuccess = () => {
                     const keys = request.result;
